@@ -1,0 +1,97 @@
+#+title: Readme
+* https://www.frontendmentor.io
+
+with tasks filter:
+https://www.frontendmentor.io/challenges?sort=difficulty|asc&difficulties=2&types=free-plus,free&hideCompleted=true
+
+site with projects to practice front end dev,
+let's try this out
+* deploying into cloud flare
+https://dash.cloudflare.com
+* dev thigngs
+file:///home/enefedov/Documents/personal/frontendmentor/
+link to open designs in firefox
+* getting svg
+https://laminar.dev/documentation#parsing-html-or-svg-strings-into-elements
+
+* 11:58 to show all boxes \ outline of div elements:
+https://stackoverflow.com/questions/38591246/is-there-a-way-to-see-the-borders-around-all-div-tags-on-a-web-page/38591324#38591324
+#+begin_src css
+div {
+    outline: 1px solid red;
+}
+#+end_src
+* starting a second task:
+https://www.frontendmentor.io/challenges/product-preview-card-component-GO7UmttRfa/hub
+* and picking the colors!
+enefedov@enefedov-ubuntu:~$ nix run nixpkgs#gpick
+* exercise 2. product card
+* task 3 - question & interacting
+https://www.frontendmentor.io/challenges/interactive-rating-component-koxpeBUmI
+https://www.frontendmentor.io/challenges/interactive-rating-component-koxpeBUmI/hub
+* here's snippet for attribution
+#+begin_src scala
+  def renderAttribution(): Element = {
+    footerTag(
+      role := "contentinfo",
+      className := "absolute inset-x-0 bottom-2 attribution",
+      "Challenge by ",
+      a(
+        href := "https://www.frontendmentor.io?ref=challenge",
+        target := "_blank",
+        "Frontend Mentor"
+      ),
+      " Coded by ",
+      a(href := "#", "Your Name Here")
+    )
+  }
+#+end_src
+* measuring parts of page - the sizes of elements inside of page or image:
+https://firefox-source-docs.mozilla.org/devtools-user/measure_a_portion_of_the_page/index.html
+
+DevTools > Settings > Available tools > Meausre part of page
+
+then ruler appears in the dev tools, yay
+* setting page font base size
+#+begin_src css
+html {
+  font-size: 14px;
+}
+#+end_src
+* color tools
+https://www.rapidtables.com/convert/color/hsl-to-rgb.html
+enefedov@enefedov-ubuntu:~$ nix run nixpkgs#gpick
+* here's task 3 solution:
+https://www.frontendmentor.io/solutions/responsive-by-tailwindcss-on-vite-with-scalajs-and-laminar-W2wOVlyo6d
+* TODO let's fix first 3 tasks. add Landmarks and alternate text to images
+* task 4, yay
+https://www.frontendmentor.io/challenges/age-calculator-app-dF9DFFpj-Q
+https://www.frontendmentor.io/challenges/age-calculator-app-dF9DFFpj-Q/hub
+
+starting with the
+* adding accessibility features:
+** big level split
+https://dequeuniversity.com/rules/axe/4.6/landmark-one-main?application=axeAPI
+https://dequeuniversity.com/rules/axe/4.6/page-has-heading-one?application=axeAPI
+<header role="banner">
+<nav role="navigation">
+<main role="main">
+<footer role="contentinfo">
+** headers support:
+https://dequeuniversity.com/rules/axe/4.6/page-has-heading-one?application=axeAPI
+use at least one <h1> to mark beginning of content
+* using rustywind for my scala files:
+#+begin_src elisp
+(defun my/rustywind-in-project-root ()
+  (interactive)
+  (let ((command (mapconcat 'identity
+                            (list "rustywind ."
+                                  "--custom-regex"
+                                  (shell-quote-argument "className := \"([^\"]+)\"")
+                                  "--write") " ")))
+    (projectile-run-shell-command-in-root command)
+    (revert-buffer t t)))
+
+(add-hook 'after-save-hook #'my/rustywind-in-project-root)
+(remove-hook 'after-save-hook #'my/rustywind-in-project-root)
+#+end_src
