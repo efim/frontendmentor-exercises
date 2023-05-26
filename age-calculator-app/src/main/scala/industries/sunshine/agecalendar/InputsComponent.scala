@@ -85,6 +85,7 @@ object InputsComponent {
         selectedDate,
         dayValidation,
         setTheDate,
+        31,
         Some(1),
         Some(31)
       ),
@@ -93,6 +94,7 @@ object InputsComponent {
         selectedMonth,
         monthValidation,
         setTheDate,
+        12,
         Some(1),
         Some(12)
       ),
@@ -101,6 +103,7 @@ object InputsComponent {
         selectedYear,
         yearValidation,
         setTheDate,
+        1990,
         Some(100),
         None
       )
@@ -112,13 +115,14 @@ object InputsComponent {
       state: Var[Option[Int]],
       validation: Validation[String, Seq[String], String],
       setTheDate: () => Unit,
+      placeholderNum: Int,
       min: Option[Int] = None,
       max: Option[Int] = None
   ) = {
     val inputUid = s"${UUID.randomUUID().toString()}_${name}_input"
     val inputElement = input(
       idAttr := inputUid,
-      placeholder := "24",
+      placeholder := placeholderNum.toString(),
       className := "p-2 rounded w-[85px] h-[50px] border-[1px] border-light-grey",
       className := "w-10 font-medium appearance-none text-[0.65rem] font-fancy-sans",
       typ := "number",
