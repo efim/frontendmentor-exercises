@@ -138,10 +138,6 @@ object Main {
       )
     }
 
-    // i guess there shold be first level of basic validation for day number
-    // and second level when month and year are set, using the Some[Date]
-    // still all inputs should have their own model
-
     div(
       className := "flex flex-col items-center bg-white rounded-xl w-[340px] h-[490px] rounded-ee-[3rem]",
       div(
@@ -150,16 +146,7 @@ object Main {
         renderDatePartInput("month", selectedMonth, monthValidation, Some(1), Some(12)),
         renderDatePartInput("year", selectedYear, yearValidation, Some(100), None)
       ),
-      div(
-        className := "italic font-thicker bold text-fancy-sans text-main-purple text-xs",
-        child <-- pickedDate.signal.map(_.toString()),
-        // child <-- pickedDate.signal.splitOption ( { case (initial, signal) =>
-        //   div(
-        //     child.text <-- signal.map(_.getUTCFullYear().toString())
-        //   )
-        // }, div("--") ),
         renderAgeDisplay(pickedDate.signal)
-      )
     )
   }
 
@@ -167,17 +154,18 @@ object Main {
     val ageOptSignal = birthdate.map(_.map(calculateAge(_)))
     def renderAgeLine(unit: String, age: Signal[Option[Int]]): Element = {
       div(
+        className := "flex flex-row items-start",
         child <-- age.splitOption( (initial, signal) =>
           p(
             child.text <-- signal.map(_.toString)
           )
-          , p("--")),
+          , p("--", className := "text-main-purple")),
         unit
       )
     }
 
     div(
-      className := "italic font-thicker bold text-fancy-sans text-main-purple text-base",
+      className := "italic font-thicker bold text-fancy-sans text-base w-full",
       renderAgeLine("years", ageOptSignal.map(_.map(_.years))),
       renderAgeLine("months", ageOptSignal.map(_.map(_.months))),
       renderAgeLine("days", ageOptSignal.map(_.map(_.days))),
