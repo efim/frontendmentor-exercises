@@ -14,21 +14,26 @@ object AgeDisplayComponent {
   def renderAgeDisplay(birthdate: Signal[Option[Date]]): Element = {
     val ageOptSignal = birthdate.map(_.map(calculateAge(_)))
     def renderAgeLine(unit: String, age: Signal[Option[Int]]): Element = {
+      val numbersStyle = "text-main-purple "
       div(
-        className := "flex flex-row items-start",
+        className := "flex flex-row items-start items-end italic leading-[1.8rem] text-[1.8rem] font-fancy-sans bold",
         child <-- age.splitOption(
           (initial, signal) =>
             p(
-              child.text <-- signal.map(_.toString)
+              child.text <-- signal.map(_.toString),
+              className := numbersStyle
             ),
-          p("--", className := "text-main-purple")
+          p("--", className := numbersStyle)
         ),
-        unit
+        p(
+          unit,
+          className := "px-1"
+        )
       )
     }
 
     div(
-      className := "w-full text-base italic font-thicker bold text-fancy-sans",
+      className := "px-3 w-full text-base italic font-thicker bold text-fancy-sans",
       renderAgeLine("years", ageOptSignal.map(_.map(_.years))),
       renderAgeLine("months", ageOptSignal.map(_.map(_.months))),
       renderAgeLine("days", ageOptSignal.map(_.map(_.days)))

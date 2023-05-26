@@ -31,6 +31,7 @@ object Main {
   }
 
   def renderAgeCalendar(): Element = {
+    // val pickedDate = Var[Option[Date]](Some( new Date("1992-03-12") ))
     val pickedDate = Var[Option[Date]](None)
     div(
       className := "flex flex-col items-center bg-white rounded-xl w-[340px] h-[490px] rounded-ee-[3rem]",
