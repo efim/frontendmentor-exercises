@@ -35,7 +35,7 @@ object Main {
     val pickedDate = Var[Option[Date]](None)
     div(
       className := "flex flex-col items-center bg-white rounded-xl w-[340px] h-[490px] rounded-ee-[3rem]",
-      className := "lg:p-2 lg:px-8 lg:w-[840px] lg:h-[680px] lg:rounded-ee-[6rem]",
+      className := "lg:p-2 lg:px-8 lg:w-[840px] lg:h-[650px] lg:rounded-ee-[6rem]",
       InputsComponent.renderInputs(pickedDate.writer),
       renderSeparator(),
       AgeDisplayComponent.renderAgeDisplay(pickedDate.signal)

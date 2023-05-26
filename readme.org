@@ -114,3 +114,17 @@ Scala.js v1.10.0 fixes the issue. It uses java.security.SecureRandom to implemen
 java.security.SecureRandom is not provided by Scala.js core. Therefore, to be able to use randomUUID(), you will need to add a dependency on scalajs-java-securerandom. Failing to do so will result in linking errors (i.e., fastLinkJS/fullLinkJS will fail).
 
 ok, so, i also need to reset date to None when there's error, yuk
+* OMG firefox image vertical alignment
+There's no built-in way in Firefox (or any browser) to adjust the positioning of an image opened directly in a browser tab. However, you can use a simple JavaScript hack in the browser console to accomplish this:
+
+    Open your browser's console by pressing F12 or Ctrl+Shift+K on your keyboard.
+
+    In the console, paste the following command and hit Enter:
+
+    #+begin_src js
+    document.querySelector('img').style.marginTop = "50px";
+    #+end_src
+
+Replace "50px" with whatever amount of spacing you'd like.
+This command will add a top margin to the image, pushing it down the page.
+However, please note that this change is temporary and will not persist when the page is refreshed. If you want a permanent solution, you would need to use CSS in the webpage's code to adjust the image's positioning.

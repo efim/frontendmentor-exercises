@@ -14,9 +14,10 @@ object AgeDisplayComponent {
   def renderAgeDisplay(birthdate: Signal[Option[Date]]): Element = {
     val ageOptSignal = birthdate.map(_.map(calculateAge(_)))
     def renderAgeLine(unit: String, age: Signal[Option[Int]]): Element = {
-      val numbersStyle = "text-main-purple "
+      val numbersStyle = "text-main-purple"
       div(
         className := "flex flex-row items-start items-end italic leading-[1.8rem] text-[1.8rem] font-fancy-sans bold",
+        className := "tracking-tight leading-[3.6rem] lg:text-[3.3rem]",
         child <-- age.splitOption(
           (initial, signal) =>
             p(
@@ -34,6 +35,7 @@ object AgeDisplayComponent {
 
     div(
       className := "px-3 w-full text-base italic font-thicker bold text-fancy-sans",
+      className := "lg:px-0",
       renderAgeLine("years", ageOptSignal.map(_.map(_.years))),
       renderAgeLine("months", ageOptSignal.map(_.map(_.months))),
       renderAgeLine("days", ageOptSignal.map(_.map(_.days)))
