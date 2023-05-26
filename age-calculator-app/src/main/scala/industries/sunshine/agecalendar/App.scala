@@ -105,7 +105,9 @@ object Main {
     def renderDatePartInput(
         name: String,
         state: Var[Option[Int]],
-        validation: Validation[String, Seq[String], String]
+        validation: Validation[String, Seq[String], String],
+        min: Option[Int] = None,
+        max: Option[Int] = None
     ) = {
       val inputUid = s"${UUID.randomUUID().toString()}_${name}_input"
       val inputElement = input(
@@ -113,8 +115,8 @@ object Main {
         placeholder := "24",
         className := "w-10 text-[0.75rem]",
         typ := "number",
-        minAttr := "1",
-        maxAttr := "31",
+        minAttr.maybe(min.map(_.toString())),
+        maxAttr.maybe(max.map(_.toString())),
         // take input as String, after filter it's None for invalid, then set as value of Option[Int]
         onInput.mapToValue.map(strNum =>
           Some(strNum).filter(validation(_).isRight).flatMap(_.toIntOption)
@@ -143,9 +145,9 @@ object Main {
       className := "flex flex-col items-center bg-white rounded-xl w-[340px] h-[490px] rounded-ee-[3rem]",
       div(
         className := "flex flex-row",
-        renderDatePartInput("day", selectedDate, dayValidation),
-        renderDatePartInput("month", selectedMonth, monthValidation),
-        renderDatePartInput("year", selectedYear, yearValidation)
+        renderDatePartInput("day", selectedDate, dayValidation, Some(1), Some(31)),
+        renderDatePartInput("month", selectedMonth, monthValidation, Some(1), Some(12)),
+        renderDatePartInput("year", selectedYear, yearValidation, Some(100), None)
       ),
       div(
         className := "italic font-thicker bold text-fancy-sans text-main-purple text-xs",
