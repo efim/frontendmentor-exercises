@@ -17,7 +17,7 @@ def ProductPreviewCardComponent(): Unit =
 object Main {
   def appElement(): Element =
     div(
-      className := "bg-green-200 h-screen w-screen",
+      className := "w-screen h-screen bg-green-200",
       a(
         href := "https://vitejs.dev",
         target := "_blank",

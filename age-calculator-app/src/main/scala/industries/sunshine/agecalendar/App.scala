@@ -15,31 +15,46 @@ def App(): Unit =
   )
 
 object Main {
-  def appElement(): Element =
+  def appElement(): Element = {
     div(
-      className := "bg-green-200 h-screen w-screen",
-      a(
-        href := "https://vitejs.dev",
-        target := "_blank",
-        img(src := "/vite.svg", className := "logo", alt := "Vite logo")
-      ),
-      a(
-        href := "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
-        target := "_blank",
-        "link to JS logo"
-      ),
-      h1("Hello Laminar!"),
-      counterButton(),
-      p(className := "read-the-docs", "Click on the Vite logo to learn more")
-    )
-
-  def counterButton(): Element = {
-    val counter = Var(0)
-    button(
-      tpe := "button",
-      "count is ",
-      child.text <-- counter,
-      onClick --> { event => counter.update(c => c + 1) }
+      className := "relative w-screen h-screen bg-off-white",
+      renderCalendar(),
+      renderAttribution()
     )
   }
+
+  def renderCalendar(): Element = {
+    div(
+      className := "flex flex-col items-center bg-white",
+      div(
+        className := "font-thinner text-fancy-sans text-smokey-grey",
+        "Day Month Year"),
+      div(
+        className := "font-medium bold text-fancy-sans",
+        "DD MM YYYY"),
+      div(
+        className := "italic font-thicker bold text-fancy-sans text-main-purple",
+        """
+  -- years
+  -- months
+  -- days
+""")
+    )
+  }
+
+  def renderAttribution(): Element = {
+    footerTag(
+      role := "contentinfo",
+      className := "absolute inset-x-0 bottom-2 attribution",
+      "Challenge by ",
+      a(
+        href := "https://www.frontendmentor.io?ref=challenge",
+        target := "_blank",
+        "Frontend Mentor"
+      ),
+      " Coded by ",
+      a(href := "#", "Your Name Here")
+    )
+  }
+
 }

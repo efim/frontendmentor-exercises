@@ -14,7 +14,7 @@ link to open designs in firefox
 * getting svg
 https://laminar.dev/documentation#parsing-html-or-svg-strings-into-elements
 
-* 11:58 to show all boxes \ outline of div elements:
+* 11:58 debug to show all boxes \ outline of div elements:
 https://stackoverflow.com/questions/38591246/is-there-a-way-to-see-the-borders-around-all-div-tags-on-a-web-page/38591324#38591324
 #+begin_src css
 div {
