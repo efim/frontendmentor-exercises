@@ -56,8 +56,8 @@ object InputsComponent {
     }
     def isValidMonth(month: Int) = month >= 1 && month <= 12
     val monthValidation: Validation[String, Seq[String], String] = {
-      V.nonBlank("Month should not be empty") &&
-      V.custom("Month should be a number")(_.toIntOption.nonEmpty) &&
+      V.nonBlank("Should not be empty") &&
+      V.custom("Should be a number")(_.toIntOption.nonEmpty) &&
       V.custom("Must be a valid month")(monthStr =>
         isValidMonth(monthStr.toInt)
       )
@@ -69,12 +69,12 @@ object InputsComponent {
      * */
     def isValidYear(year: Int) = year <= (new Date()).getFullYear()
     val yearValidation: Validation[String, Seq[String], String] = {
-      V.nonBlank("Year should not be empty") &&
-      V.custom("Year should be a number")(_.toIntOption.nonEmpty) &&
-      V.custom("Year must be not smaller than 100")(yearStr =>
+      V.nonBlank("Should not be empty") &&
+      V.custom("Should be a number")(_.toIntOption.nonEmpty) &&
+      V.custom("Must be not smaller than 100")(yearStr =>
         yearStr.toInt >= 100
       ) &&
-      V.custom("Year must be in the past")(yearStr =>
+      V.custom("Must be in the past")(yearStr =>
         yearStr.toInt <= (new Date()).getFullYear()
       )
     }
@@ -124,7 +124,7 @@ object InputsComponent {
     val inputElement = input(
       idAttr := inputUid,
       placeholder := placeholderNum.toString(),
-      className := "p-2 rounded w-[85px] h-[50px] border-[1px] border-light-grey",
+      className := "p-2 rounded w-[85px] h-[50px] border-[1px]",
       className := "w-10 font-medium appearance-none text-[0.65rem] font-fancy-sans",
       className := "lg:text-base lg:w-[160px] lg:h-[70px]",
       typ := "number",
@@ -143,13 +143,23 @@ object InputsComponent {
       label(
         name,
         forId := inputUid,
-        className := "pb-1 font-medium tracking-widest uppercase text-[0.4rem] text-smokey-grey font-fancy-sans",
+        className := "pb-1 font-medium tracking-widest uppercase text-[0.4rem] font-fancy-sans",
+        className <-- inputElement.validationError.map {
+          case Some(_) => "text-light-red"
+          case None => "text-smokey-grey"
+        },
         className := "lg:text-[0.5rem]",
       ),
-      inputElement,
+      // getting Element inside of ValidatedElement to access .amend and bind border color to validation
+      inputElement.el.amend(
+        className <-- inputElement.validationError.map {
+          case Some(_) => "border-light-red"
+          case None => "border-smokey-grey"
+        }
+      ),
       child.maybe <-- inputElement.validationError.optionMap(errors =>
         span(
-          cls := "text-red-700 text-[0.5rem]",
+          cls := "text-light-red text-[0.45rem] font-fancy-sans italic font-thinner",
           errors.map(error => div(error))
         )
       )
