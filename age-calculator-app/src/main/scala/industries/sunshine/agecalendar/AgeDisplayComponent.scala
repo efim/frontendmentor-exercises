@@ -17,7 +17,7 @@ object AgeDisplayComponent {
       val numbersStyle = "text-main-purple"
       div(
         className := "flex flex-row items-start items-end italic leading-[1.8rem] text-[1.8rem] font-fancy-sans bold",
-        className := "tracking-tight leading-[3.6rem] lg:text-[3.3rem]",
+        className := "lg:tracking-tight lg:leading-[3.6rem] lg:text-[3.3rem]",
         child <-- age.splitOption(
           (initial, signal) =>
             p(

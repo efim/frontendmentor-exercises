@@ -126,9 +126,9 @@ object InputsComponent {
     val inputElement = input(
       idAttr := inputUid,
       placeholder := placeholderNum.toString(),
-      className := "p-2 rounded w-[85px] h-[50px] border-[1px]",
+      className := "p-1 rounded w-[85px] h-[50px] border-[1px]",
       className := "w-10 font-medium appearance-none text-[0.65rem] font-fancy-sans",
-      className := "lg:text-base lg:w-[160px] lg:h-[70px]",
+      className := "lg:p-2 lg:text-base lg:w-[160px] lg:h-[70px]",
       typ := "number",
       minAttr.maybe(min.map(_.toString())),
       maxAttr.maybe(max.map(_.toString())),
