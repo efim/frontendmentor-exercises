@@ -28,7 +28,7 @@ object AgeDisplayComponent {
     }
 
     div(
-      className := "italic font-thicker bold text-fancy-sans text-base w-full",
+      className := "w-full text-base italic font-thicker bold text-fancy-sans",
       renderAgeLine("years", ageOptSignal.map(_.map(_.years))),
       renderAgeLine("months", ageOptSignal.map(_.map(_.months))),
       renderAgeLine("days", ageOptSignal.map(_.map(_.days)))
