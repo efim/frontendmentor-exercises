@@ -38,9 +38,33 @@ object Main {
 
   def renderAgeCalendar(): Element = {
     val pickedDate = Var[Option[Date]](None)
+    div(
+      className := "flex flex-col items-center bg-white rounded-xl w-[340px] h-[490px] rounded-ee-[3rem]",
+      renderInputs(pickedDate.writer),
+      renderAgeDisplay(pickedDate.signal)
+    )
+  }
+
+  def renderInputs(birthDateWriter: Observer[Option[Date]]): Element = {
     val selectedDate = Var[Option[Int]](None)
     val selectedMonth = Var[Option[Int]](None)
     val selectedYear = Var[Option[Int]](None)
+    def setTheDate(): Unit = {
+      val inputs = (
+        selectedYear.now(),
+        selectedMonth.now(),
+        selectedDate.now()
+      ).tupled
+      println(s"inside of set the date with ${inputs}")
+
+      inputs match {
+        case Some((year, month, day)) =>
+          val newDate = new Date(year, month - 1, day)
+          println(s"setting new date: $newDate")
+          birthDateWriter.onNext(Some(new Date(year, month - 1, day)))
+        case None => birthDateWriter.onNext(None)
+      }
+    }
 
     def isDayValidForDate(day: Int): Boolean = {
       // if Month and Year are already set, check if Day results in possible Date
@@ -85,68 +109,68 @@ object Main {
         V.custom("Year must be in the past")(yearStr =>
           yearStr.toInt <= (new Date()).getFullYear()
         )
+    div(
+      className := "flex flex-row",
+      renderDatePartInput(
+        "day",
+        selectedDate,
+        dayValidation,
+        setTheDate,
+        Some(1),
+        Some(31)
+      ),
+      renderDatePartInput(
+        "month",
+        selectedMonth,
+        monthValidation,
+        setTheDate,
+        Some(1),
+        Some(12)
+      ),
+      renderDatePartInput(
+        "year",
+        selectedYear,
+        yearValidation,
+        setTheDate,
+        Some(100),
+        None
+      )
+    )
+  }
 
-    def setTheDate(): Unit = {
-      val inputs = (
-        selectedYear.now(),
-        selectedMonth.now(),
-        selectedDate.now()
-      ).tupled
-      println(s"inside of set the date with ${inputs}")
-
-      inputs match {
-        case Some((year, month, day)) =>
-          val newDate = new Date(year, month - 1, day)
-          println(s"setting new date: $newDate")
-          pickedDate.writer.onNext(Some(new Date(year, month - 1, day)))
-        case None => pickedDate.writer.onNext(None)
-      }
-    }
-
-    def renderDatePartInput(
-        name: String,
-        state: Var[Option[Int]],
-        validation: Validation[String, Seq[String], String],
-        min: Option[Int] = None,
-        max: Option[Int] = None
-    ) = {
-      val inputUid = s"${UUID.randomUUID().toString()}_${name}_input"
-      val inputElement = input(
-        idAttr := inputUid,
-        placeholder := "24",
-        className := "w-10 text-[0.75rem]",
-        typ := "number",
-        minAttr.maybe(min.map(_.toString())),
-        maxAttr.maybe(max.map(_.toString())),
-        // take input as String, after filter it's None for invalid, then set as value of Option[Int]
-        onInput.mapToValue.map(strNum =>
-          Some(strNum).filter(validation(_).isRight).flatMap(_.toIntOption)
-        ) --> state.writer.onNext,
-        // now this looks like a hack. "attempt to set full date with current states of all three fields"
-        onInput.mapToValue --> Observer(_ => setTheDate())
-      ).validated(validation)
-      div(
-        className := "flex flex-col items-start w-10 appearance-none",
-        label(name, forId := inputUid, className := "text-[0.5rem]"),
-        inputElement,
-        child.maybe <-- inputElement.validationError.optionMap(errors =>
-          span(
-            cls := "text-red-700 text-[0.5rem]",
-            errors.map(error => div(error))
-          )
+  def renderDatePartInput(
+      name: String,
+      state: Var[Option[Int]],
+      validation: Validation[String, Seq[String], String],
+      setTheDate: () => Unit,
+      min: Option[Int] = None,
+      max: Option[Int] = None
+  ) = {
+    val inputUid = s"${UUID.randomUUID().toString()}_${name}_input"
+    val inputElement = input(
+      idAttr := inputUid,
+      placeholder := "24",
+      className := "w-10 text-[0.75rem]",
+      typ := "number",
+      minAttr.maybe(min.map(_.toString())),
+      maxAttr.maybe(max.map(_.toString())),
+      // take input as String, after filter it's None for invalid, then set as value of Option[Int]
+      onInput.mapToValue.map(strNum =>
+        Some(strNum).filter(validation(_).isRight).flatMap(_.toIntOption)
+      ) --> state.writer.onNext,
+      // now this looks like a hack. "attempt to set full date with current states of all three fields"
+      onInput.mapToValue --> Observer(_ => setTheDate())
+    ).validated(validation)
+    div(
+      className := "flex flex-col items-start w-10 appearance-none",
+      label(name, forId := inputUid, className := "text-[0.5rem]"),
+      inputElement,
+      child.maybe <-- inputElement.validationError.optionMap(errors =>
+        span(
+          cls := "text-red-700 text-[0.5rem]",
+          errors.map(error => div(error))
         )
       )
-    }
-
-    div(
-      className := "flex flex-col items-center bg-white rounded-xl w-[340px] h-[490px] rounded-ee-[3rem]",
-      div(
-        className := "flex flex-row",
-        renderDatePartInput("day", selectedDate, dayValidation, Some(1), Some(31)),
-        renderDatePartInput("month", selectedMonth, monthValidation, Some(1), Some(12)),
-        renderDatePartInput("year", selectedYear, yearValidation, Some(100), None)
-      ),
-        renderAgeDisplay(pickedDate.signal)
     )
   }
 
@@ -155,11 +179,13 @@ object Main {
     def renderAgeLine(unit: String, age: Signal[Option[Int]]): Element = {
       div(
         className := "flex flex-row items-start",
-        child <-- age.splitOption( (initial, signal) =>
-          p(
-            child.text <-- signal.map(_.toString)
-          )
-          , p("--", className := "text-main-purple")),
+        child <-- age.splitOption(
+          (initial, signal) =>
+            p(
+              child.text <-- signal.map(_.toString)
+            ),
+          p("--", className := "text-main-purple")
+        ),
         unit
       )
     }
@@ -168,7 +194,7 @@ object Main {
       className := "italic font-thicker bold text-fancy-sans text-base w-full",
       renderAgeLine("years", ageOptSignal.map(_.map(_.years))),
       renderAgeLine("months", ageOptSignal.map(_.map(_.months))),
-      renderAgeLine("days", ageOptSignal.map(_.map(_.days))),
+      renderAgeLine("days", ageOptSignal.map(_.map(_.days)))
     )
   }
 
@@ -177,7 +203,7 @@ object Main {
   /** @return
     *   (years, months, days)
     */
-  def calculateAge(birthdate: Date): Age = {
+  private def calculateAge(birthdate: Date): Age = {
     val now = new Date()
     var years = now.getFullYear() - birthdate.getFullYear();
     var months = now.getMonth() - birthdate.getMonth();
@@ -196,7 +222,8 @@ object Main {
 
     // Adjust day calculation
     if (days < 0) {
-      val daysInLastMonth = new Date(now.getFullYear().toInt, now.getMonth().toInt, 0).getDate();
+      val daysInLastMonth =
+        new Date(now.getFullYear().toInt, now.getMonth().toInt, 0).getDate();
       days += daysInLastMonth
     }
 
