@@ -17,15 +17,21 @@ def App(): Unit =
 object Main {
   def appElement(): Element = {
     div(
-      className := "relative w-screen h-screen bg-off-white",
-      renderCalendar(),
+      className := "flex relative justify-center w-screen h-screen bg-off-white",
+      mainTag(
+        role := "main",
+        div(
+          className := "pt-[90px]",
+          renderCalendar(),
+        )
+      ),
       renderAttribution()
     )
   }
 
   def renderCalendar(): Element = {
     div(
-      className := "flex flex-col items-center bg-white",
+      className := "flex flex-col items-center bg-white rounded-xl w-[340px] h-[490px] rounded-ee-[3rem]",
       div(
         className := "font-thinner text-fancy-sans text-smokey-grey",
         "Day Month Year"),
