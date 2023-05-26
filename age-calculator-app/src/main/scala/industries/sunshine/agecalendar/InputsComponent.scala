@@ -80,6 +80,7 @@ object InputsComponent {
     }
     div(
       className := "flex flex-row justify-between px-3 pt-5 w-full",
+      className := "lg:px-0 lg:space-x-4 lg:justify-normal",
       renderDatePartInput(
         "day",
         selectedDate,
@@ -125,6 +126,7 @@ object InputsComponent {
       placeholder := placeholderNum.toString(),
       className := "p-2 rounded w-[85px] h-[50px] border-[1px] border-light-grey",
       className := "w-10 font-medium appearance-none text-[0.65rem] font-fancy-sans",
+      className := "lg:text-base lg:w-[160px] lg:h-[70px]",
       typ := "number",
       minAttr.maybe(min.map(_.toString())),
       maxAttr.maybe(max.map(_.toString())),
@@ -137,17 +139,14 @@ object InputsComponent {
     ).validated(validation)
 
     div(
-      className := "flex flex-col items-start w-10",
+      className := "flex flex-col items-start w-10 lg:w-[160px]",
       label(
         name,
         forId := inputUid,
-        className := "pb-1 font-medium tracking-widest uppercase text-[0.4rem] text-smokey-grey font-fancy-sans"
+        className := "pb-1 font-medium tracking-widest uppercase text-[0.4rem] text-smokey-grey font-fancy-sans",
+        className := "lg:text-[0.5rem]",
       ),
       inputElement,
-      // div(
-      //   className := "flex flex-row justify-center p-2 w-10 h-7 rounded border-[2px] border-light-grey",
-      //   inputElement
-      // ),
       child.maybe <-- inputElement.validationError.optionMap(errors =>
         span(
           cls := "text-red-700 text-[0.5rem]",

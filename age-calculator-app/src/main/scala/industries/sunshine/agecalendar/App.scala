@@ -18,7 +18,7 @@ def App(): Unit =
 object Main {
   def appElement(): Element = {
     div(
-      className := "flex relative justify-center w-screen h-screen bg-off-white",
+      className := "flex relative justify-center w-screen h-screen lg:items-center bg-off-white",
       mainTag(
         role := "main",
         div(
@@ -35,6 +35,7 @@ object Main {
     val pickedDate = Var[Option[Date]](None)
     div(
       className := "flex flex-col items-center bg-white rounded-xl w-[340px] h-[490px] rounded-ee-[3rem]",
+      className := "lg:p-2 lg:px-8 lg:w-[840px] lg:h-[680px] lg:rounded-ee-[6rem]",
       InputsComponent.renderInputs(pickedDate.writer),
       renderSeparator(),
       AgeDisplayComponent.renderAgeDisplay(pickedDate.signal)
@@ -43,7 +44,7 @@ object Main {
 
   def renderSeparator(): Element = {
     div(
-      className := "py-4 w-10/12",
+      className := "py-4 w-10/12 lg:w-full",
       div(
         className := "relative z-0 w-full h-8",
         div(
