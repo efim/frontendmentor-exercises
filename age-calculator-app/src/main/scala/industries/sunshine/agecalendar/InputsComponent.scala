@@ -37,7 +37,9 @@ object InputsComponent {
       val validIfDate = (selectedMonth.now(), selectedYear.now()).tupled.map {
         case (month, year) =>
           val potentialDate = new Date(s"${year}-${month}-${day}")
-          // println(s">> validating day $day, with $month and $year. check is ${potentialDate}")
+          // TODO this is a bug - should be checked on any field change. Otherwise set 31 on good month, and change month to 04
+          // ( should catch 1994-04-31 )
+          println(s">> validating day $day, with $month and $year. check is ${potentialDate}")
           !potentialDate.getDate().isNaN()
       }
       // if either month or year are not set - must rely on separate check

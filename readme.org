@@ -128,3 +128,6 @@ There's no built-in way in Firefox (or any browser) to adjust the positioning of
 Replace "50px" with whatever amount of spacing you'd like.
 This command will add a top margin to the image, pushing it down the page.
 However, please note that this change is temporary and will not persist when the page is refreshed. If you want a permanent solution, you would need to use CSS in the webpage's code to adjust the image's positioning.
+* what i've learned about ValidatedElement
+i can bind styles of others to it,
+but it doesn't have ".amend", so i could put "validatedElement.el" into the dom, and call ".amend" on it
