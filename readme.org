@@ -100,3 +100,15 @@ starting with it.
 copying the initted directory, changing names, and unpacking resources.
 
 product-preview-card-component
+** now for task 4, how do i arrange subcomponents?
+they all should share the Date object, i suppose
+three inputs would be in a single component?
+they would have their own validation, maybe defined in the top component, where there's Date
+and what? how do i connect them to the single model? there's a way surely
+* using java.security.UUID in scalajs requires additionad dependency:
+https://github.com/scala-js/scala-js/security/advisories/GHSA-j2f9-w8wh-9ww4
+Patches
+
+Scala.js v1.10.0 fixes the issue. It uses java.security.SecureRandom to implement randomUUID().
+
+java.security.SecureRandom is not provided by Scala.js core. Therefore, to be able to use randomUUID(), you will need to add a dependency on scalajs-java-securerandom. Failing to do so will result in linking errors (i.e., fastLinkJS/fullLinkJS will fail).
