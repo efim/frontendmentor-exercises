@@ -64,11 +64,6 @@ enefedov@enefedov-ubuntu:~$ nix run nixpkgs#gpick
 * here's task 3 solution:
 https://www.frontendmentor.io/solutions/responsive-by-tailwindcss-on-vite-with-scalajs-and-laminar-W2wOVlyo6d
 * TODO let's fix first 3 tasks. add Landmarks and alternate text to images
-* task 4, yay
-https://www.frontendmentor.io/challenges/age-calculator-app-dF9DFFpj-Q
-https://www.frontendmentor.io/challenges/age-calculator-app-dF9DFFpj-Q/hub
-
-starting with the
 * adding accessibility features:
 ** big level split
 https://dequeuniversity.com/rules/axe/4.6/landmark-one-main?application=axeAPI
@@ -81,6 +76,8 @@ https://dequeuniversity.com/rules/axe/4.6/page-has-heading-one?application=axeAP
 https://dequeuniversity.com/rules/axe/4.6/page-has-heading-one?application=axeAPI
 use at least one <h1> to mark beginning of content
 * using rustywind for my scala files:
+and put rustywind binary into /usr/bin
+
 #+begin_src elisp
 (defun my/rustywind-in-project-root ()
   (interactive)
@@ -95,3 +92,11 @@ use at least one <h1> to mark beginning of content
 (add-hook 'after-save-hook #'my/rustywind-in-project-root)
 (remove-hook 'after-save-hook #'my/rustywind-in-project-root)
 #+end_src
+* task 4, yay
+https://www.frontendmentor.io/challenges/age-calculator-app-dF9DFFpj-Q
+https://www.frontendmentor.io/challenges/age-calculator-app-dF9DFFpj-Q/hub
+
+starting with it.
+copying the initted directory, changing names, and unpacking resources.
+
+product-preview-card-component
