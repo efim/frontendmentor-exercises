@@ -112,3 +112,5 @@ Patches
 Scala.js v1.10.0 fixes the issue. It uses java.security.SecureRandom to implement randomUUID().
 
 java.security.SecureRandom is not provided by Scala.js core. Therefore, to be able to use randomUUID(), you will need to add a dependency on scalajs-java-securerandom. Failing to do so will result in linking errors (i.e., fastLinkJS/fullLinkJS will fail).
+
+ok, so, i also need to reset date to None when there's error, yuk

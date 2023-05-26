@@ -46,24 +46,58 @@ object Main {
       // if Month and Year are already set, check if Day results in possible Date
       val validIfDate = (selectedMonth.now(), selectedYear.now()).tupled.map {
         case (month, year) =>
-          val potentialDate = new Date(s"$year-$month-$day")
+          val potentialDate = new Date(year, month - 1, day)
           !potentialDate.getDate().isNaN()
       }
       // if either month or year are not set - must rely on separate check
       validIfDate.getOrElse(true)
     }
     def isDayValidByNumber(day: Int) = day >= 1 && day <= 31
+    val dayValidation: Validation[String, Seq[String], String] =
+      V.nonBlank("Date should not be empty") &&
+        V.custom("Date should be a number")(_.toIntOption.nonEmpty) &&
+        V.custom("Must be a valid day")(dayStr =>
+          isDayValidByNumber(dayStr.toInt)
+        ) &&
+        V.custom("Must be a valid date")(dayStr =>
+          isDayValidForDate(dayStr.toInt)
+        )
     def isValidMonth(month: Int) = month >= 1 && month <= 12
+    val monthValidation: Validation[String, Seq[String], String] =
+      V.nonBlank("Month should not be empty") &&
+        V.custom("Month should be a number")(_.toIntOption.nonEmpty) &&
+        V.custom("Must be a valid month")(monthStr =>
+          isValidMonth(monthStr.toInt)
+        )
+
+    /*
+     * The JavaScript Date constructor interprets two-digit and one-digit year values as being in the 20th century.
+     * so new Date(1, 0, 1) is 1st Jan 1901. ugh. valid date but age would jump around, let's allow only > 100
+     * */
     def isValidYear(year: Int) = year <= (new Date()).getFullYear()
+    val yearValidation: Validation[String, Seq[String], String] =
+      V.nonBlank("Year should not be empty") &&
+        V.custom("Year should be a number")(_.toIntOption.nonEmpty) &&
+        V.custom("Year must be not smaller than 100")(yearStr =>
+          yearStr.toInt >= 100
+        ) &&
+        V.custom("Year must be in the past")(yearStr =>
+          yearStr.toInt <= (new Date()).getFullYear()
+        )
 
     def setTheDate(): Unit = {
-      (
+      val inputs = (
         selectedYear.now(),
         selectedMonth.now(),
         selectedDate.now()
-      ).tupled match {
+      ).tupled
+      println(s"inside of set the date with ${inputs}")
+
+      inputs match {
         case Some((year, month, day)) =>
-          pickedDate.writer.onNext(Some(new Date(s"$year-$month-$day")))
+          val newDate = new Date(year, month - 1, day)
+          println(s"setting new date: $newDate")
+          pickedDate.writer.onNext(Some(new Date(year, month - 1, day)))
         case None => pickedDate.writer.onNext(None)
       }
     }
@@ -80,58 +114,102 @@ object Main {
         className := "w-10 text-[0.75rem]",
         typ := "number",
         minAttr := "1",
-        maxAttr := "31"
+        maxAttr := "31",
+        // take input as String, after filter it's None for invalid, then set as value of Option[Int]
+        onInput.mapToValue.map(strNum =>
+          Some(strNum).filter(validation(_).isRight).flatMap(_.toIntOption)
+        ) --> state.writer.onNext,
+        // now this looks like a hack. "attempt to set full date with current states of all three fields"
+        onInput.mapToValue --> Observer(_ => setTheDate())
       ).validated(validation)
-      val component = div(
+      div(
         className := "flex flex-col items-start w-10 appearance-none",
         label(name, forId := inputUid, className := "text-[0.5rem]"),
-        inputElement
+        inputElement,
+        child.maybe <-- inputElement.validationError.optionMap(errors =>
+          span(
+            cls := "text-red-700 text-[0.5rem]",
+            errors.map(error => div(error))
+          )
+        )
       )
-
-      (component, inputElement)
     }
 
     // i guess there shold be first level of basic validation for day number
     // and second level when month and year are set, using the Some[Date]
     // still all inputs should have their own model
 
-    val dayValidation: Validation[String, Seq[String], String] =
-      V.nonBlank("Date should not be empty") &&
-        V.custom("Date should be a number")(_.toIntOption.nonEmpty) &&
-        V.custom("Must be a valid day")(dayStr =>
-          isDayValidByNumber(dayStr.toInt)
-        ) &&
-        V.custom("Must be a valid date")(dayStr =>
-          isDayValidForDate(dayStr.toInt)
-        )
-
-    val (dayInputComponent, dayInput) =
-      renderDatePartInput("day", selectedDate, dayValidation)
-    // val validatedMonthInput = renderDatePartInput("month", selectedMonth)
-    // val validatedYearInput = renderDatePartInput("year", selectedYear)
     div(
       className := "flex flex-col items-center bg-white rounded-xl w-[340px] h-[490px] rounded-ee-[3rem]",
       div(
         className := "flex flex-row",
-        dayInputComponent,
-        child.maybe <-- dayInput.validationError.optionMap(errors =>
-          span(
-            cls := "text-red-700 text-sm",
-            errors.map(error => div(error))
-          )
-        )
-        // validatedMonthInput,
-        // validatedYearInput
+        renderDatePartInput("day", selectedDate, dayValidation),
+        renderDatePartInput("month", selectedMonth, monthValidation),
+        renderDatePartInput("year", selectedYear, yearValidation)
       ),
       div(
-        className := "italic font-thicker bold text-fancy-sans text-main-purple",
-        """
-  -- years
-  -- months
-  -- days
-"""
+        className := "italic font-thicker bold text-fancy-sans text-main-purple text-xs",
+        child <-- pickedDate.signal.map(_.toString()),
+        // child <-- pickedDate.signal.splitOption ( { case (initial, signal) =>
+        //   div(
+        //     child.text <-- signal.map(_.getUTCFullYear().toString())
+        //   )
+        // }, div("--") ),
+        renderAgeDisplay(pickedDate.signal)
       )
     )
+  }
+
+  def renderAgeDisplay(birthdate: Signal[Option[Date]]): Element = {
+    val ageOptSignal = birthdate.map(_.map(calculateAge(_)))
+    def renderAgeLine(unit: String, age: Signal[Option[Int]]): Element = {
+      div(
+        child <-- age.splitOption( (initial, signal) =>
+          p(
+            child.text <-- signal.map(_.toString)
+          )
+          , p("--")),
+        unit
+      )
+    }
+
+    div(
+      className := "italic font-thicker bold text-fancy-sans text-main-purple text-base",
+      renderAgeLine("years", ageOptSignal.map(_.map(_.years))),
+      renderAgeLine("months", ageOptSignal.map(_.map(_.months))),
+      renderAgeLine("days", ageOptSignal.map(_.map(_.days))),
+    )
+  }
+
+  final case class Age(years: Int, months: Int, days: Int)
+
+  /** @return
+    *   (years, months, days)
+    */
+  def calculateAge(birthdate: Date): Age = {
+    val now = new Date()
+    var years = now.getFullYear() - birthdate.getFullYear();
+    var months = now.getMonth() - birthdate.getMonth();
+    var days = now.getDate() - birthdate.getDate();
+
+    // If the current month is before the birth month, or it's the same month but the day hasn't occurred yet,
+    // then the person hasn't had their birthday this year, so subtract a year from the age.
+    if (months < 0 || (months === 0 && days < 0)) {
+      years -= 1;
+    }
+
+    // Adjust month calculation
+    if (months < 0) {
+      months += 12;
+    }
+
+    // Adjust day calculation
+    if (days < 0) {
+      val daysInLastMonth = new Date(now.getFullYear().toInt, now.getMonth().toInt, 0).getDate();
+      days += daysInLastMonth
+    }
+
+    Age(years.toInt, months.toInt, days.toInt)
   }
 
   def renderAttribution(): Element = {
