@@ -28,7 +28,7 @@ object AgeDisplayComponent {
         ),
         p(
           unit,
-          className := "px-1"
+          className := "px-1 lg:pl-3"
         )
       )
     }

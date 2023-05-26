@@ -86,7 +86,7 @@ object InputsComponent {
         selectedDate,
         dayValidation,
         setTheDate,
-        31,
+        "DD",
         Some(1),
         Some(31)
       ),
@@ -95,7 +95,7 @@ object InputsComponent {
         selectedMonth,
         monthValidation,
         setTheDate,
-        12,
+        "MM",
         Some(1),
         Some(12)
       ),
@@ -104,7 +104,7 @@ object InputsComponent {
         selectedYear,
         yearValidation,
         setTheDate,
-        1990,
+        "YYYY",
         Some(100),
         None
       )
@@ -116,7 +116,7 @@ object InputsComponent {
       state: Var[Option[Int]],
       validation: Validation[String, Seq[String], String],
       setTheDate: () => Unit,
-      placeholderNum: Int,
+      placeholderNum: String,
       min: Option[Int] = None,
       max: Option[Int] = None
   ) = {
