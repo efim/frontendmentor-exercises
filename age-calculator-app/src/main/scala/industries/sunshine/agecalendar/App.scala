@@ -46,7 +46,8 @@ object Main {
       // if Month and Year are already set, check if Day results in possible Date
       val validIfDate = (selectedMonth.now(), selectedYear.now()).tupled.map {
         case (month, year) =>
-          val potentialDate = new Date(year, month - 1, day)
+          val potentialDate = new Date(s"${year}-${month}-${day}")
+          // println(s">> validating day $day, with $month and $year. check is ${potentialDate}")
           !potentialDate.getDate().isNaN()
       }
       // if either month or year are not set - must rely on separate check
