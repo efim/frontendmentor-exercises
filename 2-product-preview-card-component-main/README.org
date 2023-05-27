@@ -1,0 +1,225 @@
+* Frontend Mentor - Product preview card component solution
+:PROPERTIES:
+:CUSTOM_ID: frontend-mentor---product-preview-card-component-solution
+:END:
+This is a solution to the
+[[https://www.frontendmentor.io/challenges/product-preview-card-component-GO7UmttRfa][Product
+preview card component challenge on Frontend Mentor]]. Frontend Mentor
+challenges help you improve your coding skills by building realistic
+projects.
+
+** Overview
+:PROPERTIES:
+:CUSTOM_ID: overview
+:END:
+*** The challenge
+:PROPERTIES:
+:CUSTOM_ID: the-challenge
+:END:
+Users should be able to:
+
+- View the optimal layout depending on their device's screen size
+- See hover and focus states for interactive elements
+
+*** Screenshot
+:PROPERTIES:
+:CUSTOM_ID: screenshot
+:END:
+[[./screenshot.png][screenshot]]
+
+*** Links
+:PROPERTIES:
+:CUSTOM_ID: links
+:END:
+- [[https://www.frontendmentor.io/solutions/responsive-by-tailwindcss-on-vite-with-scalajs-and-laminar-UzsvR_3skU][Solution URL]]
+- [[https://efim-frontendmentor-product-preview-card-exercise.pages.dev/][Live Site URL]]
+
+** My process
+:PROPERTIES:
+:CUSTOM_ID: my-process
+:END:
+*** Built with
+:PROPERTIES:
+:CUSTOM_ID: built-with
+:END:
+- Semantic HTML5 markup
+- TailwindCSS
+- Flexbox
+- Mobile-first workflow
+- ScalaJS
+- Laminar
+- Vite
+
+*** What I learned
+:PROPERTIES:
+:CUSTOM_ID: what-i-learned
+:END:
+**** when developing style against reference jpg check for browser Zoom Level
+unfortunately I got the sizes and styles very close to the reference,
+deployed and then saw that thing is way to small.
+
+I've been developing with increased Zoom.
+
+**** changing image source based on window size
+having separate images for mobile and desktop is not just a question of "media" configuraiton of css:
+
+#+begin_example scala
+// bus allows to post events manually from one place, and receive them in another
+val windowResizeEvents = new EventBus[Unit]
+// registering js listener on dom to forward all resize events
+dom.window.addEventListener(
+    "resize",
+    _ => windowResizeEvents.writer.onNext(())
+)
+// mapping these "size change" events into stream of window sizes
+val windowWidthStream: Signal[Int] = windowResizeEvents.events
+    .map(_ => dom.window.innerWidth.toInt)
+    .startWith(dom.window.innerWidth.toInt)
+// another mapping into Boolean signal
+// maybe should have added something like .distinct
+val isMobileStream: Signal[Boolean] = windowWidthStream.map(_ <= 1024)
+
+// here would be better to use Laminar .split utility to reuse <img> dom elements
+// when doing just .map the <img> element is created each time
+val dynamicImage = isMobileStream.map {
+    case true =>
+    img(
+        src := product.mobileImg,
+        role := "img",
+        alt := product.photoAltTest,
+        className := "rounded-t-lg"
+    )
+    case false =>
+    img(
+        src := product.desktopImg,
+        role := "img",
+        alt := product.photoAltTest,
+        className := "rounded-l-xl h-[450px]"
+    )
+}
+#+end_example
+**** correct way to get svg images:
+just use "src" to point to svg
+#+begin_example scala
+          img(
+            src := "/images/icon-cart.svg",
+            aria.hidden := true,
+            alt := "",
+            className := "px-4 pl-0 h-4 lg:pr-3"
+          ),
+#+end_example
+**** added "public" directory as Vite public:
+content of "vite.config.js"
+#+begin_example js
+import { defineConfig } from "vite";
+import scalaJSPlugin from "@scala-js/vite-plugin-scalajs";
+
+export default defineConfig({
+  publicDir: 'public',
+  plugins: [scalaJSPlugin()],
+});
+#+end_example
+
+Files from 'public' directory would be reachable by relative path from the website.
+And it turns out 'public' is directory that's set up by default.
+
+Initially I had problems what I tried to reference images by relative path:
+"./public/images/img.svg", that worked in =npm run dev=, but didn't work in =npm run preview= on the production build.
+
+**** the accessibility report on frontendmentor taugt me about accessibility:
+***** images must have alternate text
+https://dequeuniversity.com/rules/axe/4.6/image-alt?application=axeAPI
+ <img alt="drawing of a cat" src="...">
+****** When writing alt text, it is helpful to keep the following questions in mind:
+
+Why is the non-text content here?
+What information is it presenting?
+What purpose does it fulfill?
+If I could not use the non-text content, what words would I use to convey the same information or function?
+
+***** big level split
+https://dequeuniversity.com/rules/axe/4.6/landmark-one-main?application=axeAPI
+https://dequeuniversity.com/rules/axe/4.6/page-has-heading-one?application=axeAPI
+<header role="banner">
+<nav role="navigation">
+<main role="main">
+<footer role="contentinfo">
+***** headers support:
+https://dequeuniversity.com/rules/axe/4.6/page-has-heading-one?application=axeAPI
+use at least one <h1> to mark beginning of content
+***** aria role should be appropriate
+****** aria role for SVG icon in the interactive element:
+- aria-hidden="true" :: if there's text
+- aria-hidden="true" && aria-label="Purchase" if there's only SVG icon
+
+While using role="img" is a common practice for SVG icons, there are situations where this might not be the best fit. For SVG icons that are part of interactive elements (like a button), a more suitable approach could be to use aria-hidden="true" and provide an aria-label to the button itself:
+
+#+begin_src html
+<button aria-label="Purchase">
+  <svg aria-hidden="true">...</svg>
+</button>
+#+end_src
+
+In this setup, the SVG is hidden from screen readers, and the aria-label on the button provides the necessary context. This way, the button is announced as "Purchase" by screen readers, providing a clear indication of its purpose.
+
+This approach assumes that the SVG icon is supplemental to the text in the button. If the SVG is the only content in the button (i.e., there's no accompanying text), you might want to reconsider this approach and use an aria-label or aria-labelledby directly on the SVG.
+******* Laminar's tag library has whole =aria= namespace:
+#+begin_src scala
+img(
+    src := "/images/icon-cart.svg",
+    aria.hidden := true,
+    alt := "",
+    className := "px-4 pl-0 h-4 lg:pr-3"
+),
+#+end_src
+**** translating HSL colors to RGBA:
+https://www.rapidtables.com/convert/color/hsl-to-rgb.html
+(would like to have it directly in Emacs though)
+
+*** Continued development
+:PROPERTIES:
+:CUSTOM_ID: continued-development
+:END:
+I guess this is static and small enough to be ok just to keep as is.
+
+
+*** Useful resources
+:PROPERTIES:
+:CUSTOM_ID: useful-resources
+:END:
+- [[https://www.example.com][Example resource 1]] - This helped me for
+  XYZ reason. I really liked this pattern and will use it going forward.
+- [[https://www.example.com][Example resource 2]] - This is an amazing
+  article which helped me finally understand XYZ. I'd recommend it to
+  anyone still learning this concept.
+
+*Note: Delete this note and replace the list above with resources that
+helped you during the challenge. These could come in handy for anyone
+viewing your solution or for yourself when you look back on this project
+in the future.*
+
+** Author
+:PROPERTIES:
+:CUSTOM_ID: author
+:END:
+- Website - [[https://www.your-site.com][Add your name here]]
+- Frontend Mentor -
+  [[https://www.frontendmentor.io/profile/yourusername][[cite/t:@yourusername]]]
+- Twitter -
+  [[https://www.twitter.com/yourusername][[cite/t:@yourusername]]]
+
+*Note: Delete this note and add/remove/edit lines above based on what
+links you'd like to share.*
+
+** Acknowledgments
+:PROPERTIES:
+:CUSTOM_ID: acknowledgments
+:END:
+This is where you can give a hat tip to anyone who helped you out on
+this project. Perhaps you worked in a team or got some inspiration from
+someone else's solution. This is the perfect place to give them some
+credit.
+
+*Note: Delete this note and edit this section's content as necessary. If
+you completed this challenge by yourself, feel free to delete this
+section entirely.*
