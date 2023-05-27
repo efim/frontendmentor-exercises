@@ -70,6 +70,20 @@ https://www.scala-js.org/doc/tutorial/laminar.html 7. install
 tailwindcss and add a couple of classes to check that it works
 https://tailwindcss.com/docs/guides/vite
 
+**** figured out deployment - to https://dash.cloudflare.com/
+unfortunately couldn't figure out deployment from the git repository
+the Vite configuration fails, when can't get "Vite ScalaJS" plugin.
+
+So, i'm building locally manually
+#+begin_src bash
+npm run build
+#+end_src
+
+and then creating a CloudFlare pages, from directly uploaded =dist= directory
+**** colorpicked the reference with Linux utility gpick
+#+begin_src bash
+$ nix run nixpkgs#gpick
+#+end_src
 **** incorporated svg image (in a wrong way)
 :PROPERTIES:
 :CUSTOM_ID: incorporated-svg-image-in-a-wrong-way
