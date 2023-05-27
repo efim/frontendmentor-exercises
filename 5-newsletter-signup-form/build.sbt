@@ -30,4 +30,6 @@ lazy val NewsletterSignupPage = project.in(file("."))
     // check out extras in laminext : fetch \ ws \ sources & signals
     // https://laminext.dev/v/0.15.x/
     libraryDependencies += "io.laminext" %%% "fetch" % "0.15.0",
+    libraryDependencies += "io.laminext" %%% "validation-cats" % "0.15.0",
+    libraryDependencies += ("org.scala-js" %%% "scalajs-java-securerandom" % "1.0.0").cross(CrossVersion.for3Use2_13),
   )

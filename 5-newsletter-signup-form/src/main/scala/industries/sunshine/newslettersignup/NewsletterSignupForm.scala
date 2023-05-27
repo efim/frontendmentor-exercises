@@ -1,4 +1,4 @@
-package industries.sunshine.productpreviewcard
+package industries.sunshine.newslettersignup
 
 import scala.scalajs.js
 import scala.scalajs.js.annotation.*
@@ -15,31 +15,62 @@ def ProductPreviewCardComponent(): Unit =
   )
 
 object Main {
-  def appElement(): Element =
+  def appElement(): Element = {
     div(
-      className := "w-screen h-screen bg-green-200",
-      a(
-        href := "https://vitejs.dev",
-        target := "_blank",
-        img(src := "/vite.svg", className := "logo", alt := "Vite logo")
+      mainTag(
+        className := "relative w-screen h-screen bg-white font-custom",
+        renderNewsletterSignupComponent()
       ),
-      a(
-        href := "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
-        target := "_blank",
-        "link to JS logo"
-      ),
-      h1("Hello Laminar!"),
-      counterButton(),
-      p(className := "read-the-docs", "Click on the Vite logo to learn more")
-    )
-
-  def counterButton(): Element = {
-    val counter = Var(0)
-    button(
-      tpe := "button",
-      "count is ",
-      child.text <-- counter,
-      onClick --> { event => counter.update(c => c + 1) }
+      renderAttribution()
     )
   }
+
+  def renderNewsletterSignupComponent(): Element = {
+    val isSuccessfullySubmittedVar = Var(false)
+    val emailVar = Var[String]("")
+
+    def collectSubmittedEmail(email: String): Unit = {
+      println(s"> on submitting $email")
+      emailVar.writer.onNext(email)
+      isSuccessfullySubmittedVar.writer.onNext(true)
+    }
+
+    lazy val form = InputFormComponenent.rendedSignupForm(collectSubmittedEmail)
+    lazy val successMessage = renderSuccessMessage()
+    div(
+      child <-- isSuccessfullySubmittedVar.signal.map(
+        if (_) successMessage else form
+      )
+    )
+  }
+
+  def renderSuccessMessage(): Element = {
+    div(
+      className := "text-lg",
+      """
+  Thanks for subscribing!
+
+  A confirmation email has been sent to ash@loremcompany.com.
+  Please open it and click the button inside to confirm your subscription.
+
+  Dismiss message
+"""
+    )
+  }
+
+  def renderAttribution(): Element = {
+    footerTag(
+      role := "contentinfo",
+      className := "absolute inset-x-0 bottom-2 attribution",
+      "Challenge by ",
+      a(
+        href := "https://www.frontendmentor.io?ref=challenge",
+        target := "_blank",
+        "Frontend Mentor"
+      ),
+      " Coded by ",
+      a(href := "#", "Your Name Here")
+    )
+  }
+
 }

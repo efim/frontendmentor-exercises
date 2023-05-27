@@ -2,3 +2,24 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+    font-size: 16px
+}
+
+/* div, p, ul, li { */
+/*     outline: 1px solid red; */
+/* } */
+
+@font-face {
+  font-family: 'Roboto';
+  src: url('/fonts/Roboto-Regular.ttf') format('truetype');
+  font-weight: 400; /* normal */
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  font-weight: 700; /* bold */
+  font-style: normal;
+  src: url('/fonts/Roboto-Bold.ttf') format('truetype');
+}
