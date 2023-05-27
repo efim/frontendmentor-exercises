@@ -35,8 +35,14 @@ object Main {
       isSuccessfullySubmittedVar.writer.onNext(true)
     }
 
+    def resetState(): Unit = {
+      println("resetting state")
+      isSuccessfullySubmittedVar.writer.onNext(false)
+      emailVar.writer.onNext("")
+    }
+
     lazy val form = InputFormComponenent.rendedSignupForm(collectSubmittedEmail)
-    lazy val successMessage = renderSuccessMessage()
+    lazy val successMessage = renderSuccessMessage(emailVar.signal, resetState)
     div(
       child <-- isSuccessfullySubmittedVar.signal.map(
         if (_) successMessage else form
@@ -44,17 +50,36 @@ object Main {
     )
   }
 
-  def renderSuccessMessage(): Element = {
+  def renderSuccessMessage(
+      emailSignal: Signal[String],
+      resetState: () => Unit
+  ): Element = {
+    def messageWithEmail(): Signal[String] = emailSignal.map(email =>
+      s"A confirmation email has been sent to $email. Please open it and click the button inside to confirm your subscription."
+    )
     div(
-      className := "text-lg",
-      """
-  Thanks for subscribing!
-
-  A confirmation email has been sent to ash@loremcompany.com.
-  Please open it and click the button inside to confirm your subscription.
-
-  Dismiss message
-"""
+      className := "flex flex-col justify-between px-8 pt-36 h-screen text-lg",
+      div(
+        img(src := "/images/icon-success.svg", alt := "", aria.hidden := true),
+        p(
+          className := "pt-8 pb-6 text-4xl font-bold",
+          "Thanks for subscribing!"
+        ),
+        p(
+          className := "text-base",
+          "A confirmation email has been sent to ",
+          child <-- emailSignal.map(email => b(email)),
+          ". Please open it and click the button inside to confirm your subscription."
+        )
+      ),
+      div(
+        className := "pb-14",
+        button(
+          className := "place-self-end w-full h-14 font-bold text-white bg-blue-900 rounded-lg",
+          "Dismiss message"
+        ),
+        onClick --> Observer(_ => resetState())
+      )
     )
   }
 

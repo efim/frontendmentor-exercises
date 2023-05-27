@@ -28,7 +28,9 @@ object InputFormComponenent {
         if (_) "/images/illustration-sign-up-mobile.svg"
         else
           "/images/illustration-sign-up-desktop.svg"
-      )
+      ),
+      alt := "",
+      aria.hidden := true,
     )
 
     div(
@@ -98,7 +100,9 @@ object InputFormComponenent {
       div(
         img(
           src := "/images/icon-list.svg",
-          className := "transform translate-y-1/4"
+          className := "transform translate-y-1/4",
+          alt := "",
+          aria.hidden := true,
         )
       ),
       div(className := "pl-4", text)
