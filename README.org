@@ -1,0 +1,8 @@
+#+title: Readme
+* Frontendmentor exercises
+
+https://www.frontendmentor.io
+is the portal with multiple of gratis and paid exercises for front-end pages or applications.
+Sorting by complexity is available: from pure html and style to more complicated logic.
+
+Submission requires link to repository and link to published page.
