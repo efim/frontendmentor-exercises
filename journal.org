@@ -114,6 +114,8 @@ Scala.js v1.10.0 fixes the issue. It uses java.security.SecureRandom to implemen
 java.security.SecureRandom is not provided by Scala.js core. Therefore, to be able to use randomUUID(), you will need to add a dependency on scalajs-java-securerandom. Failing to do so will result in linking errors (i.e., fastLinkJS/fullLinkJS will fail).
 
 ok, so, i also need to reset date to None when there's error, yuk
+
+libraryDependencies += ("org.scala-js" %%% "scalajs-java-securerandom" % "1.0.0").cross(CrossVersion.for3Use2_13)
 * OMG firefox image vertical alignment
 There's no built-in way in Firefox (or any browser) to adjust the positioning of an image opened directly in a browser tab. However, you can use a simple JavaScript hack in the browser console to accomplish this:
 
@@ -136,3 +138,5 @@ https://www.frontendmentor.io/challenges/newsletter-signup-form-with-success-mes
 yay
 ** so, i need what? boolean for successful submission.
 in real world can be filled after receiving 200 from backend.
+* and yay, to the even harder task 6
+https://www.frontendmentor.io/challenges/interactive-comments-section-iG1RugEG9/hub

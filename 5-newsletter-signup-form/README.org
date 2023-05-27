@@ -1,0 +1,121 @@
+* Frontend Mentor - Newsletter sign-up form with success message
+solution
+:PROPERTIES:
+:CUSTOM_ID: frontend-mentor---newsletter-sign-up-form-with-success-message-solution
+:END:
+This is a solution to the
+[[https://www.frontendmentor.io/challenges/newsletter-signup-form-with-success-message-3FC1AZbNrv][Newsletter sign-up form with success message challenge on Frontend Mentor]].
+Frontend Mentor challenges help you improve your coding skills by
+building realistic projects.
+
+** Overview
+:PROPERTIES:
+:CUSTOM_ID: overview
+:END:
+*** The challenge
+:PROPERTIES:
+:CUSTOM_ID: the-challenge
+:END:
+Users should be able to:
+
+- Add their email and submit the form
+- See a success message with their email after successfully submitting
+  the form
+- See form validation messages if:
+  - The field is left empty
+  - The email address is not formatted correctly
+- View the optimal layout for the interface depending on their device's
+  screen size
+- See hover and focus states for all interactive elements on the page
+
+*** Screenshot
+:PROPERTIES:
+:CUSTOM_ID: screenshot
+:END:
+[[./screenshot.png][screenshot]]
+
+*** Links
+:PROPERTIES:
+:CUSTOM_ID: links
+:END:
+- [[https://www.frontendmentor.io/solutions/using-tailwind-vite-for-scalajs-and-laminar-DN0B59V9tf][Solution URL]]
+- [[https://efim-frontendmentor-newsletter-signup-form.pages.dev/][Live Site URL]]
+
+** My process
+:PROPERTIES:
+:CUSTOM_ID: my-process
+:END:
+*** Built with
+:PROPERTIES:
+:CUSTOM_ID: built-with
+:END:
+- Semantic HTML5 markup
+- TailwindCSS
+- Flexbox
+- Mobile-first workflow
+- ScalaJS
+- Laminar
+- Vite
+
+*Note: These are just examples. Delete this note and replace the list
+above with your own choices*
+
+*** What I learned
+:PROPERTIES:
+:CUSTOM_ID: what-i-learned
+:END:
+**** adding .ttf fonts to tailwind config
+need to list them in =style.css=
+#+begin_example css
+@font-face {
+  font-family: 'Roboto';
+  src: url('/fonts/Roboto-Regular.ttf') format('truetype');
+  font-weight: 400; /* normal */
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  font-weight: 700; /* bold */
+  font-style: normal;
+  src: url('/fonts/Roboto-Bold.ttf') format('truetype');
+}
+#+end_example
+and then add to config:
+#+begin_example js
+const defaultTheme = require('tailwindcss/defaultTheme')
+
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  content: [
+    "./index.html",
+    "./src/**/*.scala",
+  ],
+  theme: {
+    extend: {
+      fontFamily: {
+        'custom': ['Roboto', ...defaultTheme.fontFamily.sans],
+      },
+    },
+  },
+  plugins: [],
+}
+#+end_example
+**** preventing form submission with laminar
+html5 validation didn't style as i wanted, so removed "type = email"
+and had to code logic to disable input that submits the form
+*** Continued development
+:PROPERTIES:
+:CUSTOM_ID: continued-development
+:END:
+What's not finished - form is not submitted on empty input, but the input is not being marked as invalid. Only on loss of focus, or attempt to submit invalid value.
+Would like to also cover that.
+
+Also - i'm not entirely sure that my styling of the "top level" component will play well with attempt to embed it into some website.
+
+*** Useful resources
+:PROPERTIES:
+:CUSTOM_ID: useful-resources
+:END:
+Honestly, I asked ChatGPT about using already downloaded .ttf files, and about making form unsubmittable in Laminar.
+
