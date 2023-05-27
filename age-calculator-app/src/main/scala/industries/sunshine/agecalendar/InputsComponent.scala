@@ -11,7 +11,8 @@ import io.laminext.syntax.core._
 import io.laminext.syntax.validation.cats._
 
 object InputsComponent {
-  def renderInputs(birthDateWriter: Observer[Option[Date]]): Element = {
+  def renderInputs(birthDateVar: Var[Option[Date]]): Element = {
+    val birthDateWriter = birthDateVar.writer
     val selectedDate = Var[Option[Int]](None)
     val selectedMonth = Var[Option[Int]](None)
     val selectedYear = Var[Option[Int]](None)
@@ -25,57 +26,30 @@ object InputsComponent {
 
       inputs match {
         case Some((year, month, day)) =>
-          val newDate = new Date(year, month - 1, day)
+          // set date to potentially invalid "1991-04-31" for whole form validation
+          val newDate = new Date(s"${year}-${month}-${day}")
           println(s"setting new date: $newDate")
-          birthDateWriter.onNext(Some(new Date(year, month - 1, day)))
+          birthDateWriter.onNext(Some(newDate))
         case None => birthDateWriter.onNext(None)
       }
     }
 
-    def isDayValidForDate(day: Int): Boolean = {
-      // if Month and Year are already set, check if Day results in possible Date
-      val validIfDate = (selectedMonth.now(), selectedYear.now()).tupled.map {
-        case (month, year) =>
-          val potentialDate = new Date(s"${year}-${month}-${day}")
-          // TODO this is a bug - should be checked on any field change. Otherwise set 31 on good month, and change month to 04
-          // ( should catch 1994-04-31 )
-          println(s">> validating day $day, with $month and $year. check is ${potentialDate}")
-          !potentialDate.getDate().isNaN()
-      }
-      // if either month or year are not set - must rely on separate check
-      validIfDate.getOrElse(true)
-    }
-    def isDayValidByNumber(day: Int) = day >= 1 && day <= 31
-    val dayValidation: Validation[String, Seq[String], String] = {
-      V.nonBlank("Date should not be empty") &&
-      V.custom("Date should be a number")(_.toIntOption.nonEmpty) &&
-      V.custom("Must be a valid day")(dayStr =>
-        isDayValidByNumber(dayStr.toInt)
-      ) &&
-      V.custom("Must be a valid date")(dayStr =>
-        isDayValidForDate(dayStr.toInt)
-      )
-    }
-    def isValidMonth(month: Int) = month >= 1 && month <= 12
-    val monthValidation: Validation[String, Seq[String], String] = {
-      V.nonBlank("Should not be empty") &&
-      V.custom("Should be a number")(_.toIntOption.nonEmpty) &&
-      V.custom("Must be a valid month")(monthStr =>
-        isValidMonth(monthStr.toInt)
+    def fullDateValidation(
+        message: String
+    ): Validation[String, Seq[String], String] = {
+      V.custom(message)(_ =>
+        {
+          println(s"in full date validation with ${birthDateVar.now()}")
+          birthDateVar
+            .now()
+            .fold(
+              ifEmpty = true // not set yet
+            )(date => !date.getDate().isNaN())
+        }
       )
     }
 
-    /*
-     * The JavaScript Date constructor interprets two-digit and one-digit year values as being in the 20th century.
-     * so new Date(1, 0, 1) is 1st Jan 1901. ugh. valid date but age would jump around, let's allow only > 100
-     * */
-    def isValidYear(year: Int) = year <= (new Date()).getFullYear()
     val yearValidation: Validation[String, Seq[String], String] = {
-      V.nonBlank("Should not be empty") &&
-      V.custom("Should be a number")(_.toIntOption.nonEmpty) &&
-      V.custom("Must be not smaller than 100")(yearStr =>
-        yearStr.toInt >= 100
-      ) &&
       V.custom("Must be in the past")(yearStr =>
         yearStr.toInt <= (new Date()).getFullYear()
       )
@@ -86,7 +60,7 @@ object InputsComponent {
       renderDatePartInput(
         "day",
         selectedDate,
-        dayValidation,
+        Some(fullDateValidation("Must be a valid date")),
         setTheDate,
         "DD",
         Some(1),
@@ -95,16 +69,20 @@ object InputsComponent {
       renderDatePartInput(
         "month",
         selectedMonth,
-        monthValidation,
+        Some(fullDateValidation("")),
         setTheDate,
         "MM",
         Some(1),
         Some(12)
       ),
+      /*
+       * The JavaScript Date constructor interprets two-digit and one-digit year values as being in the 20th century.
+       * so new Date(1, 0, 1) is 1st Jan 1901. ugh. valid date but age would jump around, let's allow only > 100
+       * */
       renderDatePartInput(
         "year",
         selectedYear,
-        yearValidation,
+        Some(yearValidation && fullDateValidation("")),
         setTheDate,
         "YYYY",
         Some(100),
@@ -116,13 +94,25 @@ object InputsComponent {
   private def renderDatePartInput(
       name: String,
       state: Var[Option[Int]],
-      validation: Validation[String, Seq[String], String],
+      customValidationOpt: Option[Validation[String, Seq[String], String]],
       setTheDate: () => Unit,
       placeholderNum: String,
       min: Option[Int] = None,
       max: Option[Int] = None
   ) = {
     val inputUid = s"${UUID.randomUUID().toString()}_${name}_input"
+
+    val customValidation = customValidationOpt.getOrElse(V.pass)
+
+    val commonValidation = V.nonBlank("Should not be empty") &&
+      V.custom("Should be a number")(_.toIntOption.nonEmpty) &&
+      V.custom(s"Must be not smaller than ${min.getOrElse(0)}")(yearStr =>
+        min.fold(true)(value => yearStr.toInt >= value)
+      ) &&
+      V.custom(s"Must be not bigger than ${max.getOrElse(0)}")(yearStr =>
+        max.fold(true)(value => yearStr.toInt <= value)
+      )
+
     val inputElement = input(
       idAttr := inputUid,
       placeholder := placeholderNum.toString(),
@@ -134,11 +124,11 @@ object InputsComponent {
       maxAttr.maybe(max.map(_.toString())),
       // take input as String, after filter it's None for invalid, then set as value of Option[Int]
       onInput.mapToValue.map(strNum =>
-        Some(strNum).filter(validation(_).isRight).flatMap(_.toIntOption)
+        Some(strNum).filter(commonValidation(_).isRight).flatMap(_.toIntOption)
       ) --> state.writer.onNext,
       // now this looks like a hack. "attempt to set full date with current states of all three fields"
       onInput.mapToValue --> Observer(_ => setTheDate())
-    ).validated(validation)
+    ).validated(commonValidation && customValidation)
 
     div(
       className := "flex flex-col items-start w-10 lg:w-[160px]",
@@ -148,15 +138,15 @@ object InputsComponent {
         className := "pb-1 font-medium tracking-widest uppercase text-[0.4rem] font-fancy-sans",
         className <-- inputElement.validationError.map {
           case Some(_) => "text-light-red"
-          case None => "text-smokey-grey"
+          case None    => "text-smokey-grey"
         },
-        className := "lg:text-[0.5rem]",
+        className := "lg:text-[0.5rem]"
       ),
       // getting Element inside of ValidatedElement to access .amend and bind border color to validation
       inputElement.el.amend(
         className <-- inputElement.validationError.map {
           case Some(_) => "border-light-red"
-          case None => "border-smokey-grey"
+          case None    => "border-smokey-grey"
         }
       ),
       child.maybe <-- inputElement.validationError.optionMap(errors =>

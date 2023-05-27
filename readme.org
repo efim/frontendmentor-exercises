@@ -131,3 +131,6 @@ However, please note that this change is temporary and will not persist when the
 * what i've learned about ValidatedElement
 i can bind styles of others to it,
 but it doesn't have ".amend", so i could put "validatedElement.el" into the dom, and call ".amend" on it
+* starting task 5
+https://www.frontendmentor.io/challenges/newsletter-signup-form-with-success-message-3FC1AZbNrv/hub
+yay
