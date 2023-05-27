@@ -1,0 +1,118 @@
+* Frontend Mentor - Results summary component solution
+:PROPERTIES:
+:CUSTOM_ID: frontend-mentor---results-summary-component-solution
+:END:
+This is a solution to the
+[[https://www.frontendmentor.io/challenges/results-summary-component-CE_K6s0maV][Results
+summary component challenge on Frontend Mentor]]. Frontend Mentor
+challenges help you improve your coding skills by building realistic
+projects.
+
+** Overview
+:PROPERTIES:
+:CUSTOM_ID: overview
+:END:
+*** The challenge
+:PROPERTIES:
+:CUSTOM_ID: the-challenge
+:END:
+Users should be able to:
+
+- View the optimal layout for the interface depending on their device's
+  screen size
+- See hover and focus states for all interactive elements on the page
+
+*** Screenshot
+:PROPERTIES:
+:CUSTOM_ID: screenshot
+:END:
+[[./screenshot.png]]
+
+*** Links
+:PROPERTIES:
+:CUSTOM_ID: links
+:END:
+- [[https://www.frontendmentor.io/solutions/responsive-by-tailwindcss-on-vite-with-scalajs-and-laminar-LL-c2qJqFG][Solution URL]]
+- [[https://efim-frontendmentor-results-summary-component-exercise.pages.dev/][Live Site URL]]
+
+** My process
+:PROPERTIES:
+:CUSTOM_ID: my-process
+:END:
+*** Built with
+:PROPERTIES:
+:CUSTOM_ID: built-with
+:END:
+- Semantic HTML5 markup
+- TailwindCSS
+- Flexbox
+- Mobile-first workflow
+- ScalaJS
+- Laminar
+- Vite
+
+*** What I learned
+:PROPERTIES:
+:CUSTOM_ID: what-i-learned
+:END:
+**** practiced joining Scala sbt project
+:PROPERTIES:
+:CUSTOM_ID: practiced-joining-scala-sbt-project
+:END:
+with Vite created JS Vanilla and TailwindCSS. ( as step 0 i probably
+want a nix shell with sbt, npm, scalafmt ) 1. start Vite project
+https://www.scala-js.org/doc/tutorial/scalajs-vite.html npm create vite
+Vanilla > Javascript 2. copy to directory up, if i already created a
+directory 3. install js dependencies: npm install 4. add build.sbt
+ properties  and basic .scala files 5. install scalajs-vite plugin, fix
+imports in main.js 6. adding Laminar dependencies and changing main file
+https://www.scala-js.org/doc/tutorial/laminar.html 7. install
+tailwindcss and add a couple of classes to check that it works
+https://tailwindcss.com/docs/guides/vite
+
+**** incorporated svg image (in a wrong way)
+:PROPERTIES:
+:CUSTOM_ID: incorporated-svg-image-in-a-wrong-way
+:END:
+By using [[https://laminext.dev/v/0.15.x/fetch][Laminext]] (extension
+library to Laminar with FetchApi  websocket  validation integrations) to
+download image
+
+#+begin_example scala
+val svgRaw = Fetch.get(result.iconPath).text.map(_.data)
+def loadingDiv = div(className := "lds-dual-ring")
+val svgIcon = svgRaw
+  .map(str =>
+    foreignSvgElement(DomApi.unsafeParseSvgString(str))
+      .amend(svg.className := "justify-self-center w-4 h-4 lg:w-5 lg:h-5")
+  )
+  .startWith(loadingDiv)
+#+end_example
+
+Proper way is just to reference "src" on <img> and the static resource would get picked up
+**** translated this template.md into readme.org:
+#+begin_src bash
+$ nix shell nixpkgs#pandoc
+$ pandoc -f markdown -t org -o readme.org README-template.md
+#+end_src
+
+*** Continued development
+:PROPERTIES:
+:CUSTOM_ID: continued-development
+:END:
+- In future projects I'd like to test out more complex logic via
+  Observable, Signal.
+- Would like to practice with draggable elements and other things for
+  which I'd need JS libraries.
+- Would like to try out webcomponents
+
+*** Useful resources
+:PROPERTIES:
+:CUSTOM_ID: useful-resources
+:END:
+- [[https://www.scala-js.org/doc/tutorial/scalajs-vite.html][Instruction to set up ScalaJS]]
+- [[https://www.scala-js.org/doc/tutorial/laminar.html][Instruction to set up Laminar]] - This is an amazing article which helped me finally
+  understand XYZ. I'd recommend it to anyone still learning this
+  concept.
+- [[https://laminar.dev/documentation][Laminar Documentation]]
+- [[https://tailwindcss.com/docs][TailwindCSS Documentation]]
