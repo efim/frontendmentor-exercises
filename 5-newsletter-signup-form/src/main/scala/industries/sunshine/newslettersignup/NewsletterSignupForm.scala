@@ -27,8 +27,8 @@ object Main {
   }
 
   def renderNewsletterSignupComponent(): Element = {
-    val isSuccessfullySubmittedVar = Var(true)
-    val emailVar = Var[String]("efim.wool@gmail.com")
+    val isSuccessfullySubmittedVar = Var(false)
+    val emailVar = Var[String]("")
 
     def collectSubmittedEmail(email: String): Unit = {
       println(s"> on submitting $email")
