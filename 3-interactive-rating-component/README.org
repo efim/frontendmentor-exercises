@@ -1,0 +1,133 @@
+* Frontend Mentor - Interactive rating component solution
+:PROPERTIES:
+:CUSTOM_ID: frontend-mentor---interactive-rating-component-solution
+:END:
+This is a solution to the
+[[https://www.frontendmentor.io/challenges/interactive-rating-component-koxpeBUmI][Interactive
+rating component challenge on Frontend Mentor]]. Frontend Mentor
+challenges help you improve your coding skills by building realistic
+projects.
+
+** Table of contents
+:PROPERTIES:
+:CUSTOM_ID: table-of-contents
+:END:
+- [[#overview][Overview]]
+  - [[#the-challenge][The challenge]]
+  - [[#screenshot][Screenshot]]
+  - [[#links][Links]]
+- [[#my-process][My process]]
+  - [[#built-with][Built with]]
+  - [[#what-i-learned][What I learned]]
+  - [[#continued-development][Continued development]]
+  - [[#useful-resources][Useful resources]]
+- [[#author][Author]]
+- [[#acknowledgments][Acknowledgments]]
+
+*Note: Delete this note and update the table of contents based on what
+sections you keep.*
+
+** Overview
+:PROPERTIES:
+:CUSTOM_ID: overview
+:END:
+*** The challenge
+:PROPERTIES:
+:CUSTOM_ID: the-challenge
+:END:
+Users should be able to:
+
+- View the optimal layout for the app depending on their device's screen
+  size
+- See hover states for all interactive elements on the page
+- Select and submit a number rating
+- See the "Thank you" card state after submitting a rating
+
+*** Screenshot
+:PROPERTIES:
+:CUSTOM_ID: screenshot
+:END:
+[[./screenshot.png][screenshot]]
+
+*** Links
+:PROPERTIES:
+:CUSTOM_ID: links
+:END:
+- [[https://www.frontendmentor.io/solutions/responsive-by-tailwindcss-on-vite-with-scalajs-and-laminar-W2wOVlyo6d][Solution URL]]
+- [[https://efim-frontendmentor-interactive-rating-component.pages.dev/][Live Site URL]]
+
+** My process
+:PROPERTIES:
+:CUSTOM_ID: my-process
+:END:
+*** Built with
+:PROPERTIES:
+:CUSTOM_ID: built-with
+:END:
+- Semantic HTML5 markup
+- TailwindCSS
+- Flexbox
+- Mobile-first workflow
+- ScalaJS
+- Laminar
+- Vite
+
+*** First time used =justify-between= for flex children
+#+begin_example scala
+      div(
+        className := "flex flex-row justify-between py-6 w-full",
+        className := "lg:py-8 lg:pb-10",
+        votes.map(vote =>
+          renderRatingSelector(vote, setVote, isSelectedVoteSignal(vote))
+        )
+      ),
+#+end_example
+
+this is for "vote" buttons.
+Justify between means spread out dynamically, keeping first and last children at the borders of the parent.
+Looks like what I wanted
+
+*** I think during this exercise I figured out better "Attribution" placement:
+making it =absolute=, so that main body content would be centered and close enough to the reference design in the "frondtendmentor" screenshot widget.
+
+*** I think during this exercise I started sorting the Tailwind classes
+VSCode has a plugin, that could probably be configured with alternate regex.
+
+I'm using Emacs and "[[https://github.com/merrickluo/lsp-tailwindcss][emacs tailwind lsp]]" didn't work for me
+1) autocomplete of classes seemed very slow (thought still impressive =D )
+2) class sorting worked in typescript projects, didn't work in Scala
+
+So, I'm using "rustywind" directly, installed so it's available on PATH,
+#+begin_src bash
+rustywind . --custom-regex "className := \"([^\"]+)\"" --write
+rustywind . --custom-regex "className := \"([^\"]+)\"" --check-formatted
+#+end_src
+
+Or, actually, ugly hack to run it after file save:
+#+begin_src elisp
+(defun my/rustywind-in-project-root ()
+  (interactive)
+  (let ((command (mapconcat 'identity
+                            (list "rustywind ."
+                                  "--custom-regex"
+                                  (shell-quote-argument "className := \"([^\"]+)\"")
+                                  "--write") " ")))
+    (projectile-run-shell-command-in-root command)
+    (revert-buffer t t)))
+
+;; to start auto format
+(add-hook 'after-save-hook #'my/rustywind-in-project-root)
+;; to disable auto format
+(remove-hook 'after-save-hook #'my/rustywind-in-project-root)
+#+end_src
+*** Continued development
+:PROPERTIES:
+:CUSTOM_ID: continued-development
+:END:
+This also looks simple and finished enough.
+
+*** Useful resources
+:PROPERTIES:
+:CUSTOM_ID: useful-resources
+:END:
+- tailwindcss documentation
