@@ -16,6 +16,7 @@ module.exports = {
       'button-left': '#FF5478',
       'button-right': '#FF673F',
       'input-error': '#FFE8E6',
+      'dark-bg': '#36384D',
     },
     extend: {
       fontFamily: {

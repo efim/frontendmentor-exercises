@@ -30,17 +30,22 @@ object InputFormComponenent {
           "/images/illustration-sign-up-desktop.svg"
       ),
       alt := "",
-      aria.hidden := true
+      aria.hidden := true,
+      className := "order-last",
     )
 
     div(
+      className := "lg:inline-flex lg:flex-row lg:justify-between lg:p-6 lg:bg-white lg:rounded-[2.5rem]",
       dynamicImage,
       div(
         className := "p-6",
-        h1(className := "pt-5 pb-5 text-4xl font-bold", "Stay updated!"),
+        className := "lg:px-12 lg:pr-16 lg:bg-white lg:w-[480px]",
+        h1(className := "pt-5 pb-5 text-4xl font-bold",
+           className := "lg:pt-16 lg:pb-9 lg:text-[3.45rem]",
+           "Stay updated!"),
         p("Join 60,000+ product managers receiving monthly updates on:"),
         ul(
-          className := "py-4",
+          className := "py-4 lg:pb-3",
           renderListItem("Product discovery and building what matters"),
           renderListItem("Measuring to ensure updates are a success"),
           renderListItem("And much more!")
@@ -57,7 +62,7 @@ object InputFormComponenent {
     val inputItem = input(
       className := "px-4 w-full rounded-lg border h-[3.3rem]",
       className := "border-grey",
-      className := "focus:outline-none focus:border-grey-charcoal",
+      className := "cursor-pointer focus:outline-none focus:border-grey-charcoal",
       typ := "email",
       forId := formUid,
       placeholder := "email@company.com",
@@ -91,7 +96,8 @@ object InputFormComponenent {
         className := "pt-6",
         input(
           className := "w-full font-bold text-white rounded-lg bg-grey-dark-slate h-[3.3rem]",
-          className := "duration-100 hover:bg-gradient-to-r hover:from-button-left hover:to-button-right",
+          className := "duration-100 cursor-pointer hover:bg-gradient-to-r hover:from-button-left hover:to-button-right",
+          className := "lg:hover:shadow-[0_20px_35px_-15px_rgba(0,0,0,0.2)] lg:hover:shadow-tomato",
           typ := "submit",
           value := "Subscribe to monthly newsletter",
           idAttr := formUid
