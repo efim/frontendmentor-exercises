@@ -6,3 +6,18 @@ is the portal with multiple of gratis and paid exercises for front-end pages or 
 Sorting by complexity is available: from pure html and style to more complicated logic.
 
 Submission requires link to repository and link to published page.
+* I'm learning to use technologies:
+- [[https://www.scala-js.org/][ScalaJS]] :: the expressive language with high type safety
+  compiled into JavaScript, with available interop with JS libraries, and lot's of Scala libraries supported.
+- [[https://laminar.dev/][Laminar]] :: Functional Reactive Programming for front-end
+  binding tags in dom or tag attributes with static or "from signal" values
+  streaming events into Observables
+  looks pretty cool
+- [[https://vitejs.dev/][Vite]] :: dev environment
+  for building production artifacts, running local dev with quick reloads and reverse proxy (to run backend at the same time as front end)
+- [[https://tailwindcss.com/][TailwindCSS]] :: css framework "utility first"
+  lot's of utility classes to be combined directly at the Component definition
+  big on "duplication" - when styles are local to components it's easier to style them to the minute details
+
+* Each exercise directory is a separate project
+Ideally I'll put "lessons learned" into their README files
