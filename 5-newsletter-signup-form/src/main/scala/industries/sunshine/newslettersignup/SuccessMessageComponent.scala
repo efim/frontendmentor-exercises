@@ -17,10 +17,12 @@ object SuccessMessageComponent {
     )
     div(
       className := "flex flex-col justify-between px-8 pt-36 h-screen text-lg",
+      className := "lg:py-12 lg:px-16 lg:bg-white lg:rounded-[2.5rem] lg:w-[500px] lg:h-[510px]",
       div(
         img(src := "/images/icon-success.svg", alt := "", aria.hidden := true),
         p(
           className := "pt-8 pb-6 text-4xl font-bold",
+          className := "lg:text-6xl",
           "Thanks for subscribing!"
         ),
         p(
@@ -31,10 +33,11 @@ object SuccessMessageComponent {
         )
       ),
       div(
-        className := "pb-14",
+        className := "pb-14 lg:pb-2",
         button(
           className := "place-self-end w-full h-14 font-bold text-white rounded-lg bg-grey-dark-slate",
           className := "duration-100 hover:bg-gradient-to-r hover:from-button-left hover:to-button-right",
+          className := "lg:text-sm",
           "Dismiss message"
         ),
         onClick --> Observer(_ => resetState())
