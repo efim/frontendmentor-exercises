@@ -1,0 +1,146 @@
+* Frontend Mentor - Age calculator app solution
+:PROPERTIES:
+:CUSTOM_ID: frontend-mentor---age-calculator-app-solution
+:END:
+This is a solution to the
+[[https://www.frontendmentor.io/challenges/age-calculator-app-dF9DFFpj-Q][Age calculator app challenge on Frontend Mentor]]. Frontend Mentor
+challenges help you improve your coding skills by building realistic
+projects.
+
+** Overview
+:PROPERTIES:
+:CUSTOM_ID: overview
+:END:
+*** The challenge
+:PROPERTIES:
+:CUSTOM_ID: the-challenge
+:END:
+Users should be able to:
+
+- View an age in years, months, and days after submitting a valid date
+  through the form
+- Receive validation errors if:
+  - Any field is empty when the form is submitted
+  - The day number is not between 1-31
+  - The month number is not between 1-12
+  - The year is in the future
+  - The date is invalid e.g. 31/04/1991 (there are 30 days in April)
+- View the optimal layout for the interface depending on their device's
+  screen size
+- See hover and focus states for all interactive elements on the page
+- *Bonus*: See the age numbers animate to their final number when the
+  form is submitted
+
+*** Screenshot
+:PROPERTIES:
+:CUSTOM_ID: screenshot
+:END:
+[[./screenshot.png][screenshot]]
+
+*** Links
+:PROPERTIES:
+:CUSTOM_ID: links
+:END:
+- [[https://www.frontendmentor.io/solutions/using-tailwind-vite-for-scalajs-and-laminar-3L--4JXaDK][Solution URL]]
+- [[https://efim-frontendmentor-age-calculator-app.pages.dev/][Live Site URL]]
+
+** My process
+:PROPERTIES:
+:CUSTOM_ID: my-process
+:END:
+*** Built with
+:PROPERTIES:
+:CUSTOM_ID: built-with
+:END:
+- Semantic HTML5 markup
+- TailwindCSS
+- Flexbox
+- Mobile-first workflow
+- ScalaJS
+- Laminar
+- Vite
+
+*** What I learned
+:PROPERTIES:
+:CUSTOM_ID: what-i-learned
+:END:
+**** Lesson #1
+Read the text description of the task, before starting to work on it.
+I've only now found requirement to use "form submission" to calculate age.
+
+What I was coding - to calculate age on the field loosing focus resulted in a more complex validation logic (due to fields changing separately from one another) and incomplete implementation (invalid date doesn't set all three fields into invalid state), but it's ok, I guess.
+
+**** Found out a way to vertically align reference.jpg when opened in Firefox
+
+One of the problems with attempting to copy reference for desktop style is that I'm opening both my page and image in full-screen Firefox windows, and switch between them to see all misalignments, but sometimes image is not centered and can be higher or lower than my element.
+
+So courtesy of ChatGPT:
+#+begin_quote
+There's no built-in way in Firefox (or any browser) to adjust the positioning of an image opened directly in a browser tab. However, you can use a simple JavaScript hack in the browser console to accomplish this:
+
+    Open your browser's console by pressing F12 or Ctrl+Shift+K on your keyboard.
+
+    In the console, paste the following command and hit Enter:
+
+    document.querySelector('img').style.marginTop = "50px";
+
+Replace "50px" with whatever amount of spacing you'd like.
+This command will add a top margin to the image, pushing it down the page.
+However, please note that this change is temporary and will not persist when the page is refreshed. If you want a permanent solution, you would need to use CSS in the webpage's code to adjust the image's positioning.
+#+end_quote
+
+**** I've practiced with using cats.Validated on inputs
+seems easy enough, and having same library between front and back ends, is nice.
+Validation is a function, can be passed around, combined after the fact: for the common validation at the Component creation, and additional custom validation passed in, seems OK.
+
+**** binding style of multiple elements to Validated status of input:
+that's easy part found in example:
+define =input.validated= as val, and then reference it's =valInput.validationError= Signal.
+
+**** What was unusual is binding elements own style to it's Validated status:
+for some reason =ValidatedInput= doesn't expose =.amend= method, to alter it's attributes after the fact.
+
+So, I've bound internal input to the dom, and amended it's className attribute with available =valInput.validationError=:
+
+#+begin_example scala
+    val inputElement = input(
+      idAttr := inputUid,
+      placeholder := placeholderNum.toString(),
+      className := "p-1 rounded w-[85px] h-[50px] border-[1px]",
+      className := "w-10 font-medium appearance-none text-[0.65rem] font-fancy-sans",
+      className := "lg:p-2 lg:text-base lg:w-[160px] lg:h-[70px]",
+      typ := "number",
+      minAttr.maybe(min.map(_.toString())),
+      maxAttr.maybe(max.map(_.toString())),
+      // take input as String, after filter it's None for invalid, then set as value of Option[Int]
+      onInput.mapToValue.map(strNum =>
+        Some(strNum).filter(commonValidation(_).isRight).flatMap(_.toIntOption)
+      ) --> state.writer.onNext,
+      // now this looks like a hack. "attempt to set full date with current states of all three fields"
+      onInput.mapToValue --> Observer(_ => setTheDate())
+    ).validated(commonValidation && customValidation)
+
+div(
+    inputElement.el.amend(
+        className <-- inputElement.validationError.map {
+            case Some(_) => "border-light-red"
+            case None    => "border-smokey-grey"
+        }
+    ),
+)
+#+end_example
+
+*** Continued development
+:PROPERTIES:
+:CUSTOM_ID: continued-development
+:END:
+I've added validation "over all three fields" when resulting date is not valid calendar date.
+But "invalid" state only triggers for single input field, which triggers check on loosing focus.
+
+Ideally would need to remake to only calculate age on form submit
+
+*** Useful resources
+:PROPERTIES:
+:CUSTOM_ID: useful-resources
+:END:
+- [[https://laminext.dev/v/0.15.x/validation][Laminext Validation example]] - extending Laminar elements with cats.Validated abilities
