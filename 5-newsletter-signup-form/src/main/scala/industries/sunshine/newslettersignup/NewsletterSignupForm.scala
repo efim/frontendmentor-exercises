@@ -75,7 +75,8 @@ object Main {
       div(
         className := "pb-14",
         button(
-          className := "place-self-end w-full h-14 font-bold text-white bg-blue-900 rounded-lg",
+          className := "place-self-end w-full h-14 font-bold text-white rounded-lg bg-grey-dark-slate",
+          className := "duration-100 hover:bg-gradient-to-r hover:from-button-left hover:to-button-right",
           "Dismiss message"
         ),
         onClick --> Observer(_ => resetState())

@@ -30,7 +30,7 @@ object InputFormComponenent {
           "/images/illustration-sign-up-desktop.svg"
       ),
       alt := "",
-      aria.hidden := true,
+      aria.hidden := true
     )
 
     div(
@@ -56,6 +56,8 @@ object InputFormComponenent {
 
     val inputItem = input(
       className := "px-4 w-full rounded-lg border h-[3.3rem]",
+      className := "border-grey",
+      className := "focus:outline-none focus:border-grey-charcoal",
       typ := "email",
       forId := formUid,
       placeholder := "email@company.com",
@@ -70,18 +72,26 @@ object InputFormComponenent {
         child <-- inputItem.validationError.splitOption(
           { (initialErrs, signal) =>
             p(
-              className := "",
+              className := "text-tomato",
               child.text <-- signal.map(_.mkString("\n"))
             )
           },
           emptyNode
         )
       ),
-      inputItem,
+      inputItem.el.amend(
+        className <-- inputItem.validationError.splitOption(
+          { (iniital, signal) =>
+            "bg-input-error text-tomato"
+          },
+          "bg-white text-black"
+        )
+      ),
       div(
         className := "pt-6",
         input(
-          className := "w-full font-bold text-white bg-blue-900 rounded-lg h-[3.3rem]",
+          className := "w-full font-bold text-white rounded-lg bg-grey-dark-slate h-[3.3rem]",
+          className := "duration-100 hover:bg-gradient-to-r hover:from-button-left hover:to-button-right",
           typ := "submit",
           value := "Subscribe to monthly newsletter",
           idAttr := formUid
@@ -102,7 +112,7 @@ object InputFormComponenent {
           src := "/images/icon-list.svg",
           className := "transform translate-y-1/4",
           alt := "",
-          aria.hidden := true,
+          aria.hidden := true
         )
       ),
       div(className := "pl-4", text)
