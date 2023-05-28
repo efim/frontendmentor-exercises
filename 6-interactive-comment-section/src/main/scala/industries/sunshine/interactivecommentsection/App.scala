@@ -1,4 +1,4 @@
-package industries.sunshine.productpreviewcard
+package industries.sunshine.interactivecommentsection
 
 import scala.scalajs.js
 import scala.scalajs.js.annotation.*
