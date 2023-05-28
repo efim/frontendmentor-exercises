@@ -172,7 +172,9 @@ the Reply window active state, can be hidden in the same Message Component, and 
 it would be able to take in different action based on parent, whether it's CommentReply or ReplyReply,
 
 but lots of common logic:
-*** TODO display message, author, score
+*** DONE display message, author, score
+the position of Reply and Vote elements are totally different on desktop and mobile
+for the first time attempting to do with Grid, potentially overcomplicating?
 *** TODO checking and displaying if OWN
 *** TODO where should voting information be stored?
 to track what person already voted?

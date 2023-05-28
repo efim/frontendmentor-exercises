@@ -13,26 +13,43 @@ object MessageComponent {
         renderHeader(messageVar.signal)
       ),
       div(
-        className := "col-span-3 col-start-1 pt-4 text-light-gray",
+        className := "col-span-3 col-start-1 py-4 text-light-gray",
         child.text <-- messageVar.signal.map(_.content)
       ),
       div(
-        className := "row-start-3",
-        "votes"
+        className := "col-start-1 row-start-3",
+        renderVotingControls(messageVar)
       ),
       div(
         className := "col-start-3 row-start-3",
-        "Reply"
+        renderReply()
       )
     )
   }
 
-  // private def renderVotingControls(messageVar: Var[Message]): Element = {
-  //   div(
-  //     className := "flex flex-row",
+  private def renderReply(): Element = {
+    div(
+      className := "flex flex-row justify-end items-center pr-2 h-full font-semibold text-moderate-blue",
+      img(
+        src := "/images/icon-reply.svg",
+        className := "pr-2"
+      ),
+      "Reply"
+    )
 
-  //   )
-  // }
+  }
+
+  private def renderVotingControls(messageVar: Var[Message]): Element = {
+    div(
+      className := "flex flex-row justify-around items-center p-2 rounded-lg w-18 bg-very-light-gray",
+      img(src := "/images/icon-plus.svg", className := "w-3 h-3"),
+      div(
+        className := "font-semibold text-moderate-blue",
+        child.text <-- messageVar.signal.map(_.score)
+      ),
+      img(src := "/images/icon-minus.svg", className := "w-3 h-1")
+    )
+  }
 
   private def renderHeader(messageSignal: Signal[Message]): Element = {
     div(
