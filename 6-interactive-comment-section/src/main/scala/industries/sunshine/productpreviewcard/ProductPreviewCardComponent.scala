@@ -1,2 +1,0 @@
-package industries.sunshine.productpreviewcard
-
