@@ -10,6 +10,7 @@ import com.softwaremill.quicklens._
 import industries.sunshine.interactivecommentsection.Models.Reply
 import industries.sunshine.interactivecommentsection.Models.Message
 import java.time.Instant
+import java.util.UUID
 
 @main
 def App(): Unit =
@@ -27,14 +28,20 @@ object Main {
     // different on submit, potentially different URLs
     def onReplySubmit(message: String): Unit = {
       println(s"state before is ${stateVar.now().comments.head}")
-      stateVar.update{ state =>
+      stateVar.update { state =>
         val comment = state.comments(0)
         val reply = Reply(
           Message(
-          "ID", message, Instant.now(), 0, state.currentUser),
+            UUID.randomUUID().toString(),
+            message,
+            Instant.now(),
+            0,
+            state.currentUser
+          ),
           comment.message.user
         )
-        state.modify(_.comments.at(0).replies)(_.appended(reply)) }
+        state.modify(_.comments.at(0).replies)(_.appended(reply))
+      }
       println(s"reply submit in TOP level $message")
       println(s"state now is ${stateVar.now().comments.head}")
     }
@@ -43,7 +50,8 @@ object Main {
       className := "w-screen h-screen",
       mainTag(
         className := "p-4 pt-8 w-screen h-screen bg-very-light-gray",
-        MessageComponent.prepareTopLevelCommentComponent(stateVar, onReplySubmit),
+        MessageComponent
+          .prepareTopLevelCommentComponent(stateVar, onReplySubmit)
       ),
       renderAttribution()
     )
