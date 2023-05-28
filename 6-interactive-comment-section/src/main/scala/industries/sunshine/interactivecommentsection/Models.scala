@@ -4,6 +4,50 @@ import java.time.{Instant, OffsetDateTime, ZoneOffset}
 
 object Models {
 
+  final case class AppState(
+      currentUser: User,
+      comments: List[Comment]
+  )
+
+  final case class User(
+      username: String,
+      image: User.Image
+  )
+  object User {
+    final case class Image(
+        png: String,
+        webp: String
+    )
+  }
+
+  /**
+   * Displayable communication unit
+   */
+  trait Message {
+    def id: String
+    def content: String
+    def createdAt: Instant
+    def score: Int
+    def user: User
+  }
+  final case class Comment(
+      id: String,
+      content: String,
+      createdAt: Instant, // TODO calculate relative time from
+      score: Int,
+      user: User,
+      replies: List[Reply]
+  ) extends Message
+  final case class Reply(
+      id: String,
+      content: String,
+      createdAt: Instant, // TODO calculate relative time from
+      score: Int,
+      user: User,
+      replyingTo: User
+  ) extends Message
+
+
   val hardcoded = AppState(
     userJuliusomo,
     List(
@@ -37,17 +81,18 @@ object Models {
             ),
             score = 4,
             user = userRamsesmiron,
-            replyingTo = userRamsesmiron,
+            replyingTo = userRamsesmiron
           ),
           Reply(
             id = "4",
-            content = "I couldn't agree more with this. Everything moves so fast and it always seems like everyone knows the newest library/framework. But the fundamentals are what stay constant.",
+            content =
+              "I couldn't agree more with this. Everything moves so fast and it always seems like everyone knows the newest library/framework. But the fundamentals are what stay constant.",
             createdAt = Instant.from(
               OffsetDateTime.of(2023, 5, 26, 14, 3, 38, 0, ZoneOffset.UTC)
             ),
             score = 2,
             replyingTo = userRamsesmiron,
-            user = userJuliusomo,
+            user = userJuliusomo
           )
         )
       )
@@ -86,36 +131,4 @@ object Models {
     )
   )
 
-  final case class AppState(
-      currentUser: User,
-      comments: List[Comment]
-  )
-
-  final case class User(
-      username: String,
-      image: User.Image
-  )
-  object User {
-    final case class Image(
-        png: String,
-        webp: String
-    )
-  }
-
-  final case class Comment(
-      id: String,
-      content: String,
-      createdAt: Instant, // TODO calculate relative time from
-      score: Int,
-      user: User,
-      replies: List[Reply],
-  )
-  final case class Reply(
-      id: String,
-      content: String,
-      createdAt: Instant, // TODO calculate relative time from
-      score: Int,
-      user: User,
-      replyingTo: User
-  )
 }

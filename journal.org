@@ -154,3 +154,34 @@ let's change that.
 *** bottom form to Send new comment
 *** prefilling @username when replying
 ** ok. how should that work though?
+should have a component for the comment or reply.
+
+maybe get the subcomponent that displays either, by the shared trait.
+and almost everything should be same?
+
+i guess on the backend side it could be Cassandra with messages, and what? stored in same table, with optional fields
+
+the Reply function would be different for Commend and Reply.
+or, not too different, but yeah
+
+but that function can be initialized by prent container
+
+the Reply window active state, can be hidden in the same Message Component, and opened when activating Reply.
+
+** TODO ok? let's start with writing a Message component,
+it would be able to take in different action based on parent, whether it's CommentReply or ReplyReply,
+
+but lots of common logic:
+*** TODO display message, author, score
+*** TODO checking and displaying if OWN
+*** TODO where should voting information be stored?
+to track what person already voted?
+i could disallow re-voting for now,
+or just store 2 lists of IDs, who upvoted and who downvoted and allow re-voting
+*** TODO functionality for reply (on others)
+as separate component, ok
+*** TODO functionality to edit - swap body with form
+*** TODO functionality to delete - create modal, and also call function from parent?
+** TODO component to reply \ send message could be shared?
+i guess yeah, passing in function on what to submit and where,
+and it could be reused.
