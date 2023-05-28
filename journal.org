@@ -140,3 +140,17 @@ yay
 in real world can be filled after receiving 200 from backend.
 * and yay, to the even harder task 6
 https://www.frontendmentor.io/challenges/interactive-comments-section-iG1RugEG9/hub
+** so. let's look at readme and breakdown things to do?
+*** reply button that opens form for submitting new comment
+with text field and button to submit Reply
+*** own comments - no reply, but edit and delete
+*** label "you" on own comments
+*** all sub-top-level comments are on the 2nd level
+so, walk all?
+or, top level are comments and others are replies?
+ok, yeah, there are two different models. ok, ok.
+let's change that.
+*** buttons to change rating
+*** bottom form to Send new comment
+*** prefilling @username when replying
+** ok. how should that work though?

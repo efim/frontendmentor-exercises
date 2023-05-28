@@ -28,7 +28,7 @@ object Models {
         score = 5,
         user = userMaxblagun,
         replies = List(
-          Comment(
+          Reply(
             id = "3",
             content =
               "If you're still new, I'd recommend focusing on the fundamentals of HTML, CSS, and JS before considering React. It's very tempting to jump ahead but lay a solid foundation first.",
@@ -37,19 +37,17 @@ object Models {
             ),
             score = 4,
             user = userRamsesmiron,
-            replyingTo = Some(userRamsesmiron),
-            replies = List.empty
+            replyingTo = userRamsesmiron,
           ),
-          Comment(
+          Reply(
             id = "4",
             content = "I couldn't agree more with this. Everything moves so fast and it always seems like everyone knows the newest library/framework. But the fundamentals are what stay constant.",
             createdAt = Instant.from(
               OffsetDateTime.of(2023, 5, 26, 14, 3, 38, 0, ZoneOffset.UTC)
             ),
             score = 2,
-            replyingTo = Some(userRamsesmiron),
+            replyingTo = userRamsesmiron,
             user = userJuliusomo,
-            replies = List.empty
           )
         )
       )
@@ -110,7 +108,14 @@ object Models {
       createdAt: Instant, // TODO calculate relative time from
       score: Int,
       user: User,
-      replies: List[Comment],
-      replyingTo: Option[User] = None
+      replies: List[Reply],
+  )
+  final case class Reply(
+      id: String,
+      content: String,
+      createdAt: Instant, // TODO calculate relative time from
+      score: Int,
+      user: User,
+      replyingTo: User
   )
 }
