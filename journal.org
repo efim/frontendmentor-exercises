@@ -185,3 +185,11 @@ as separate component, ok
 ** TODO component to reply \ send message could be shared?
 i guess yeah, passing in function on what to submit and where,
 and it could be reused.
+* yay, just another minute of searching, and there's function to translate colors
+* using java.time in ScalaJS :
+need dependency
+https://github.com/cquiroz/scala-java-time
+libr
+#+begin_src scala
+aryDependencies += "io.github.cquiroz" %%% "scala-java-time" % "2.5.0",
+#+end_src

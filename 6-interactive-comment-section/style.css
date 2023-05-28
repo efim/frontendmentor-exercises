@@ -2,3 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+    font-size: 16px;
+}
+
+/* div { */
+/*     outline: 1px solid red; */
+/* } */
