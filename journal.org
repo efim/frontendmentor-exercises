@@ -176,17 +176,20 @@ but lots of common logic:
 the position of Reply and Vote elements are totally different on desktop and mobile
 for the first time attempting to do with Grid, potentially overcomplicating?
 *** TODO checking and displaying if OWN
-*** TODO where should voting information be stored?
+*** CANCELLED where should voting information be stored?
 to track what person already voted?
 i could disallow re-voting for now,
 or just store 2 lists of IDs, who upvoted and who downvoted and allow re-voting
-*** TODO functionality for reply (on others)
+*** DONE functionality for reply (on others)
 as separate component, ok
 *** TODO functionality to edit - swap body with form
 *** TODO functionality to delete - create modal, and also call function from parent?
-** TODO component to reply \ send message could be shared?
+** DONE component to reply \ send message could be shared?
 i guess yeah, passing in function on what to submit and where,
 and it could be reused.
+** TODO component for Whole Comment with Replies
+** TODO component for all comments
+** TODO component for whole comment section & submit new top level ui
 * yay, just another minute of searching, and there's function to translate colors
 * using java.time in ScalaJS :
 need dependency

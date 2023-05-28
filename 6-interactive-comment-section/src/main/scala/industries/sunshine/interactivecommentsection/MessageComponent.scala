@@ -3,9 +3,27 @@ package industries.sunshine.interactivecommentsection
 import com.raquo.laminar.api.L.{*, given}
 import industries.sunshine.interactivecommentsection.Models._
 import com.softwaremill.quicklens._
+import java.time.Instant
 
 object MessageComponent {
-  def render(messageVar: Var[Message]): Element = {
+  def render(
+      messageVar: Var[Message],
+      selfUser: AppUser,
+      onReplySubmit: String => Unit
+  ): Element = {
+    val isReplyBoxEnabled = Var(false)
+    lazy val replyBoxElement =
+      MessageInputUI.render(selfUser, isReplyBoxEnabled.writer, onReplySubmit)
+    lazy val emptyEl = emptyNode
+    div(
+      renderViewMode(messageVar, isReplyBoxEnabled.writer),
+      child <-- isReplyBoxEnabled.signal.map(
+        if (_) replyBoxElement else emptyEl
+      )
+    )
+  }
+
+  def renderViewMode(messageVar: Var[Message], shouldShowReply: Observer[Boolean] ): Element = {
     div(
       className := "grid grid-cols-3 p-4 bg-white rounded-lg",
       div(
@@ -22,18 +40,19 @@ object MessageComponent {
       ),
       div(
         className := "col-start-3 row-start-3",
-        renderReply()
+        renderReplyButton(shouldShowReply)
       )
     )
   }
 
-  private def renderReply(): Element = {
-    div(
+  private def renderReplyButton(shouldShowReply: Observer[Boolean] ): Element = {
+    button(
       className := "flex flex-row justify-end items-center pr-2 h-full font-semibold text-moderate-blue",
       img(
         src := "/images/icon-reply.svg",
         className := "pr-2"
       ),
+      onClick --> Observer(_ => shouldShowReply.onNext(true)),
       "Reply"
     )
 
@@ -53,7 +72,7 @@ object MessageComponent {
           messageVar.update(_.modify(_.score).f(_ + 1))
         }
       ),
-        div(
+      div(
         className := "font-semibold text-moderate-blue",
         child.text <-- messageVar.signal.map(_.score)
       ),
@@ -63,7 +82,7 @@ object MessageComponent {
           println("downvoting")
           messageVar.update(_.modify(_.score).f(_ - 1))
         }
-      ),
+      )
     )
   }
 
@@ -91,14 +110,21 @@ object MessageComponent {
     )
   }
 
-  def prepareTopLevelCommentComponent(stateVar: Var[AppState]): Element = {
+  def prepareTopLevelCommentComponent(
+      stateVar: Var[AppState],
+      onReplySubmit: String => Unit
+  ): Element = {
     div(
       onMountInsert(ctx => {
         val commentVar: Var[Models.Message] =
           stateVar.zoom(_.comments.head.message)((state, newMessage) => {
             state.modify(_.comments.at(0).message).setTo(newMessage)
           })(ctx.owner)
-        MessageComponent.render(commentVar)
+        MessageComponent.render(
+          commentVar,
+          stateVar.now().currentUser,
+          onReplySubmit
+        )
       })
     )
   }

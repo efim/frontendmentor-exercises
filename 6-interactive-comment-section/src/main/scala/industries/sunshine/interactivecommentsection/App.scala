@@ -6,6 +6,10 @@ import scala.scalajs.js.annotation.*
 import org.scalajs.dom
 
 import com.raquo.laminar.api.L.{*, given}
+import com.softwaremill.quicklens._
+import industries.sunshine.interactivecommentsection.Models.Reply
+import industries.sunshine.interactivecommentsection.Models.Message
+import java.time.Instant
 
 @main
 def App(): Unit =
@@ -19,12 +23,27 @@ object Main {
 
     val hardcoded = Models.hardcoded
     val stateVar = Var(hardcoded)
+    // TODO - Comments (top level) and replies will have
+    // different on submit, potentially different URLs
+    def onReplySubmit(message: String): Unit = {
+      println(s"state before is ${stateVar.now().comments.head}")
+      stateVar.update{ state =>
+        val comment = state.comments(0)
+        val reply = Reply(
+          Message(
+          "ID", message, Instant.now(), 0, state.currentUser),
+          comment.message.user
+        )
+        state.modify(_.comments.at(0).replies)(_.appended(reply)) }
+      println(s"reply submit in TOP level $message")
+      println(s"state now is ${stateVar.now().comments.head}")
+    }
 
     div(
       className := "w-screen h-screen",
       mainTag(
         className := "p-4 pt-8 w-screen h-screen bg-very-light-gray",
-        MessageComponent.prepareTopLevelCommentComponent(stateVar),
+        MessageComponent.prepareTopLevelCommentComponent(stateVar, onReplySubmit),
       ),
       renderAttribution()
     )
