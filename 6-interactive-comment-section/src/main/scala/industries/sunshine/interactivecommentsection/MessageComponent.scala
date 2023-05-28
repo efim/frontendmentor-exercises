@@ -42,12 +42,28 @@ object MessageComponent {
   private def renderVotingControls(messageVar: Var[Message]): Element = {
     div(
       className := "flex flex-row justify-around items-center p-2 rounded-lg w-18 bg-very-light-gray",
-      img(src := "/images/icon-plus.svg", className := "w-3 h-3"),
-      div(
+      button(
+        img(src := "/images/icon-plus.svg", className := "w-3 h-3"),
+        onClick --> Observer { _ =>
+          println("upvoting")
+          // actual application would flatmap into Fetch.put to retister vote with backend
+          // then either depend on the top level Var[AppState] to be synced via ws,
+          // or maybe take the value of vote from the response and update to it
+          // (there could have been other people voting)
+          messageVar.update(_.modify(_.score).f(_ + 1))
+        }
+      ),
+        div(
         className := "font-semibold text-moderate-blue",
         child.text <-- messageVar.signal.map(_.score)
       ),
-      img(src := "/images/icon-minus.svg", className := "w-3 h-1")
+      button(
+        img(src := "/images/icon-minus.svg", className := "w-3 h-1"),
+        onClick --> Observer { _ =>
+          println("downvoting")
+          messageVar.update(_.modify(_.score).f(_ - 1))
+        }
+      ),
     )
   }
 
