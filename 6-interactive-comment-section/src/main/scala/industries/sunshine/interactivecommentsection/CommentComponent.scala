@@ -9,10 +9,10 @@ import java.time.Instant
 /** Component to manage whole Comment: with all it's replies
   */
 object CommentComponent {
-  def render(commentVar: Var[Comment], currentUser: AppUser): Element = {
+  def render(commentSignal: Signal[Comment], updateComment: (Comment => Comment) => Unit, currentUser: AppUser): Element = {
     def onReplySubmit(message: String): Unit = {
-      println(s"state before is ${commentVar.now()}")
-      commentVar.update { comment =>
+
+      val updateSelfWithReply: Comment => Comment = oldState => {
         val reply = Reply(
           Message(
             UUID.randomUUID().toString(),
@@ -21,50 +21,57 @@ object CommentComponent {
             0,
             currentUser
           ),
-          comment.message.user
+          oldState.message.user
         )
-        comment.modify(_.replies)(replies =>
-          replies.updated(reply.message.id, reply)
-        )
+
+        oldState.modify(_.replies)(_.updated(reply.message.id, reply))
       }
-      println(s"reply submit in COMMENT level $message")
-      println(s"state now is ${commentVar.now()}")
+
+      updateComment(updateSelfWithReply)
+    }
+    def onCommentScoreUpdate(newScore: Int): Unit = {
+      println(s"noop comment score update $newScore")
+    }
+    def onReplyScoreUpdate(replyUid: String)(newScore: Int): Unit = {
+      println(s"noop reply score update $newScore for $replyUid")
     }
     div(
-      "COMMENT, YAY",
-      MessageComponent.prepareCommentMessageComponent(
-        commentVar,
+      MessageComponent.render(
+        commentSignal.map(_.message),
         currentUser,
+        onCommentScoreUpdate,
         onReplySubmit
       ),
-      children <-- commentVar.signal
-        .map(_.replies.values.toList)
-        .split(_.message.id)((key, initial, signal) => {
-          MessageComponent.prepareReplyMessageComponent(
-            commentVar,
-            key,
-            currentUser,
-            onReplySubmit
-          )
-        })
+      renderReplies(commentSignal, currentUser, onReplyScoreUpdate, onReplySubmit)
     )
   }
 
-  def prepareCommentComponent(
-      stateVar: Var[AppState],
-      uid: String
+  private def renderReplies(
+      commentSignal: Signal[Comment],
+      currentUser: AppUser,
+      updateScore: String => Int => Unit,
+      onReplySubmit: String => Unit
   ): Element = {
     div(
-      onMountInsert { ctx =>
-        // well, let's use Map then.
-        val commentVar: Var[Models.Comment] =
-          stateVar.zoom(_.comments.get(uid).getOrElse(Models.Comment.empty))(
-            (state, newComment) => {
-              state.modify(_.comments.index(uid)).setTo(newComment)
-            }
-          )(ctx.owner)
-        render(commentVar, stateVar.now().currentUser)
-      }
+      className := "flex flex-row pt-3",
+      div(
+        className := "self-stretch pr-3 border-l-2 border-indigo-100 w-[2px]",
+      ),
+      div(
+        className := "flex flex-col gap-y-3",
+        children <-- commentSignal
+          .map(_.replies.values.toList)
+          .split(_.message.id)((key, initial, signal) => {
+            MessageComponent.render(
+              signal.map(_.message),
+              currentUser,
+              updateScore(key),
+              onReplySubmit
+            )
+          })
+      )
     )
+
   }
+
 }

@@ -187,7 +187,7 @@ as separate component, ok
 ** DONE component to reply \ send message could be shared?
 i guess yeah, passing in function on what to submit and where,
 and it could be reused.
-** TODO component for Whole Comment with Replies
+** DONE component for Whole Comment with Replies
 ** TODO component for all comments
 ** TODO component for whole comment section & submit new top level ui
 * yay, just another minute of searching, and there's function to translate colors
@@ -200,8 +200,15 @@ aryDependencies += "io.github.cquiroz" %%% "scala-java-time" % "2.5.0",
 #+end_src
 * new exciting error:
 #+begin_quote
-val commentVar: Var[Models.Message] =
-    stateVar.zoom(_.comments.head.message)((state, newMessage) => {
-    state.modify(_.comments.at(0).message).setTo(newMessage)
-    })(ctx.owner)
+    [error] -- Error: /home/enefedov/Documents/personal/frontendmentor/6-interactive-comment-section/src/main/scala/industries/sunshine/interactivecommentsection/CommentComponent.scala:25:35
+[error] 25 |          stateVar.zoom(_.comments.eachWhere(_.message.id == uid))((state, newMessage) => {
+[error]    |                                   ^^^^^^^^^
+[error]    |Reference to method eachWhere in package com.softwaremill.quicklens should not have survived,
+[error]    |it should have been processed and eliminated during expansion of an enclosing macro or term erasure.
+
 #+end_quote
+
+this was because zoom is probably also a macros, and also should just have a getter as first argument
+** also, would be better to just split into mapped signal and function that does lense update in the parent
+*** TODO rewrite message component to 2 functions
+*** TODO rewrite comment

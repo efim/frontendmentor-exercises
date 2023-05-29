@@ -7,8 +7,9 @@ import java.time.Instant
 
 object MessageComponent {
   def render(
-      messageVar: Var[Message],
+      messageSignal: Signal[Message],
       selfUser: AppUser,
+      updateScore: Int => Unit,
       onReplySubmit: String => Unit
   ): Element = {
     val isReplyBoxEnabled = Var(false)
@@ -16,27 +17,31 @@ object MessageComponent {
       MessageInputUI.render(selfUser, isReplyBoxEnabled.writer, onReplySubmit)
     lazy val emptyEl = emptyNode
     div(
-      renderViewMode(messageVar, isReplyBoxEnabled.writer),
+      renderViewMode(messageSignal, isReplyBoxEnabled.writer, updateScore),
       child <-- isReplyBoxEnabled.signal.map(
         if (_) replyBoxElement else emptyEl
       )
     )
   }
 
-  def renderViewMode(messageVar: Var[Message], shouldShowReply: Observer[Boolean] ): Element = {
+  def renderViewMode(
+      messageSignal: Signal[Message],
+      shouldShowReply: Observer[Boolean],
+      updateScore: Int => Unit
+  ): Element = {
     div(
       className := "grid grid-cols-3 p-4 bg-white rounded-lg",
       div(
         className := "col-span-3",
-        renderHeader(messageVar.signal)
+        renderHeader(messageSignal)
       ),
       div(
         className := "col-span-3 col-start-1 py-4 text-light-gray",
-        child.text <-- messageVar.signal.map(_.content)
+        child.text <-- messageSignal.map(_.content)
       ),
       div(
         className := "col-start-1 row-start-3",
-        renderVotingControls(messageVar)
+        renderVotingControls(messageSignal, updateScore)
       ),
       div(
         className := "col-start-3 row-start-3",
@@ -45,7 +50,7 @@ object MessageComponent {
     )
   }
 
-  private def renderReplyButton(shouldShowReply: Observer[Boolean] ): Element = {
+  private def renderReplyButton(shouldShowReply: Observer[Boolean]): Element = {
     button(
       className := "flex flex-row justify-end items-center pr-2 h-full font-semibold text-moderate-blue",
       img(
@@ -58,30 +63,37 @@ object MessageComponent {
 
   }
 
-  private def renderVotingControls(messageVar: Var[Message]): Element = {
+  private def renderVotingControls(
+      messageSignal: Signal[Message],
+      updateScore: Int => Unit
+  ): Element = {
     div(
-      className := "flex flex-row justify-around items-center p-2 rounded-lg w-18 bg-very-light-gray",
-      button(
-        img(src := "/images/icon-plus.svg", className := "w-3 h-3"),
-        onClick --> Observer { _ =>
-          println("upvoting")
-          // actual application would flatmap into Fetch.put to retister vote with backend
-          // then either depend on the top level Var[AppState] to be synced via ws,
-          // or maybe take the value of vote from the response and update to it
-          // (there could have been other people voting)
-          messageVar.update(_.modify(_.score).f(_ + 1))
-        }
-      ),
-      div(
-        className := "font-semibold text-moderate-blue",
-        child.text <-- messageVar.signal.map(_.score)
-      ),
-      button(
-        img(src := "/images/icon-minus.svg", className := "w-3 h-1"),
-        onClick --> Observer { _ =>
-          println("downvoting")
-          messageVar.update(_.modify(_.score).f(_ - 1))
-        }
+      child <-- messageSignal.map(_.score).map( currentScore =>
+        div(
+          className := "flex flex-row justify-around items-center p-2 rounded-lg w-18 bg-very-light-gray",
+          button(
+            img(src := "/images/icon-plus.svg", className := "w-3 h-3"),
+            onClick --> Observer { _ =>
+              println("upvoting")
+              // actual application would flatmap into Fetch.put to retister vote with backend
+              // then either depend on the top level Var[AppState] to be synced via ws,
+              // or maybe take the value of vote from the response and update to it
+              // (there could have been other people voting)
+              updateScore(currentScore + 1)
+            }
+          ),
+          div(
+            className := "font-semibold text-moderate-blue",
+            child.text <-- messageSignal.map(_.score)
+          ),
+          button(
+            img(src := "/images/icon-minus.svg", className := "w-3 h-1"),
+            onClick --> Observer { _ =>
+              println("downvoting")
+              updateScore(currentScore - 1)
+            }
+          )
+        )
       )
     )
   }
@@ -110,63 +122,4 @@ object MessageComponent {
     )
   }
 
-  def prepareCommentMessageComponent(
-      stateVar: Var[Comment],
-      currentUser: AppUser,
-      onReplySubmit: String => Unit
-  ): Element = {
-    div(
-      onMountInsert(ctx => {
-        val messageVar: Var[Models.Message] =
-          stateVar.zoom(_.message)((state, newMessage) => {
-            state.modify(_.message).setTo(newMessage)
-          })(ctx.owner)
-        MessageComponent.render(
-          messageVar,
-          currentUser,
-          onReplySubmit
-        )
-      })
-    )
-  }
-
-  def prepareReplyMessageComponent(
-      stateVar: Var[Comment],
-      replyUid: String,
-      currentUser: AppUser,
-      onReplySubmit: String => Unit
-  ): Element = {
-    div(
-      onMountInsert(ctx => {
-        val messageVar: Var[Models.Message] =
-          stateVar.zoom(_.replies.get(replyUid).getOrElse(Reply.empty).message)((state, newMessage) => {
-            state.modify(_.replies.index(replyUid).message).setTo(newMessage)
-          })(ctx.owner)
-        MessageComponent.render(
-          messageVar,
-          currentUser,
-          onReplySubmit
-        )
-      })
-    )
-  }
-
-  def prepareTopLevelCommentComponent(
-      stateVar: Var[AppState],
-      onReplySubmit: String => Unit
-  ): Element = {
-    div(
-      onMountInsert(ctx => {
-        val commentVar: Var[Models.Message] =
-          stateVar.zoom(_.comments.get("first-message").getOrElse(Models.Comment.empty).message)((state, newMessage) => {
-            state.modify(_.comments.index("first-message").message).setTo(newMessage)
-          })(ctx.owner)
-        MessageComponent.render(
-          commentVar,
-          stateVar.now().currentUser,
-          onReplySubmit
-        )
-      })
-    )
-  }
 }
