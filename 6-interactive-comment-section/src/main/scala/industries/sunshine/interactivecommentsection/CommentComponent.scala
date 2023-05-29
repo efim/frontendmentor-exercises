@@ -35,8 +35,11 @@ object CommentComponent {
       }
       updateComment(changeCommentScore)
     }
-    def onReplyScoreUpdate(replyUid: String)(newScore: Int): Unit = {
-      println(s"noop reply score update $newScore for $replyUid")
+    def onReplyScoreUpdate(replyId: String)(newScore: Int): Unit = {
+      val changeReployScore: Comment => Comment = comment => {
+        comment.modify(_.replies.index(replyId).message.score).setTo(newScore)
+      }
+      updateComment(changeReployScore)
     }
     div(
       MessageComponent.render(
