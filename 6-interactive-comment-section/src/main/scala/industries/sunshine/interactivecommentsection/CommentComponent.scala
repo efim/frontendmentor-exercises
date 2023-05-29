@@ -34,7 +34,8 @@ object CommentComponent {
       "COMMENT, YAY",
       MessageComponent.prepareCommentMessageComponent(
         commentVar, currentUser, onReplySubmit
-      )
+      ),
+
     )
   }
 
@@ -46,8 +47,8 @@ object CommentComponent {
       onMountInsert { ctx =>
           // well, let's use Map then.
         val commentVar: Var[Models.Comment] =
-          stateVar.zoom(_.comments.get("first-message").getOrElse(Models.Comment.empty))((state, newComment) => {
-            state.modify(_.comments.index("first-message")).setTo(newComment)
+          stateVar.zoom(_.comments.get(uid).getOrElse(Models.Comment.empty))((state, newComment) => {
+            state.modify(_.comments.index(uid)).setTo(newComment)
           })(ctx.owner)
         render(commentVar, stateVar.now().currentUser)
       }

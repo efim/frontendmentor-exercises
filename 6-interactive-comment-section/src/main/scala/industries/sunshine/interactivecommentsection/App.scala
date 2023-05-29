@@ -50,8 +50,7 @@ object Main {
       className := "w-screen h-screen",
       mainTag(
         className := "p-4 pt-8 w-screen h-screen bg-very-light-gray",
-        MessageComponent
-          .prepareTopLevelCommentComponent(stateVar, onReplySubmit)
+        CommentComponent.prepareCommentComponent(stateVar, "second-message")
       ),
       renderAttribution()
     )
