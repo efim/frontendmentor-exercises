@@ -198,3 +198,10 @@ libr
 #+begin_src scala
 aryDependencies += "io.github.cquiroz" %%% "scala-java-time" % "2.5.0",
 #+end_src
+* new exciting error:
+#+begin_quote
+val commentVar: Var[Models.Message] =
+    stateVar.zoom(_.comments.head.message)((state, newMessage) => {
+    state.modify(_.comments.at(0).message).setTo(newMessage)
+    })(ctx.owner)
+#+end_quote

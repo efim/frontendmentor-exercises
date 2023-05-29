@@ -29,7 +29,7 @@ object Main {
     def onReplySubmit(message: String): Unit = {
       println(s"state before is ${stateVar.now().comments.head}")
       stateVar.update { state =>
-        val comment = state.comments(0)
+        val comment = state.comments.get("first-message").get
         val reply = Reply(
           Message(
             UUID.randomUUID().toString(),
@@ -40,7 +40,7 @@ object Main {
           ),
           comment.message.user
         )
-        state.modify(_.comments.at(0).replies)(_.appended(reply))
+        state.modify(_.comments.at("first-message").replies)(replies => replies.updated(reply.message.id, reply))
       }
       println(s"reply submit in TOP level $message")
       println(s"state now is ${stateVar.now().comments.head}")

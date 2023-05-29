@@ -7,7 +7,7 @@ object Models {
 
   final case class AppState(
       currentUser: AppUser,
-      comments: List[Comment]
+      comments: Map[String, Comment]
   )
 
   final case class AppUser(
@@ -32,8 +32,14 @@ object Models {
   )
   final case class Comment(
       message: Message,
-      replies: List[Reply]
+      replies: Map[String, Reply]
   )
+  object Comment {
+    val empty = Comment(
+      Message(
+      "", "", Instant.EPOCH, 0, AppUser("", AppUser.Image("", ""))), Map.empty)
+
+  }
   final case class Reply(
       message: Message,
       replyingTo: AppUser
@@ -46,7 +52,7 @@ object Models {
     List(
       Comment(
         message = Message(
-          id = newUUID(),
+          id = "first-message",
           content =
             "Impressive! Though it seems the drag feature could be improved. But overall it looks incredible. You've nailed the design and the responsiveness at various breakpoints works really well.",
           createdAt = Instant.from(
@@ -55,7 +61,7 @@ object Models {
           score = 12,
           user = userAmyrobson
         ),
-        replies = List.empty
+        replies = Map.empty
       ),
       Comment(
         message = Message(
@@ -68,7 +74,7 @@ object Models {
           score = 5,
           user = userMaxblagun
         ),
-        replies = List(
+        replies = (List(
           Reply(
             message = Message(
               id = newUUID(),
@@ -95,9 +101,9 @@ object Models {
             ),
             replyingTo = userRamsesmiron
           )
-        )
+        ).map(reply => (reply.message.id, reply)).toMap)
       )
-    )
+    ).map(comment => (comment.message.id, comment)).toMap
   )
 
   lazy val userAmyrobson = AppUser(
