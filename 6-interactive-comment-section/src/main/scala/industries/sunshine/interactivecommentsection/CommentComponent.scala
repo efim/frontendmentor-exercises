@@ -58,7 +58,7 @@ object CommentComponent {
         className := "self-stretch pr-3 border-l-2 border-indigo-100 w-[2px]",
       ),
       div(
-        className := "flex flex-col gap-y-3",
+        className := "flex flex-col gap-y-3 w-full",
         children <-- commentSignal
           .map(_.replies.values.toList)
           .split(_.message.id)((key, initial, signal) => {
