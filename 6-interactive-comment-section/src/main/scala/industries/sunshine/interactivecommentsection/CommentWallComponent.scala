@@ -49,6 +49,9 @@ object CommentWallComponent {
     def updateComment(commentUid: String)(f: Comment => Comment): Unit = {
       stateVar.update(_.modify(_.comments.index(commentUid))(f))
     }
+    def deleteComment(commentUid: String): () => Unit = () => {
+      stateVar.update(_.modify(_.comments)(_.removed(commentUid)))
+    }
 
     div(
       className := "flex flex-col space-y-3",
@@ -59,7 +62,8 @@ object CommentWallComponent {
             CommentComponent.render(
               signal,
               updateComment(commentId),
-              stateVar.now().currentUser
+              deleteComment(commentId),
+              stateVar.now().currentUser // this can be done better, but ok
             )
           )
         })

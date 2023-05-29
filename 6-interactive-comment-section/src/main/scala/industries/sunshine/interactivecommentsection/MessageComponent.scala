@@ -10,7 +10,8 @@ object MessageComponent {
       messageSignal: Signal[Message],
       selfUser: AppUser,
       updateScore: Int => Unit,
-      onReplySubmit: String => Unit
+      onReplySubmit: String => Unit,
+      onDelete: () => Unit
   ): Element = {
     val isReplyBoxEnabled = Var(false)
     lazy val replyBoxElement =
@@ -21,7 +22,8 @@ object MessageComponent {
         messageSignal,
         selfUser,
         isReplyBoxEnabled.writer,
-        updateScore
+        updateScore,
+        onDelete
       ),
       child <-- isReplyBoxEnabled.signal.map(
         if (_) replyBoxElement else emptyEl
@@ -33,7 +35,8 @@ object MessageComponent {
       messageSignal: Signal[Message],
       selfUser: AppUser,
       shouldShowReplyWindow: Observer[Boolean],
-      updateScore: Int => Unit
+      updateScore: Int => Unit,
+      onDelete: () => Unit
   ): Element = {
     div(
       className := "grid grid-cols-3 p-4 bg-white rounded-lg",
@@ -54,14 +57,16 @@ object MessageComponent {
         child <-- messageSignal
           .map(_.user == selfUser)
           .map(
-            if (_) renderOwnControls()
+            if (_) renderOwnControls(onDelete)
             else renderReplyButton(shouldShowReplyWindow)
           )
       )
     )
   }
 
-  private def renderOwnControls(): Element = {
+  private def renderOwnControls(
+      onDelete: () => Unit
+  ): Element = {
     div(
       className := "flex flex-row items-center",
       button(
@@ -69,17 +74,20 @@ object MessageComponent {
         img(
           src := "/images/icon-delete.svg",
           alt := "",
-          className := "h-4 mr-1",
+          className := "h-4 mr-1"
         ),
-        "Delete"),
+        onClick --> Observer(_ => onDelete()),
+        "Delete"
+      ),
       button(
         className := "flex flex-row font-bold text-moderate-blue items-center mr-5 text-sm",
         img(
           src := "/images/icon-edit.svg",
           alt := "",
-          className := "h-4 mr-1",
+          className := "h-4 mr-1"
         ),
-        "Edit")
+        "Edit"
+      )
     )
   }
 

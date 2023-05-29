@@ -9,9 +9,14 @@ import java.time.Instant
 /** Component to manage whole Comment: with all it's replies
   */
 object CommentComponent {
-  def render(commentSignal: Signal[Comment], updateComment: (Comment => Comment) => Unit, currentUser: AppUser): Element = {
-    def onReplySubmit(message: String): Unit = {
+  def render(
+      commentSignal: Signal[Comment],
+      updateComment: (Comment => Comment) => Unit,
+      deleteComment: () => Unit,
+      currentUser: AppUser
+  ): Element = {
 
+    def onReplySubmit(message: String): Unit = {
       val updateSelfWithReply: Comment => Comment = oldState => {
         val reply = Reply(
           Message(
@@ -26,32 +31,43 @@ object CommentComponent {
 
         oldState.modify(_.replies)(_.updated(reply.message.id, reply))
       }
-
       updateComment(updateSelfWithReply)
     }
+
     def onCommentScoreUpdate(newScore: Int): Unit = {
       val changeCommentScore: Comment => Comment = comment => {
         comment.modify(_.message.score).setTo(newScore)
       }
       updateComment(changeCommentScore)
     }
+
     def onReplyScoreUpdate(replyId: String)(newScore: Int): Unit = {
       val changeReployScore: Comment => Comment = comment => {
         comment.modify(_.replies.index(replyId).message.score).setTo(newScore)
       }
       updateComment(changeReployScore)
     }
+
     div(
       MessageComponent.render(
         commentSignal.map(_.message),
         currentUser,
         onCommentScoreUpdate,
-        onReplySubmit
+        onReplySubmit,
+        deleteComment
       ),
-      child <-- commentSignal.map(_.replies.isEmpty).map(
-        if (_) emptyNode else renderReplies(commentSignal, currentUser, onReplyScoreUpdate, onReplySubmit)
-      )
-
+      child <-- commentSignal
+        .map(_.replies.isEmpty)
+        .map(
+          if (_) emptyNode
+          else
+            renderReplies(
+              commentSignal,
+              currentUser,
+              onReplyScoreUpdate,
+              onReplySubmit
+            )
+        )
     )
   }
 
@@ -64,18 +80,21 @@ object CommentComponent {
     div(
       className := "flex flex-row pt-3",
       div(
-        className := "self-stretch pr-3 border-l-2 border-indigo-100 w-[2px]",
+        className := "self-stretch pr-3 border-l-2 border-indigo-100 w-[2px]"
       ),
       div(
         className := "flex flex-col gap-y-3 w-full",
         children <-- commentSignal
-          .map(_.replies.values.toList.sortBy(_.message.createdAt.toEpochMilli()))
+          .map(
+            _.replies.values.toList.sortBy(_.message.createdAt.toEpochMilli())
+          )
           .split(_.message.id)((key, initial, signal) => {
             MessageComponent.render(
               signal.map(_.message),
               currentUser,
               updateScore(key),
-              onReplySubmit
+              onReplySubmit,
+              () => { println("on delete reply") }
             )
           })
       )

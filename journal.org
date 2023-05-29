@@ -182,8 +182,14 @@ or just store 2 lists of IDs, who upvoted and who downvoted and allow re-voting
 *** DONE functionality for reply (on others)
 as separate component, ok
 *** DONE checking and displaying if OWN
-*** TODO functionality to edit - swap body with form
 *** TODO functionality to delete - create modal, and also call function from parent?
+https://blog.webdevsimplified.com/2023-04/html-dialog/
+let's try to do the dialog
+**** done for top level without modal
+*** TODO functionality to edit - swap body with form
+*** TODO make hover on buttons - making them more white
+*** TODO remove "voting" for own messages
+*** TODO add @tag to the replies display.
 ** DONE component to reply \ send message could be shared?
 i guess yeah, passing in function on what to submit and where,
 and it could be reused.
