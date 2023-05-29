@@ -30,7 +30,10 @@ object CommentComponent {
       updateComment(updateSelfWithReply)
     }
     def onCommentScoreUpdate(newScore: Int): Unit = {
-      println(s"noop comment score update $newScore")
+      val changeCommentScore: Comment => Comment = comment => {
+        comment.modify(_.message.score).setTo(newScore)
+      }
+      updateComment(changeCommentScore)
     }
     def onReplyScoreUpdate(replyUid: String)(newScore: Int): Unit = {
       println(s"noop reply score update $newScore for $replyUid")
