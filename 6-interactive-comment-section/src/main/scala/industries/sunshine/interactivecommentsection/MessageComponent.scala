@@ -36,7 +36,7 @@ object MessageComponent {
         renderHeader(messageSignal)
       ),
       div(
-        className := "col-span-3 col-start-1 py-4 text-light-gray",
+        className := "col-span-3 col-start-1 py-4 text-light-gray break-words",
         child.text <-- messageSignal.map(_.content)
       ),
       div(
