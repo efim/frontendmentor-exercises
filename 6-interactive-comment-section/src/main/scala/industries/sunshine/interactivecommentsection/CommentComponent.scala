@@ -48,7 +48,10 @@ object CommentComponent {
         onCommentScoreUpdate,
         onReplySubmit
       ),
-      renderReplies(commentSignal, currentUser, onReplyScoreUpdate, onReplySubmit)
+      child <-- commentSignal.map(_.replies.isEmpty).map(
+        if (_) emptyNode else renderReplies(commentSignal, currentUser, onReplyScoreUpdate, onReplySubmit)
+      )
+
     )
   }
 
