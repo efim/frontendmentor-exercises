@@ -69,7 +69,7 @@ object CommentComponent {
       div(
         className := "flex flex-col gap-y-3 w-full",
         children <-- commentSignal
-          .map(_.replies.values.toList)
+          .map(_.replies.values.toList.sortBy(_.message.createdAt.toEpochMilli()))
           .split(_.message.id)((key, initial, signal) => {
             MessageComponent.render(
               signal.map(_.message),

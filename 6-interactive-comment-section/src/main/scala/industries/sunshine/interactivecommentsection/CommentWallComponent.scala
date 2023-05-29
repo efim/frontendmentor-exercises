@@ -53,7 +53,7 @@ object CommentWallComponent {
     div(
       className := "flex flex-col space-y-3",
       children <-- stateVar.signal
-        .map(_.comments.values.toList)
+        .map(_.comments.values.toList.sortBy(_.message.score)(Ordering.Int.reverse))
         .split(_.message.id)((commentId, initial, signal) => {
           div(
             CommentComponent.render(
