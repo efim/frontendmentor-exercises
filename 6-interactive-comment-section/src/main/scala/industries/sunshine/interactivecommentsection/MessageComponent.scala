@@ -17,7 +17,12 @@ object MessageComponent {
       MessageInputUI.render(selfUser, isReplyBoxEnabled.writer, onReplySubmit)
     lazy val emptyEl = emptyNode
     div(
-      renderViewMode(messageSignal, isReplyBoxEnabled.writer, updateScore),
+      renderViewMode(
+        messageSignal,
+        selfUser,
+        isReplyBoxEnabled.writer,
+        updateScore
+      ),
       child <-- isReplyBoxEnabled.signal.map(
         if (_) replyBoxElement else emptyEl
       )
@@ -26,6 +31,7 @@ object MessageComponent {
 
   def renderViewMode(
       messageSignal: Signal[Message],
+      selfUser: AppUser,
       shouldShowReply: Observer[Boolean],
       updateScore: Int => Unit
   ): Element = {
@@ -33,10 +39,10 @@ object MessageComponent {
       className := "grid grid-cols-3 p-4 bg-white rounded-lg",
       div(
         className := "col-span-3",
-        renderHeader(messageSignal)
+        renderHeader(messageSignal, selfUser)
       ),
       div(
-        className := "col-span-3 col-start-1 py-4 text-light-gray break-words",
+        className := "col-span-3 col-start-1 py-4 break-words text-light-gray",
         child.text <-- messageSignal.map(_.content)
       ),
       div(
@@ -68,37 +74,42 @@ object MessageComponent {
       updateScore: Int => Unit
   ): Element = {
     div(
-      child <-- messageSignal.map(_.score).map( currentScore =>
-        div(
-          className := "flex flex-row justify-around items-center p-2 rounded-lg w-18 bg-very-light-gray",
-          button(
-            img(src := "/images/icon-plus.svg", className := "w-3 h-3"),
-            onClick --> Observer { _ =>
-              println("upvoting")
-              // actual application would flatmap into Fetch.put to retister vote with backend
-              // then either depend on the top level Var[AppState] to be synced via ws,
-              // or maybe take the value of vote from the response and update to it
-              // (there could have been other people voting)
-              updateScore(currentScore + 1)
-            }
-          ),
+      child <-- messageSignal
+        .map(_.score)
+        .map(currentScore =>
           div(
-            className := "font-semibold text-moderate-blue",
-            child.text <-- messageSignal.map(_.score)
-          ),
-          button(
-            img(src := "/images/icon-minus.svg", className := "w-3 h-1"),
-            onClick --> Observer { _ =>
-              println("downvoting")
-              updateScore(currentScore - 1)
-            }
+            className := "flex flex-row justify-around items-center p-2 rounded-lg w-18 bg-very-light-gray",
+            button(
+              img(src := "/images/icon-plus.svg", className := "w-3 h-3"),
+              onClick --> Observer { _ =>
+                println("upvoting")
+                // actual application would flatmap into Fetch.put to retister vote with backend
+                // then either depend on the top level Var[AppState] to be synced via ws,
+                // or maybe take the value of vote from the response and update to it
+                // (there could have been other people voting)
+                updateScore(currentScore + 1)
+              }
+            ),
+            div(
+              className := "font-semibold text-moderate-blue",
+              child.text <-- messageSignal.map(_.score)
+            ),
+            button(
+              img(src := "/images/icon-minus.svg", className := "w-3 h-1"),
+              onClick --> Observer { _ =>
+                println("downvoting")
+                updateScore(currentScore - 1)
+              }
+            )
           )
         )
-      )
     )
   }
 
-  private def renderHeader(messageSignal: Signal[Message]): Element = {
+  private def renderHeader(
+      messageSignal: Signal[Message],
+      selfUser: AppUser
+  ): Element = {
     div(
       // TODO for some reason space-x-8 didn't work at all
       className := "flex flex-row items-center",
@@ -111,12 +122,23 @@ object MessageComponent {
         )
       ),
       div(
-        className := "pr-3 font-semibold",
+        className := "font-semibold",
         child.text <-- messageSignal.map(_.user.username)
       ),
+      child <-- messageSignal
+        .map(_.user == selfUser)
+        .map(
+          if (_)
+            div(
+              className := "h-5 text-xs font-semibold text-white rounded-sm bg-moderate-blue",
+              className := "flex flex-row justify-center items-center px-1 ml-1",
+              "you"
+            )
+          else emptyNode
+        ),
       // TODO use relative time library from github?
       div(
-        className := "text-light-gray",
+        className := "pl-3 text-light-gray",
         child.text <-- messageSignal.map(_.createdAt.toString().take(10))
       )
     )
