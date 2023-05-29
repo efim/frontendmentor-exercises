@@ -14,6 +14,10 @@ object  MessageInputUI {
       textArea(
         className := "col-span-3 row-start-1 p-3 pl-5 h-24 rounded-lg border text-light-gray",
         placeholder := "Add a comment...",
+        controlled(
+          value <-- replyText.signal,
+          onInput.mapToValue --> replyText.writer
+        )
       ),
       div(
         className := "flex items-center h-20",

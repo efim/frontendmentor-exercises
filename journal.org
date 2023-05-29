@@ -190,6 +190,8 @@ and it could be reused.
 ** DONE component for Whole Comment with Replies
 ** TODO component for all comments
 ** TODO component for whole comment section & submit new top level ui
+** TODO text wrap, when word is longer than element width
+** TODO submit by ctrl + Enter
 * yay, just another minute of searching, and there's function to translate colors
 * using java.time in ScalaJS :
 need dependency
@@ -210,5 +212,5 @@ aryDependencies += "io.github.cquiroz" %%% "scala-java-time" % "2.5.0",
 
 this was because zoom is probably also a macros, and also should just have a getter as first argument
 ** also, would be better to just split into mapped signal and function that does lense update in the parent
-*** TODO rewrite message component to 2 functions
-*** TODO rewrite comment
+*** DONE rewrite message component to 2 functions
+*** DONE rewrite comment

@@ -36,9 +36,8 @@ object Models {
       replies: Map[String, Reply]
   )
   object Comment {
-    val empty = Comment(
-      Message(
-      "", "", Instant.EPOCH, 0, AppUser.empty), Map.empty)
+    val empty =
+      Comment(Message("", "", Instant.EPOCH, 0, AppUser.empty), Map.empty)
 
   }
   final case class Reply(
@@ -47,8 +46,8 @@ object Models {
   )
   object Reply {
     val empty = Reply(
-      Message(
-      "", "", Instant.EPOCH, 0, AppUser.empty), AppUser.empty
+      Message("", "", Instant.EPOCH, 0, AppUser.empty),
+      AppUser.empty
     )
   }
 
