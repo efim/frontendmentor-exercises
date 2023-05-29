@@ -19,6 +19,7 @@ object Models {
         png: String,
         webp: String
     )
+    val empty = AppUser("", AppUser.Image("", ""))
   }
 
   /** Displayable communication unit
@@ -37,13 +38,19 @@ object Models {
   object Comment {
     val empty = Comment(
       Message(
-      "", "", Instant.EPOCH, 0, AppUser("", AppUser.Image("", ""))), Map.empty)
+      "", "", Instant.EPOCH, 0, AppUser.empty), Map.empty)
 
   }
   final case class Reply(
       message: Message,
       replyingTo: AppUser
   )
+  object Reply {
+    val empty = Reply(
+      Message(
+      "", "", Instant.EPOCH, 0, AppUser.empty), AppUser.empty
+    )
+  }
 
   final case class User(s: String)
 

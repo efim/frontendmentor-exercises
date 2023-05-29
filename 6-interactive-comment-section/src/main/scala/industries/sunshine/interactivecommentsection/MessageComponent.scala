@@ -130,6 +130,27 @@ object MessageComponent {
     )
   }
 
+  def prepareReplyMessageComponent(
+      stateVar: Var[Comment],
+      replyUid: String,
+      currentUser: AppUser,
+      onReplySubmit: String => Unit
+  ): Element = {
+    div(
+      onMountInsert(ctx => {
+        val messageVar: Var[Models.Message] =
+          stateVar.zoom(_.replies.get(replyUid).getOrElse(Reply.empty).message)((state, newMessage) => {
+            state.modify(_.replies.index(replyUid).message).setTo(newMessage)
+          })(ctx.owner)
+        MessageComponent.render(
+          messageVar,
+          currentUser,
+          onReplySubmit
+        )
+      })
+    )
+  }
+
   def prepareTopLevelCommentComponent(
       stateVar: Var[AppState],
       onReplySubmit: String => Unit

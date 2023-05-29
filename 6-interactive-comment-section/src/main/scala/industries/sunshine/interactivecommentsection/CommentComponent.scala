@@ -6,10 +6,8 @@ import com.softwaremill.quicklens._
 import java.util.UUID
 import java.time.Instant
 
-/**
- * Component to manage whole Comment:
- * with all it's replies
- */
+/** Component to manage whole Comment: with all it's replies
+  */
 object CommentComponent {
   def render(commentVar: Var[Comment], currentUser: AppUser): Element = {
     def onReplySubmit(message: String): Unit = {
@@ -25,7 +23,9 @@ object CommentComponent {
           ),
           comment.message.user
         )
-        comment.modify(_.replies)(replies => replies.updated(reply.message.id, reply))
+        comment.modify(_.replies)(replies =>
+          replies.updated(reply.message.id, reply)
+        )
       }
       println(s"reply submit in COMMENT level $message")
       println(s"state now is ${commentVar.now()}")
@@ -33,9 +33,20 @@ object CommentComponent {
     div(
       "COMMENT, YAY",
       MessageComponent.prepareCommentMessageComponent(
-        commentVar, currentUser, onReplySubmit
+        commentVar,
+        currentUser,
+        onReplySubmit
       ),
-
+      children <-- commentVar.signal
+        .map(_.replies.values.toList)
+        .split(_.message.id)((key, initial, signal) => {
+          MessageComponent.prepareReplyMessageComponent(
+            commentVar,
+            key,
+            currentUser,
+            onReplySubmit
+          )
+        })
     )
   }
 
@@ -45,11 +56,13 @@ object CommentComponent {
   ): Element = {
     div(
       onMountInsert { ctx =>
-          // well, let's use Map then.
+        // well, let's use Map then.
         val commentVar: Var[Models.Comment] =
-          stateVar.zoom(_.comments.get(uid).getOrElse(Models.Comment.empty))((state, newComment) => {
-            state.modify(_.comments.index(uid)).setTo(newComment)
-          })(ctx.owner)
+          stateVar.zoom(_.comments.get(uid).getOrElse(Models.Comment.empty))(
+            (state, newComment) => {
+              state.modify(_.comments.index(uid)).setTo(newComment)
+            }
+          )(ctx.owner)
         render(commentVar, stateVar.now().currentUser)
       }
     )
