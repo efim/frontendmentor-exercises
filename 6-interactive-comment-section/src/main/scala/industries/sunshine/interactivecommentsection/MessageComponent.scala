@@ -32,7 +32,7 @@ object MessageComponent {
   def renderViewMode(
       messageSignal: Signal[Message],
       selfUser: AppUser,
-      shouldShowReply: Observer[Boolean],
+      shouldShowReplyWindow: Observer[Boolean],
       updateScore: Int => Unit
   ): Element = {
     div(
@@ -50,20 +50,49 @@ object MessageComponent {
         renderVotingControls(messageSignal, updateScore)
       ),
       div(
-        className := "col-start-3 row-start-3",
-        renderReplyButton(shouldShowReply)
+        className := "col-start-3 row-start-3 justify-end flex flex-row",
+        child <-- messageSignal
+          .map(_.user == selfUser)
+          .map(
+            if (_) renderOwnControls()
+            else renderReplyButton(shouldShowReplyWindow)
+          )
       )
     )
   }
 
-  private def renderReplyButton(shouldShowReply: Observer[Boolean]): Element = {
+  private def renderOwnControls(): Element = {
+    div(
+      className := "flex flex-row items-center",
+      button(
+        className := "flex flex-row font-bold text-soft-red items-center mr-7 text-sm",
+        img(
+          src := "/images/icon-delete.svg",
+          alt := "",
+          className := "h-4 mr-1",
+        ),
+        "Delete"),
+      button(
+        className := "flex flex-row font-bold text-moderate-blue items-center mr-5 text-sm",
+        img(
+          src := "/images/icon-edit.svg",
+          alt := "",
+          className := "h-4 mr-1",
+        ),
+        "Edit")
+    )
+  }
+
+  private def renderReplyButton(
+      shouldShowReplyWindow: Observer[Boolean]
+  ): Element = {
     button(
       className := "flex flex-row justify-end items-center pr-2 h-full font-semibold text-moderate-blue",
       img(
         src := "/images/icon-reply.svg",
         className := "pr-2"
       ),
-      onClick --> Observer(_ => shouldShowReply.onNext(true)),
+      onClick --> Observer(_ => shouldShowReplyWindow.onNext(true)),
       "Reply"
     )
 

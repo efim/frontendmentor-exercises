@@ -181,7 +181,7 @@ i could disallow re-voting for now,
 or just store 2 lists of IDs, who upvoted and who downvoted and allow re-voting
 *** DONE functionality for reply (on others)
 as separate component, ok
-*** TODO checking and displaying if OWN
+*** DONE checking and displaying if OWN
 *** TODO functionality to edit - swap body with form
 *** TODO functionality to delete - create modal, and also call function from parent?
 ** DONE component to reply \ send message could be shared?
