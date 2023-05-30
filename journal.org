@@ -186,6 +186,7 @@ as separate component, ok
 https://blog.webdevsimplified.com/2023-04/html-dialog/
 let's try to do the dialog
 **** done for top level without modal
+**** how do i do this with modal?
 *** TODO functionality to edit - swap body with form
 *** TODO make hover on buttons - making them more white
 *** TODO remove "voting" for own messages

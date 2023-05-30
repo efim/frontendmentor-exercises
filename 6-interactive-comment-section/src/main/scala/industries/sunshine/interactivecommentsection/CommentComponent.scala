@@ -48,6 +48,13 @@ object CommentComponent {
       updateComment(changeReployScore)
     }
 
+    def onReplyDelete(replyId: String): () => Unit = () => {
+      val withReplyDeleted: Comment => Comment = comment => {
+        comment.modify(_.replies)(_.removed(replyId))
+      }
+      updateComment(withReplyDeleted)
+    }
+
     div(
       MessageComponent.render(
         commentSignal.map(_.message),
@@ -65,7 +72,8 @@ object CommentComponent {
               commentSignal,
               currentUser,
               onReplyScoreUpdate,
-              onReplySubmit
+              onReplySubmit,
+              onReplyDelete
             )
         )
     )
@@ -75,7 +83,8 @@ object CommentComponent {
       commentSignal: Signal[Comment],
       currentUser: AppUser,
       updateScore: String => Int => Unit,
-      onReplySubmit: String => Unit
+      onReplySubmit: String => Unit,
+      onReplyDelete: String => () => Unit,
   ): Element = {
     div(
       className := "flex flex-row pt-3",
@@ -94,7 +103,7 @@ object CommentComponent {
               currentUser,
               updateScore(key),
               onReplySubmit,
-              () => { println("on delete reply") }
+              onReplyDelete(key),
             )
           })
       )
