@@ -63,7 +63,7 @@ https://www.rapidtables.com/convert/color/hsl-to-rgb.html
 enefedov@enefedov-ubuntu:~$ nix run nixpkgs#gpick
 * here's task 3 solution:
 https://www.frontendmentor.io/solutions/responsive-by-tailwindcss-on-vite-with-scalajs-and-laminar-W2wOVlyo6d
-* TODO let's fix first 3 tasks. add Landmarks and alternate text to images
+* DONE let's fix first 3 tasks. add Landmarks and alternate text to images
 * adding accessibility features:
 ** big level split
 https://dequeuniversity.com/rules/axe/4.6/landmark-one-main?application=axeAPI
@@ -189,7 +189,7 @@ let's try to do the dialog
 **** how do i do this with modal?
 *** TODO functionality to edit - swap body with form
 *** TODO make hover on buttons - making them more white
-*** TODO remove "voting" for own messages
+*** CANCELLED remove "voting" for own messages
 *** TODO add @tag to the replies display.
 ** DONE save state into local storage
 let's do it with upickle and json
@@ -221,10 +221,10 @@ aryDependencies += "io.github.cquiroz" %%% "scala-java-time" % "2.5.0",
 #+end_quote
 
 this was because zoom is probably also a macros, and also should just have a getter as first argument
-** also, would be better to just split into mapped signal and function that does lense update in the parent
-*** DONE rewrite message component to 2 functions
-*** DONE rewrite comment
-** usage of dialog in the Laminar:
+* also, would be better to just split into mapped signal and function that does lense update in the parent
+** DONE rewrite message component to 2 functions
+** DONE rewrite comment
+* usage of dialog in the Laminar:
 #+begin_src scala
     val deletionDialog = dialogTag(
       className := "backdrop:bg-black/50",
@@ -250,15 +250,15 @@ this was because zoom is probably also a macros, and also should just have a get
       ),
     )
 #+end_src
-** new syntax for bg opacity:
+* new syntax for bg opacity:
 #+begin_src
       className := "backdrop:bg-light-gray/75",
 #+end_src
 https://tailwindcss.com/docs/background-color#changing-the-opacity
-** problem: dialog doesn't close on Escape for some reason
-** local storage
+* problem: dialog doesn't close on Escape for some reason
+* local storage
 https://www.scala-js.org/api/scalajs-dom/0.6/index.html#org.scalajs.dom.WindowLocalStorage
-** first big interactions with onMount* things
+* first big interactions with onMount* things
 onMountInsert
 onMountCallback
 
@@ -267,3 +267,9 @@ also ctx.thisNode.ref.focus() access
 also html "autofocus" attribute, which is not what i want, or, yeah.
 exactly what i want!
 no, not what I want - when the page loads.
+* attempted visibility
+#+begin_src scala
+            visibility <-- messageSignal.map(msg => if (msg.user != selfUser) "visible" else "collapse"),
+#+end_src
+
+but actually in design, you should be able to vote for yourself
