@@ -182,7 +182,7 @@ or just store 2 lists of IDs, who upvoted and who downvoted and allow re-voting
 *** DONE functionality for reply (on others)
 as separate component, ok
 *** DONE checking and displaying if OWN
-*** TODO functionality to delete - create modal, and also call function from parent?
+*** DONE functionality to delete - create modal, and also call function from parent?
 https://blog.webdevsimplified.com/2023-04/html-dialog/
 let's try to do the dialog
 **** done for top level without modal
@@ -221,3 +221,35 @@ this was because zoom is probably also a macros, and also should just have a get
 ** also, would be better to just split into mapped signal and function that does lense update in the parent
 *** DONE rewrite message component to 2 functions
 *** DONE rewrite comment
+** usage of dialog in the Laminar:
+#+begin_src scala
+    val deletionDialog = dialogTag(
+      className := "backdrop:bg-black/50",
+      form(
+        method := "dialog",
+        p("Are you sure?"),
+        button(
+          `type` := "submit", // html logic, will close modal, and not submit form
+          onClick --> Observer(_ => onDelete()),
+          onClick --> Observer(_ => println("submittign form")),
+          "YES, DELETE"
+        ),
+      )
+    )
+
+    div(
+      className := "flex flex-row items-center",
+      deletionDialog, // put dialog into dom
+      button(
+        className := "flex flex-row font-bold text-soft-red items-center mr-7 text-sm",
+        onClick --> Observer(_ => deletionDialog.ref.showModal()), // acces dom ref, it's already typed. wow
+        "Delete"
+      ),
+    )
+#+end_src
+** new syntax for bg opacity:
+#+begin_src
+      className := "backdrop:bg-light-gray/75",
+#+end_src
+https://tailwindcss.com/docs/background-color#changing-the-opacity
+** problem: dialog doesn't close on Escape for some reason

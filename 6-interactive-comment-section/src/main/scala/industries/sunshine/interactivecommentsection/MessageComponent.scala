@@ -38,6 +38,7 @@ object MessageComponent {
       updateScore: Int => Unit,
       onDelete: () => Unit
   ): Element = {
+
     div(
       className := "grid grid-cols-3 p-4 bg-white rounded-lg",
       div(
@@ -67,8 +68,36 @@ object MessageComponent {
   private def renderOwnControls(
       onDelete: () => Unit
   ): Element = {
+    val deletionDialog = dialogTag(
+      className := "backdrop:bg-black/50 text-light-gray rounded-lg p-7",
+      form(
+        method := "dialog",
+        p("Delete comment", className := "text-xl font-semibold pb-3"),
+        p(
+          className := "",
+          "Are you sure you want to delete this comment? This will remove the comment and can't be undone."),
+        div(
+          className := "flex flex-row justify-between pt-3",
+          button(
+            className := "h-12 rounded-lg bg-light-gray text-white font-semibold w-full mr-3",
+            `type` := "submit",
+            onClick --> Observer(_ => println("cancelling")),
+            "NO, CANCEL"
+          ),
+          button(
+            className := "h-12 rounded-lg bg-soft-red text-white font-semibold w-full",
+            `type` := "submit",
+            onClick --> Observer(_ => onDelete()),
+            onClick --> Observer(_ => println("submittign form")),
+            "YES, DELETE"
+          ),
+        ),
+      )
+    )
+
     div(
       className := "flex flex-row items-center",
+      deletionDialog,
       button(
         className := "flex flex-row font-bold text-soft-red items-center mr-7 text-sm",
         img(
@@ -76,7 +105,7 @@ object MessageComponent {
           alt := "",
           className := "h-4 mr-1"
         ),
-        onClick --> Observer(_ => onDelete()),
+        onClick --> Observer(_ => deletionDialog.ref.showModal()),
         "Delete"
       ),
       button(
