@@ -19,19 +19,39 @@ def App(): Unit =
   )
 
 object Main {
+  val localStorageState = "app-state"
+
   def appElement(): Element = {
 
-    val hardcoded = Models.hardcoded
-    val stateVar = Var(hardcoded)
-
+    val stateVar = initState()
     div(
       className := "w-screen h-max bg-very-light-gray",
       mainTag(
         className := "p-4 pt-8 w-full h-full",
         CommentWallComponent.render(stateVar)
       ),
-      renderAttribution()
+      renderAttribution(),
+      stateVar.signal --> Observer(writeState(_)),
     )
+  }
+
+  private def initState(): Var[AppState] = {
+    val hardcoded = Models.hardcoded
+
+    val savedStateString = Option(
+      dom.window.localStorage.getItem(localStorageState)
+    ).filterNot(_.isEmpty())
+    val savedStateOpt = savedStateString.flatMap(stateStr =>
+      scala.util.Try(upickle.default.read[AppState](stateStr)).toOption
+    )
+    val stateVar = Var(savedStateOpt.getOrElse(hardcoded))
+
+    stateVar
+  }
+
+  private def writeState(updated: AppState): Unit = {
+    dom.window.localStorage
+      .setItem(localStorageState, upickle.default.write(updated))
   }
 
   def renderAttribution(): Element = {

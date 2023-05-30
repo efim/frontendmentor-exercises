@@ -2,23 +2,25 @@ package industries.sunshine.interactivecommentsection
 
 import java.time.{Instant, OffsetDateTime, ZoneOffset}
 import java.util.UUID
+import upickle.default.ReadWriter
+import upickle.default.readwriter
 
 object Models {
 
   final case class AppState(
       currentUser: AppUser,
       comments: Map[String, Comment]
-  )
+  ) derives ReadWriter
 
   final case class AppUser(
       username: String,
       image: AppUser.Image
-  )
+  ) derives ReadWriter
   object AppUser {
     final case class Image(
         png: String,
         webp: String
-    )
+    ) derives ReadWriter
     val empty = AppUser("", AppUser.Image("", ""))
   }
 
@@ -30,11 +32,11 @@ object Models {
       createdAt: Instant, // TODO calculate relative time from
       score: Int,
       user: AppUser
-  )
+  ) derives ReadWriter
   final case class Comment(
       message: Message,
       replies: Map[String, Reply]
-  )
+  ) derives ReadWriter
   object Comment {
     val empty =
       Comment(Message("", "", Instant.EPOCH, 0, AppUser.empty), Map.empty)
@@ -43,7 +45,7 @@ object Models {
   final case class Reply(
       message: Message,
       replyingTo: AppUser
-  )
+  ) derives ReadWriter
   object Reply {
     val empty = Reply(
       Message("", "", Instant.EPOCH, 0, AppUser.empty),
@@ -51,7 +53,11 @@ object Models {
     )
   }
 
-  final case class User(s: String)
+  final case class User(s: String) derives ReadWriter
+
+  given fooReadWrite: ReadWriter[Instant] =
+    readwriter[Long]
+      .bimap[Instant](_.getEpochSecond(), Instant.ofEpochSecond(_))
 
   val hardcoded = AppState(
     userJuliusomo,

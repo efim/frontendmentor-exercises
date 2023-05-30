@@ -33,4 +33,5 @@ lazy val interactiveCommentSection = project.in(file("."))
     libraryDependencies += "io.github.cquiroz" %%% "scala-java-time" % "2.5.0",
     libraryDependencies += "com.softwaremill.quicklens" %%% "quicklens" % "1.9.4",
     libraryDependencies += ("org.scala-js" %%% "scalajs-java-securerandom" % "1.0.0").cross(CrossVersion.for3Use2_13),
+    libraryDependencies += "com.lihaoyi" %%% "upickle" % "3.1.0",
   )

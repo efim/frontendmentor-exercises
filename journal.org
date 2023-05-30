@@ -191,6 +191,9 @@ let's try to do the dialog
 *** TODO make hover on buttons - making them more white
 *** TODO remove "voting" for own messages
 *** TODO add @tag to the replies display.
+** DONE save state into local storage
+let's do it with upickle and json
+
 ** DONE component to reply \ send message could be shared?
 i guess yeah, passing in function on what to submit and where,
 and it could be reused.
@@ -253,3 +256,5 @@ this was because zoom is probably also a macros, and also should just have a get
 #+end_src
 https://tailwindcss.com/docs/background-color#changing-the-opacity
 ** problem: dialog doesn't close on Escape for some reason
+** local storage
+https://www.scala-js.org/api/scalajs-dom/0.6/index.html#org.scalajs.dom.WindowLocalStorage
