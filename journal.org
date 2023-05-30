@@ -258,3 +258,12 @@ https://tailwindcss.com/docs/background-color#changing-the-opacity
 ** problem: dialog doesn't close on Escape for some reason
 ** local storage
 https://www.scala-js.org/api/scalajs-dom/0.6/index.html#org.scalajs.dom.WindowLocalStorage
+** first big interactions with onMount* things
+onMountInsert
+onMountCallback
+
+also ctx.thisNode.ref.focus() access
+
+also html "autofocus" attribute, which is not what i want, or, yeah.
+exactly what i want!
+no, not what I want - when the page loads.

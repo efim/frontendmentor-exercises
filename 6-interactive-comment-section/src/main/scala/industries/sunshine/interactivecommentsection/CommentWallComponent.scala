@@ -90,7 +90,7 @@ object CommentWallComponent {
       className := "pt-2",
       child <-- stateVar.signal
         .map(_.currentUser)
-        .map(curUser => MessageInputUI.render(curUser, Observer.empty, onSubmit(curUser)))
+        .map(curUser => MessageInputUI.render(curUser, Observer.empty, onSubmit(curUser), false))
     )
   }
 }

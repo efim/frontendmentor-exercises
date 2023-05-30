@@ -9,7 +9,8 @@ object MessageInputUI {
   def render(
       selfUser: AppUser,
       shouldShowReply: Observer[Boolean],
-      onSubmit: String => Unit
+      onSubmit: String => Unit,
+      shouldFocus: Boolean,
   ): Element = {
     val replyText = Var("")
     val onTextAreaSubmit = Observer { _ =>
@@ -21,6 +22,7 @@ object MessageInputUI {
       className := "grid grid-cols-3 p-4 pb-0 mt-1 bg-white rounded-lg",
       onInput.mapToValue --> replyText,
       textArea(
+        onMountCallback( ctx => if (shouldFocus) ctx.thisNode.ref.focus()),
         className := "col-span-3 row-start-1 p-3 pl-5 h-24 rounded-lg border text-light-gray",
         placeholder := "Add a comment...",
         controlled(

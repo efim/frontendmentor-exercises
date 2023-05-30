@@ -15,7 +15,7 @@ object MessageComponent {
   ): Element = {
     val isReplyBoxEnabled = Var(false)
     lazy val replyBoxElement =
-      MessageInputUI.render(selfUser, isReplyBoxEnabled.writer, onReplySubmit)
+      MessageInputUI.render(selfUser, isReplyBoxEnabled.writer, onReplySubmit, true)
     lazy val emptyEl = emptyNode
     div(
       renderViewMode(
