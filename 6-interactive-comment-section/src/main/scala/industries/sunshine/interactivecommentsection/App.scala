@@ -28,6 +28,7 @@ object Main {
       className := "w-screen h-max bg-very-light-gray",
       mainTag(
         className := "p-4 pt-8 w-full h-full",
+        className := "lg:flex lg:flex-row lg:justify-center lg:pt-[80px] lg:pb-[80px]",
         CommentWallComponent.render(stateVar)
       ),
       renderAttribution(),

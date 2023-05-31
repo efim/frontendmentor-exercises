@@ -14,6 +14,7 @@ object CommentWallComponent {
     */
   def render(stateVar: Var[AppState]): Element = {
     div(
+      className := "lg:w-[730px]",
       child <-- stateVar.signal
         .map(_.currentUser)
         .map(renderComments(_, stateVar)),
@@ -54,7 +55,7 @@ object CommentWallComponent {
     }
 
     div(
-      className := "flex flex-col space-y-3",
+      className := "flex flex-col space-y-3 lg:space-y-5",
       children <-- stateVar.signal
         .map(_.comments.values.toList.sortBy(_.message.score)(Ordering.Int.reverse))
         .split(_.message.id)((commentId, initial, signal) => {
@@ -87,7 +88,7 @@ object CommentWallComponent {
       )
     }
     div(
-      className := "pt-2",
+      className := "pt-2 lg:pt-5",
       child <-- stateVar.signal
         .map(_.currentUser)
         .map(curUser => MessageInputUI.render(curUser, Observer.empty, onSubmit(curUser), false))

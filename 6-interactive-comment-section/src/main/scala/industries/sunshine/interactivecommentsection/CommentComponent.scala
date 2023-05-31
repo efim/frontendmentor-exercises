@@ -103,11 +103,16 @@ object CommentComponent {
   ): Element = {
     div(
       className := "flex flex-row pt-3",
+      className := "lg:pt-5",
       div(
-        className := "self-stretch pr-3 border-l-2 border-indigo-100 w-[2px]"
+        // would be better done by div "vertical line" in another div
+        // then on mobile could do items-start, on desktop items-center, but let's hack
+        className := "self-stretch pr-3 border-l-2 border-indigo-100 w-[2px]",
+        className := "lg:ml-11 lg:w-11",
       ),
       div(
         className := "flex flex-col gap-y-3 w-full",
+        className := "lg:gap-y-5",
         children <-- commentSignal
           .map(
             _.replies.values.toList.sortBy(_.message.createdAt.toEpochMilli())

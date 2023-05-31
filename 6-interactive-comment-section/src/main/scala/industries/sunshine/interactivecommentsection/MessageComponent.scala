@@ -63,20 +63,25 @@ object MessageComponent {
 
     div(
       className := "grid grid-cols-3 p-4 bg-white rounded-lg",
-      div(
+      className := "lg:pt-4 lg:pt-6 lg:grid-cols-[75px_1fr_1fr]",
+      div( // HEADER
         className := "col-span-3",
+        className := "lg:col-start-2 lg:row-start-1",
         renderHeader(messageSignal, selfUser)
       ),
-      div(
+      div( // TEXT
         className := "col-span-3 col-start-1 py-4 break-words text-light-gray",
+        className := "lg:col-span-2 lg:col-start-2 lg:row-start-2",
         child.text <-- messageSignal.map(_.content)
       ),
-      div(
+      div( // VOTE CONTROL
         className := "col-start-1 row-start-3",
+        className := "lg:col-start-1 lg:row-span-3 lg:row-start-1 lg:p-2",
         renderVotingControls(messageSignal, updateScore)
       ),
-      div(
+      div( // REPLY \ OWN CONTROL
         className := "flex flex-row col-start-3 row-start-3 justify-end",
+        className := "lg:col-start-3 lg:row-start-1",
         child <-- messageSignal
           .map(_.user == selfUser)
           .map(
@@ -212,6 +217,7 @@ object MessageComponent {
         .map(currentScore =>
           div(
             className := "flex flex-row justify-around items-center p-2 rounded-lg w-18 bg-very-light-gray",
+            className := "lg:flex-col lg:w-10 lg:h-24",
             button(
               img(src := "/images/icon-plus.svg", className := "w-3 h-3"),
               onClick --> Observer { _ =>
