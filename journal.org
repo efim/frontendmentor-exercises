@@ -168,7 +168,7 @@ but that function can be initialized by prent container
 
 the Reply window active state, can be hidden in the same Message Component, and opened when activating Reply.
 
-** TODO ok? let's start with writing a Message component,
+** DONE ok? let's start with writing a Message component,
 it would be able to take in different action based on parent, whether it's CommentReply or ReplyReply,
 
 but lots of common logic:
@@ -193,7 +193,11 @@ it would also always be for own
 *** DONE make hover on buttons - making them more white
 done in ugly and partial way. inlining svg would allow it to be styled with css?
 with ="text-blue-500 fill-current"=?
-*** TODO add @tag to the replies display.
+*** CANCELLED add @tag to the replies display.
+you know what! I will not be doing this!
+the design also wants me to bug 'at-tag' into response text field, and what am i to do with them?
+are they editable?
+this is not what I want
 *** CANCELLED remove "voting" for own messages
 ** DONE save state into local storage
 let's do it with upickle and json
@@ -206,6 +210,16 @@ and it could be reused.
 ** DONE component for whole comment section & submit new top level ui
 ** DONE text wrap, when word is longer than element width
 ** DONE submit by ctrl + Enter
+** TODO let's style the desktop version
+** TODO implement relative time
+** TODO for some other time:
+*** TODO implement 'at-tag's
+**** TODO display in the message body as links,
+maybe even go to the place in the page for the thing that got replied to
+it can be both Comment and Reply
+**** TODO put them into edit box. somehow
+and what? are they supposed to be editable?
+*** TODO inline svg, check if they can be color-styled
 * yay, just another minute of searching, and there's function to translate colors
 * using java.time in ScalaJS :
 need dependency
