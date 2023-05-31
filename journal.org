@@ -291,3 +291,46 @@ no, not what I want - when the page loads.
 #+end_src
 
 but actually in design, you should be able to vote for yourself
+* installed webcomponent for relative time, now want a custom tag
+https://github.com/github/relative-time-element
+#+begin_quote
+npm install @github/relative-time-element
+#+end_quote
+** what i want from tag:
+#+begin_src html
+<relative-time datetime="2014-04-01T16:30:00-08:00">
+  April 1, 2014
+</relative-time>
+#+end_src
+
+just name and =datetime= attribute
+** i created tag and attribute:
+  #+begin_src scala
+  val relativeTimeTag = htmlTag("relative-time")
+  val relTimeDatetime = htmlAttr("datetime", StringAsIsCodec)
+  #+end_src
+
+  and then used it:
+        #+begin_src scala
+        div(
+        className := "pl-3 text-light-gray",
+        child <-- messageSignal.map(message => {
+          val scalaInstant = message.createdAt
+          val isoTime =
+            java.time.Instant.ofEpochSecond(scalaInstant.getEpochSecond())
+          relativeTimeTag(
+            scalaInstant.toString().take(10),
+            relTimeDatetime := isoTime.toString()
+          )
+        })
+        #+end_src
+
+** and for some reason i needed:
+  <!-- TODO i have no idea why code doesn't work without it --
+    -- in the console i see 'already-registered' -->
+  <script type="module">
+    import RelativeTimeElement from '/node_modules/@github/relative-time-element/dist/index.js';
+    if (!window.customElements.get('relative-time')) {
+      window.customElements.define('relative-time', RelativeTimeElement);
+    } else { console.log("already-registered") }
+  </script>

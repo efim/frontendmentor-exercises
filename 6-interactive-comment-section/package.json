@@ -14,5 +14,8 @@
     "postcss": "^8.4.23",
     "tailwindcss": "^3.3.2",
     "vite": "^4.3.0"
+  },
+  "dependencies": {
+    "@github/relative-time-element": "^4.3.0"
   }
 }

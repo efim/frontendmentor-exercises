@@ -4,6 +4,14 @@ import com.raquo.laminar.api.L.{*, given}
 import industries.sunshine.interactivecommentsection.Models._
 import com.softwaremill.quicklens._
 import java.time.Instant
+import com.raquo.laminar.tags.HtmlTag
+import com.raquo.laminar.codecs.StringAsIsCodec
+
+import scala.scalajs.js
+import scala.scalajs.js.annotation.*
+@js.native
+@JSImport("@github/relative-time-element", JSImport.Namespace)
+object RelativeTimeElement extends js.Object
 
 object MessageComponent {
   def render(
@@ -183,7 +191,7 @@ object MessageComponent {
         img(
           src := "/images/icon-edit.svg",
           alt := "",
-          className := "mr-1 h-4",
+          className := "mr-1 h-4"
         ),
         onClick --> Observer(_ => onEdit()),
         "Edit"
@@ -245,10 +253,14 @@ object MessageComponent {
     )
   }
 
+
+  val relativeTimeTag = htmlTag("relative-time")
+  val relTimeDatetime = htmlAttr("datetime", StringAsIsCodec)
   private def renderHeader(
       messageSignal: Signal[Message],
       selfUser: AppUser
   ): Element = {
+
     div(
       // TODO for some reason space-x-8 didn't work at all
       className := "flex flex-row items-center",
@@ -278,7 +290,15 @@ object MessageComponent {
       // TODO use relative time library from github?
       div(
         className := "pl-3 text-light-gray",
-        child.text <-- messageSignal.map(_.createdAt.toString().take(10))
+        child <-- messageSignal.map(message => {
+          val scalaInstant = message.createdAt
+          val isoTime =
+            java.time.Instant.ofEpochSecond(scalaInstant.getEpochSecond())
+          relativeTimeTag(
+            scalaInstant.toString().take(10),
+            relTimeDatetime := isoTime.toString()
+          )
+        })
       )
     )
   }

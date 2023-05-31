@@ -17,6 +17,16 @@
 <body>
 
   <div id="app"></div>
+  <!-- TODO i have no idea why code doesn't work without it --
+    -- in the console i see 'already-registered' -->
+  <script type="module">
+    import RelativeTimeElement from '/node_modules/@github/relative-time-element/dist/index.js';
+    if (!window.customElements.get('relative-time')) {
+      window.customElements.define('relative-time', RelativeTimeElement);
+    } else { console.log("already-registered") }
+  </script>
+
+
   <script type="module" src="/main.js"></script>
   <!-- Pull dynamic content from the data.json file -->
   
