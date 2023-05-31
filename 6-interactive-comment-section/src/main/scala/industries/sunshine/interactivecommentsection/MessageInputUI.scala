@@ -23,7 +23,7 @@ object MessageInputUI {
       onInput.mapToValue --> replyText,
       textArea(
         onMountCallback( ctx => if (shouldFocus) ctx.thisNode.ref.focus()),
-        className := "col-span-3 row-start-1 p-3 pl-5 h-24 rounded-lg border text-light-gray",
+        className := "col-span-3 row-start-1 p-3 pl-5 h-24 rounded-lg border outline-none text-light-gray focus:border-moderate-blue",
         placeholder := "Add a comment...",
         controlled(
           value <-- replyText.signal,

@@ -76,7 +76,7 @@ object MessageComponent {
         renderVotingControls(messageSignal, updateScore)
       ),
       div(
-        className := "col-start-3 row-start-3 justify-end flex flex-row",
+        className := "flex flex-row col-start-3 row-start-3 justify-end",
         child <-- messageSignal
           .map(_.user == selfUser)
           .map(
@@ -97,7 +97,8 @@ object MessageComponent {
   ): Element = {
 
     val textInput = textArea(
-      className := "col-span-3 col-start-1 py-4 break-words text-light-gray",
+      className := "col-span-3 col-start-1 py-3 px-4 my-4 break-words text-light-gray",
+      className := "rounded-lg border outline-none focus:border-moderate-blue",
       value <-- messageSignal.map(_.content),
       onMountFocus
     )
@@ -110,11 +111,11 @@ object MessageComponent {
       ),
       textInput,
       div(
-        className := "col-start-3 row-start-3 justify-end flex flex-row",
+        className := "flex flex-row col-start-3 row-start-3 justify-end",
         renderOwnControls(onDelete, () => textInput.ref.focus())
       ),
       button(
-        className := "flex flex-row justify-end items-center pr-2 h-full font-semibold text-moderate-blue",
+        className := "w-24 h-10 font-semibold text-white rounded-lg bg-moderate-blue",
         onClick --> Observer(_ => {
           onMessageSubmit(textInput.ref.value)
           disableEditMode()
@@ -129,10 +130,10 @@ object MessageComponent {
       onEdit: () => Unit
   ): Element = {
     val deletionDialog = dialogTag(
-      className := "backdrop:bg-black/50 text-light-gray rounded-lg p-7",
+      className := "p-7 rounded-lg backdrop:bg-black/50 text-light-gray",
       form(
         method := "dialog",
-        p("Delete comment", className := "text-xl font-semibold pb-3"),
+        p("Delete comment", className := "pb-3 text-xl font-semibold"),
         p(
           className := "",
           "Are you sure you want to delete this comment? This will remove the comment and can't be undone."
@@ -140,13 +141,13 @@ object MessageComponent {
         div(
           className := "flex flex-row justify-between pt-3",
           button(
-            className := "h-12 rounded-lg bg-light-gray text-white font-semibold w-full mr-3",
+            className := "mr-3 w-full h-12 font-semibold text-white rounded-lg bg-light-gray",
             `type` := "submit",
             onClick --> Observer(_ => println("cancelling")),
             "NO, CANCEL"
           ),
           button(
-            className := "h-12 rounded-lg bg-soft-red text-white font-semibold w-full",
+            className := "w-full h-12 font-semibold text-white rounded-lg bg-soft-red",
             `type` := "submit",
             onClick --> Observer(_ => onDelete()),
             onClick --> Observer(_ => println("submittign form")),
@@ -160,21 +161,21 @@ object MessageComponent {
       className := "flex flex-row items-center",
       deletionDialog,
       button(
-        className := "flex flex-row font-bold text-soft-red items-center mr-7 text-sm",
+        className := "flex flex-row items-center mr-7 text-sm font-bold text-soft-red",
         img(
           src := "/images/icon-delete.svg",
           alt := "",
-          className := "h-4 mr-1"
+          className := "mr-1 h-4"
         ),
         onClick --> Observer(_ => deletionDialog.ref.showModal()),
         "Delete"
       ),
       button(
-        className := "flex flex-row font-bold text-moderate-blue items-center mr-5 text-sm",
+        className := "flex flex-row items-center mr-5 text-sm font-bold text-moderate-blue",
         img(
           src := "/images/icon-edit.svg",
           alt := "",
-          className := "h-4 mr-1"
+          className := "mr-1 h-4"
         ),
         onClick --> Observer(_ => onEdit()),
         "Edit"
