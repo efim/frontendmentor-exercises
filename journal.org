@@ -187,12 +187,14 @@ https://blog.webdevsimplified.com/2023-04/html-dialog/
 let's try to do the dialog
 **** done for top level without modal
 **** how do i do this with modal?
-*** TODO functionality to edit - swap body with form
+*** DONE functionality to edit - swap body with form
 yeah. let's just do a bit somewhat copy?
 it would also always be for own
-*** TODO make hover on buttons - making them more white
-*** CANCELLED remove "voting" for own messages
+*** DONE make hover on buttons - making them more white
+done in ugly and partial way. inlining svg would allow it to be styled with css?
+with ="text-blue-500 fill-current"=?
 *** TODO add @tag to the replies display.
+*** CANCELLED remove "voting" for own messages
 ** DONE save state into local storage
 let's do it with upickle and json
 
@@ -246,7 +248,7 @@ this was because zoom is probably also a macros, and also should just have a get
       className := "flex flex-row items-center",
       deletionDialog, // put dialog into dom
       button(
-        className := "flex flex-row font-bold text-soft-red items-center mr-7 text-sm",
+        className := "flex flex-row items-center mr-7 text-sm font-bold text-soft-red",
         onClick --> Observer(_ => deletionDialog.ref.showModal()), // acces dom ref, it's already typed. wow
         "Delete"
       ),

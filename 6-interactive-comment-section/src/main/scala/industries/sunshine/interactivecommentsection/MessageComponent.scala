@@ -116,6 +116,7 @@ object MessageComponent {
       ),
       button(
         className := "w-24 h-10 font-semibold text-white rounded-lg bg-moderate-blue",
+        className := "hover:bg-light-grayish-blue",
         onClick --> Observer(_ => {
           onMessageSubmit(textInput.ref.value)
           disableEditMode()
@@ -162,6 +163,7 @@ object MessageComponent {
       deletionDialog,
       button(
         className := "flex flex-row items-center mr-7 text-sm font-bold text-soft-red",
+        className := "hover:text-pale-red",
         img(
           src := "/images/icon-delete.svg",
           alt := "",
@@ -172,10 +174,11 @@ object MessageComponent {
       ),
       button(
         className := "flex flex-row items-center mr-5 text-sm font-bold text-moderate-blue",
+        className := "hover:text-light-grayish-blue",
         img(
           src := "/images/icon-edit.svg",
           alt := "",
-          className := "mr-1 h-4"
+          className := "mr-1 h-4",
         ),
         onClick --> Observer(_ => onEdit()),
         "Edit"
@@ -188,6 +191,7 @@ object MessageComponent {
   ): Element = {
     button(
       className := "flex flex-row justify-end items-center pr-2 h-full font-semibold text-moderate-blue",
+      className := "hover:text-light-grayish-blue",
       img(
         src := "/images/icon-reply.svg",
         className := "pr-2"

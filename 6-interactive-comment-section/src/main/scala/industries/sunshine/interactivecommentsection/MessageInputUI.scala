@@ -45,6 +45,7 @@ object MessageInputUI {
         className := "flex col-start-3 justify-end items-center h-20",
         button(
           className := "w-24 h-12 font-semibold text-white rounded-lg bg-moderate-blue",
+          className := "hover:bg-light-grayish-blue",
           onClick --> onTextAreaSubmit,
           "SEND"
         )
