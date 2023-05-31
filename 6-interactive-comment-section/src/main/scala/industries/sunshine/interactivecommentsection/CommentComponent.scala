@@ -40,10 +40,22 @@ object CommentComponent {
       }
       updateComment(changeCommentScore)
     }
+    def onCommentMessageTextUpdate(newText: String): Unit = {
+      val changeCommentScore: Comment => Comment = comment => {
+        comment.modify(_.message.content).setTo(newText)
+      }
+      updateComment(changeCommentScore)
+    }
 
     def onReplyScoreUpdate(replyId: String)(newScore: Int): Unit = {
       val changeReployScore: Comment => Comment = comment => {
         comment.modify(_.replies.index(replyId).message.score).setTo(newScore)
+      }
+      updateComment(changeReployScore)
+    }
+    def onReplyMessageTextUpdate(replyId: String)(newText: String): Unit = {
+      val changeReployScore: Comment => Comment = comment => {
+        comment.modify(_.replies.index(replyId).message.content).setTo(newText)
       }
       updateComment(changeReployScore)
     }
@@ -60,6 +72,7 @@ object CommentComponent {
         commentSignal.map(_.message),
         currentUser,
         onCommentScoreUpdate,
+        onCommentMessageTextUpdate,
         onReplySubmit,
         deleteComment
       ),
@@ -72,6 +85,7 @@ object CommentComponent {
               commentSignal,
               currentUser,
               onReplyScoreUpdate,
+              onReplyMessageTextUpdate,
               onReplySubmit,
               onReplyDelete
             )
@@ -83,6 +97,7 @@ object CommentComponent {
       commentSignal: Signal[Comment],
       currentUser: AppUser,
       updateScore: String => Int => Unit,
+      updateMessageText: String => String => Unit,
       onReplySubmit: String => Unit,
       onReplyDelete: String => () => Unit,
   ): Element = {
@@ -97,13 +112,14 @@ object CommentComponent {
           .map(
             _.replies.values.toList.sortBy(_.message.createdAt.toEpochMilli())
           )
-          .split(_.message.id)((key, initial, signal) => {
+          .split(_.message.id)((replyUid, initial, signal) => {
             MessageComponent.render(
               signal.map(_.message),
               currentUser,
-              updateScore(key),
+              updateScore(replyUid),
+              updateMessageText(replyUid),
               onReplySubmit,
-              onReplyDelete(key),
+              onReplyDelete(replyUid),
             )
           })
       )

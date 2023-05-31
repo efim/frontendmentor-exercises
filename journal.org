@@ -188,6 +188,8 @@ let's try to do the dialog
 **** done for top level without modal
 **** how do i do this with modal?
 *** TODO functionality to edit - swap body with form
+yeah. let's just do a bit somewhat copy?
+it would also always be for own
 *** TODO make hover on buttons - making them more white
 *** CANCELLED remove "voting" for own messages
 *** TODO add @tag to the replies display.

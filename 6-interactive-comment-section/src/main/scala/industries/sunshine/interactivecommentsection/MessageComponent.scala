@@ -10,21 +10,42 @@ object MessageComponent {
       messageSignal: Signal[Message],
       selfUser: AppUser,
       updateScore: Int => Unit,
+      updateMessageText: String => Unit,
       onReplySubmit: String => Unit,
       onDelete: () => Unit
   ): Element = {
     val isReplyBoxEnabled = Var(false)
+    val isEditModeEnabled = Var(false)
     lazy val replyBoxElement =
-      MessageInputUI.render(selfUser, isReplyBoxEnabled.writer, onReplySubmit, true)
-    lazy val emptyEl = emptyNode
-    div(
-      renderViewMode(
-        messageSignal,
+      MessageInputUI.render(
         selfUser,
         isReplyBoxEnabled.writer,
-        updateScore,
-        onDelete
-      ),
+        onReplySubmit,
+        true
+      )
+    lazy val emptyEl = emptyNode
+    def enableEditMode(): Unit = {
+      println("enabling edit")
+      isEditModeEnabled.writer.onNext(true)
+    }
+    lazy val viewMode = renderViewMode(
+      messageSignal,
+      selfUser,
+      isReplyBoxEnabled.writer,
+      updateScore,
+      onDelete,
+      enableEditMode
+    )
+    lazy val editMode = renderEditMode(
+      messageSignal,
+      selfUser,
+      updateMessageText,
+      onDelete,
+      () => isEditModeEnabled.writer.onNext(false)
+    )
+
+    div(
+      child <-- isEditModeEnabled.signal.map(if (_) editMode else viewMode),
       child <-- isReplyBoxEnabled.signal.map(
         if (_) replyBoxElement else emptyEl
       )
@@ -36,7 +57,8 @@ object MessageComponent {
       selfUser: AppUser,
       shouldShowReplyWindow: Observer[Boolean],
       updateScore: Int => Unit,
-      onDelete: () => Unit
+      onDelete: () => Unit,
+      enableEditMode: () => Unit
   ): Element = {
 
     div(
@@ -58,15 +80,53 @@ object MessageComponent {
         child <-- messageSignal
           .map(_.user == selfUser)
           .map(
-            if (_) renderOwnControls(onDelete)
+            if (_) renderOwnControls(onDelete, enableEditMode)
             else renderReplyButton(shouldShowReplyWindow)
           )
       )
     )
   }
 
+  // this is with technical debt, not passing whole selfUser would be better
+  def renderEditMode(
+      messageSignal: Signal[Message],
+      selfUser: AppUser,
+      onMessageSubmit: String => Unit,
+      onDelete: () => Unit,
+      disableEditMode: () => Unit
+  ): Element = {
+
+    val textInput = textArea(
+      className := "col-span-3 col-start-1 py-4 break-words text-light-gray",
+      value <-- messageSignal.map(_.content),
+      onMountFocus
+    )
+
+    div(
+      className := "grid grid-cols-3 p-4 bg-white rounded-lg",
+      div(
+        className := "col-span-3",
+        renderHeader(messageSignal, selfUser)
+      ),
+      textInput,
+      div(
+        className := "col-start-3 row-start-3 justify-end flex flex-row",
+        renderOwnControls(onDelete, () => textInput.ref.focus())
+      ),
+      button(
+        className := "flex flex-row justify-end items-center pr-2 h-full font-semibold text-moderate-blue",
+        onClick --> Observer(_ => {
+          onMessageSubmit(textInput.ref.value)
+          disableEditMode()
+        }),
+        "UPDATE"
+      )
+    )
+  }
+
   private def renderOwnControls(
-      onDelete: () => Unit
+      onDelete: () => Unit,
+      onEdit: () => Unit
   ): Element = {
     val deletionDialog = dialogTag(
       className := "backdrop:bg-black/50 text-light-gray rounded-lg p-7",
@@ -75,7 +135,8 @@ object MessageComponent {
         p("Delete comment", className := "text-xl font-semibold pb-3"),
         p(
           className := "",
-          "Are you sure you want to delete this comment? This will remove the comment and can't be undone."),
+          "Are you sure you want to delete this comment? This will remove the comment and can't be undone."
+        ),
         div(
           className := "flex flex-row justify-between pt-3",
           button(
@@ -90,8 +151,8 @@ object MessageComponent {
             onClick --> Observer(_ => onDelete()),
             onClick --> Observer(_ => println("submittign form")),
             "YES, DELETE"
-          ),
-        ),
+          )
+        )
       )
     )
 
@@ -115,6 +176,7 @@ object MessageComponent {
           alt := "",
           className := "h-4 mr-1"
         ),
+        onClick --> Observer(_ => onEdit()),
         "Edit"
       )
     )
