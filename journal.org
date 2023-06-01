@@ -210,8 +210,8 @@ and it could be reused.
 ** DONE component for whole comment section & submit new top level ui
 ** DONE text wrap, when word is longer than element width
 ** DONE submit by ctrl + Enter
-** TODO let's style the desktop version
-** TODO implement relative time
+** DONE let's style the desktop version
+** DONE implement relative time
 ** TODO for some other time:
 *** TODO implement 'at-tag's
 **** TODO display in the message body as links,
@@ -334,3 +334,35 @@ just name and =datetime= attribute
       window.customElements.define('relative-time', RelativeTimeElement);
     } else { console.log("already-registered") }
   </script>
+** submitting: Grid, Tailwind, Webcomponent in ScalaJS & Laminar with Vite
+Now, this was an increase in complexity!
+
+Few things are undone:
+1) Not fully understanding reasons for needing "registration" a relative-time webcomponent in my `index.html` - specifically because log shows "already registered", so code does nothing? But without it things don't work.
+2) Changing color of SVG elements, maybe it's easy if I inline them as code
+3) Not adding '@' tag to replies.
+   current component hierarcy makes it awkward to conditionally display '@' in replies and not in top level comments,
+   also - in the "edit" mode, design docs are not detailed enough to explain presence of '@user' - is it editable? what happens when it's edited?
+
+Note: code would be a lot simpler in a full-stack app.
+With laminar I can propagate Stream of app state to all components, from the server websocket that sends all updates, so no callbacks to register state chages from the child components would be necessary, only doing http requests to api from the child components.
+
+Things done:
+1. Message component
+   - display message, author, score
+   - functionality for reply
+   - checking and displaying if OWN
+   - functionality to delete - create modal
+     https://blog.webdevsimplified.com/2023-04/html-dialog/
+   - functionality to edit - swap body with form
+   - make hover on buttons - making them more white
+2. save state into local storage
+   with easy serialization into JSON
+3. component to reply \ send message could be shared?
+4. component for Whole Comment with Replies
+5. component for all comments
+6. component for whole comment section & submit new top level ui
+7. text wrap, when word is longer than element width
+8. submit by ctrl + Enter
+9. let's style the desktop version
+10. add relative time webcomponent
