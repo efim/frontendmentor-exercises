@@ -32,7 +32,7 @@ Users should be able to:
 :PROPERTIES:
 :CUSTOM_ID: screenshot
 :END:
-[[./screenshot.png][screenshot]]
+[[./screenshot.png]]
 
 *** Links
 :PROPERTIES:
