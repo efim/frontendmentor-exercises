@@ -183,7 +183,7 @@ or just store 2 lists of IDs, who upvoted and who downvoted and allow re-voting
 as separate component, ok
 *** DONE checking and displaying if OWN
 *** DONE functionality to delete - create modal, and also call function from parent?
-https://blog.webdevsimplified.com/2023-04/html-dialog/
+https://blog.webdevsimp lified.com/2023-04/html-dialog/
 let's try to do the dialog
 **** done for top level without modal
 **** how do i do this with modal?
@@ -334,7 +334,7 @@ just name and =datetime= attribute
       window.customElements.define('relative-time', RelativeTimeElement);
     } else { console.log("already-registered") }
   </script>
-** submitting: Grid, Tailwind, Webcomponent in ScalaJS & Laminar with Vite
+* submitting: Grid, Tailwind, Webcomponent in ScalaJS & Laminar with Vite
 Now, this was an increase in complexity!
 
 Few things are undone:
