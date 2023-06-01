@@ -145,11 +145,12 @@ object MessageComponent {
   ): Element = {
     val deletionDialog = dialogTag(
       className := "p-7 rounded-lg backdrop:bg-black/50 text-light-gray",
+      className := "lg:w-[400px] lg:h-[260px] ",
       form(
         method := "dialog",
-        p("Delete comment", className := "pb-3 text-xl font-semibold"),
+        p("Delete comment", className := "pb-3 text-xl font-semibold lg:text-2xl "),
         p(
-          className := "",
+          className := "lg:mb-4",
           "Are you sure you want to delete this comment? This will remove the comment and can't be undone."
         ),
         div(
