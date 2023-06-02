@@ -148,7 +148,10 @@ object MessageComponent {
       className := "lg:w-[400px] lg:h-[260px] ",
       form(
         method := "dialog",
-        p("Delete comment", className := "pb-3 text-xl font-semibold lg:text-2xl "),
+        p(
+          "Delete comment",
+          className := "pb-3 text-xl font-semibold lg:text-2xl "
+        ),
         p(
           className := "lg:mb-4",
           "Are you sure you want to delete this comment? This will remove the comment and can't be undone."
@@ -208,7 +211,8 @@ object MessageComponent {
       className := "hover:text-light-grayish-blue",
       img(
         src := "/images/icon-reply.svg",
-        className := "pr-2"
+        className := "pr-2",
+        alt := ""
       ),
       onClick --> Observer(_ => shouldShowReplyWindow.onNext(true)),
       "Reply"
@@ -228,7 +232,11 @@ object MessageComponent {
             className := "flex flex-row justify-around items-center p-2 rounded-lg w-18 bg-very-light-gray",
             className := "lg:flex-col lg:w-10 lg:h-24",
             button(
-              img(src := "/images/icon-plus.svg", className := "w-3 h-3"),
+              img(
+                src := "/images/icon-plus.svg",
+                className := "w-3 h-3",
+                alt := "upvote this message"
+              ),
               onClick --> Observer { _ =>
                 println("upvoting")
                 // actual application would flatmap into Fetch.put to retister vote with backend
@@ -243,7 +251,11 @@ object MessageComponent {
               child.text <-- messageSignal.map(_.score)
             ),
             button(
-              img(src := "/images/icon-minus.svg", className := "w-3 h-1"),
+              img(
+                src := "/images/icon-minus.svg",
+                className := "w-3 h-1",
+                alt := "downvote this message"
+              ),
               onClick --> Observer { _ =>
                 println("downvoting")
                 updateScore(currentScore - 1)
@@ -253,7 +265,6 @@ object MessageComponent {
         )
     )
   }
-
 
   val relativeTimeTag = htmlTag("relative-time")
   val relTimeDatetime = htmlAttr("datetime", StringAsIsCodec)
@@ -273,7 +284,7 @@ object MessageComponent {
           alt := ""
         )
       ),
-      div(
+      h1(
         className := "font-semibold",
         child.text <-- messageSignal.map(_.user.username)
       ),

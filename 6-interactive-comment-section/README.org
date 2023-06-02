@@ -284,14 +284,15 @@ className := "backdrop:bg-light-gray/75",
 :CUSTOM_ID: continued-development
 :END:
 In future studies, I'd want to:
-a) Better breakdown into components.
+1. Better breakdown into components.
    current solution seems bogged down in the "MessageComponent",
    with bits of differences between "Comment" and "Reply" encoded as conditionals based on the constructor arguments.
-b) Better understanding of when to pass in Stream, and when - single element.
+2. Better understanding of when to pass in Stream, and when - single element.
    or simpler way to "peek" at current stream value, like "currentUser" so that it could be used in all bindings of component.
-c) More use of webcomponents. Better understanding of their initialization, integration of more complex components into Laminar.
+3. More use of webcomponents. Better understanding of their initialization, integration of more complex components into Laminar.
    Maybe something "draggable" or something.
-d) Maybe learn how to do testing?
+4. Would be nice to have Comment Messages be <h1> and reply messages be <h2>
+5. Maybe learn how to do testing?
 
 ** Acknowledgments
 :PROPERTIES:

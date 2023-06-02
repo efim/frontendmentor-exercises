@@ -220,6 +220,7 @@ it can be both Comment and Reply
 **** TODO put them into edit box. somehow
 and what? are they supposed to be editable?
 *** TODO inline svg, check if they can be color-styled
+** TODO [#A] fix accessibility report errors
 * yay, just another minute of searching, and there's function to translate colors
 * using java.time in ScalaJS :
 need dependency
@@ -366,3 +367,4 @@ Things done:
 8. submit by ctrl + Enter
 9. let's style the desktop version
 10. add relative time webcomponent
+* article about Frontendmentor to reference sometime : https://medium.com/frontend-mentor/how-to-get-the-most-out-of-frontend-mentor-bdd6fdc25cb8
