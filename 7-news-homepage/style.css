@@ -2,3 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+    font-size: 15px;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('/assets/fonts/static/Inter-Regular.ttf') format('truetype'),
+       url('/assets/fonts/static/Inter-Bold.ttf') format('truetype'),
+       url('/assets/fonts/static/Inter-ExtraBold.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}

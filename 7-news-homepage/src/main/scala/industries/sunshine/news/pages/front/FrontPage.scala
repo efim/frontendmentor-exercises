@@ -24,6 +24,7 @@ object Main {
 
   def page(): Element = {
     div(
+      className := "font-inter",
       """
   Home
   New
