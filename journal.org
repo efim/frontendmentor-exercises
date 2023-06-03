@@ -368,3 +368,7 @@ Things done:
 9. let's style the desktop version
 10. add relative time webcomponent
 * article about Frontendmentor to reference sometime : https://medium.com/frontend-mentor/how-to-get-the-most-out-of-frontend-mentor-bdd6fdc25cb8
+* starting task 7
+https://www.frontendmentor.io/challenges/news-homepage-H6SWTa1MFl/hub
+and I'm downgrading to Junior
+i guess this is more about html and css
