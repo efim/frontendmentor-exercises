@@ -27,7 +27,8 @@ object Main {
   def page(appStateSignal: Signal[FrontPageState]): Element = {
     div(
       className := "p-4 font-inter",
-      FeaturedStoryComponent.render(appStateSignal.map(_.headliner))
+      NewStoriesComponent.render(appStateSignal.map(_.newArticles))
+      // FeaturedStoryComponent.render(appStateSignal.map(_.headliner))
     )
   }
 
