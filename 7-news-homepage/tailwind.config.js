@@ -17,6 +17,9 @@ export default {
         'dark-grayish-blue': 'hsl(236, 13%, 42%)',
         'very-dark-blue': 'hsl(240, 100%, 5%)',
       },
+      gridTemplateColumns: {
+        'content': 'repeat(auto-fit, minmax(var(--col-min-width), 1fr))',
+      },
     },
   },
   plugins: [],

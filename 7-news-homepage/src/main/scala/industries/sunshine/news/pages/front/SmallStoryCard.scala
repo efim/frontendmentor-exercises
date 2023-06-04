@@ -9,7 +9,7 @@ object SmallStoryCard {
           .map((story, index) => story -> (index + 1)).map(render)
   }
 
-  def render(storyInfo: (StoryCard, Int)): Element = {
+  def render(storyInfo: (StoryCard, Int)) = {
     val (story, index) = storyInfo
     div(
       className := "grid gap-5 grid-cols-[1fr_2fr]",

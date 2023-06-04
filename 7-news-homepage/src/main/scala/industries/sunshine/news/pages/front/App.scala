@@ -19,7 +19,7 @@ object Main {
   def appElement(): Element =
     val appState = Models.hardcoded
     div(
-      className := "relative w-screen h-screen bg-off-white",
+      className := "relative pb-4 w-full h-full bg-off-white",
       page(appState),
       renderAttribution()
     )
@@ -27,9 +27,18 @@ object Main {
   def page(appStateSignal: FrontPageState): Element = {
     div(
       className := "p-4 font-inter",
-      className := "md:grid md:pt-40 md:grid-cols-[minmax(0,_20%)_1fr_minmax(0,_20%)]",
-      renderContent(appStateSignal).amend(
-        className := "col-start-2 row-start-2"
+      // this doesn't prefer decreasing empty space as much as i want.
+      // className := "md:grid md:pt-40 md:grid-cols-[minmax(0,_20%)_1fr_minmax(0,_20%)]",
+      // let's try to get left and right empty space with flex-box
+      className := "flex flex-row justify-center",
+      div(
+        className := "max-w-screen-xl width-full",
+        PageHeader.render()
+          .amend(className := "col-start-2"),
+        renderContent(appStateSignal)
+          .amend(
+            className := "col-start-2 row-start-2"
+          )
       )
     )
   }
@@ -40,7 +49,7 @@ object Main {
         className := "inline-grid gap-8",
         // could have been repeate(auto-fit but then sometimes > 3 columns
         // could have been good to get automatically moved new items on middle devices
-        className := "md:grid-cols-[repeat(3,_minmax(var(--col-min-width),_1fr))]",
+        className := "md:grid-cols-content",
         FeaturedStoryComponent
           .render(appStateSignal.headliner)
           .amend(
@@ -49,18 +58,18 @@ object Main {
         NewStoriesComponent
           .render(appStateSignal.newArticles)
           .amend(className := "my-8 md:my-0"),
-        SmallStoryCard.renderList(appStateSignal.recommended)
+        SmallStoryCard
+          .renderList(appStateSignal.recommended).map(card =>
+          div(
+            // NOTE: wow, this is the reason for new stories not to get transferred to row 2
+            // why would that be?
+            // className := "md:row-start-2",
+            // right now just by flex & max-width kind of assuring that not small cards are getting into top row
+            card
+          ))
       )
     )
   }
-
-  def renderHeader() = div("""
-  Home
-  New
-  Popular
-  Trending
-  Categories
-""")
 
   def renderAttribution(): Element = {
     footerTag(
