@@ -395,6 +395,8 @@ and small stories can just be directly in the grid with 1fr height and 1fr width
 **** TODO header
 ***** TODO mobile menu
 **** TODO overall page grid
+*** vertical
+maybe 170 per row and 60 gap?
 
 * adding downloaded fonts to TailwindCSS
 ** import them in =style.css=

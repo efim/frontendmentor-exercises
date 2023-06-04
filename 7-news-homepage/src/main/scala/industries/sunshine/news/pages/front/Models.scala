@@ -41,17 +41,17 @@ object Models {
       StoryCard(
         "Reviving Retro PCs",
         "What happens when old PCs are given modern upgrades?",
-        "url"
+        "/images/image-retro-pcs.jpg"
       ),
       StoryCard(
         "Top 10 Laptops of 2022",
         "Our best picks for various needs and budgets.",
-        "url"
+        "/images/image-top-laptops.jpg"
       ),
       StoryCard(
         "The Growth of Gaming",
         "How the pandemic has sparked fresh opportunities.",
-        "url"
+        "/images/image-gaming-growth.jpg"
       )
     )
   )

@@ -27,8 +27,30 @@ object Main {
   def page(appStateSignal: FrontPageState): Element = {
     div(
       className := "p-4 font-inter",
-      NewStoriesComponent.render(appStateSignal.newArticles),
-      // FeaturedStoryComponent.render(appStateSignal.headliner),
+      className := "md:grid md:pt-40 md:grid-cols-[minmax(0,_20%)_1fr_minmax(0,_20%)]",
+      renderContent(appStateSignal).amend(
+        className := "col-start-2 row-start-2"
+      )
+    )
+  }
+
+  private def renderContent(appStateSignal: FrontPageState) = {
+    div(
+      div(
+        className := "inline-grid gap-8",
+        // could have been repeate(auto-fit but then sometimes > 3 columns
+        // could have been good to get automatically moved new items on middle devices
+        className := "md:grid-cols-[repeat(3,_minmax(var(--col-min-width),_1fr))]",
+        FeaturedStoryComponent
+          .render(appStateSignal.headliner)
+          .amend(
+            className := "md:col-span-2"
+          ),
+        NewStoriesComponent
+          .render(appStateSignal.newArticles)
+          .amend(className := "my-8 md:my-0"),
+        SmallStoryCard.renderList(appStateSignal.recommended)
+      )
     )
   }
 

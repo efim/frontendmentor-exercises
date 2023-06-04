@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 :root {
-    --col-min-width: 300px;
+    --col-min-width: 350px;
 }
 
 html {

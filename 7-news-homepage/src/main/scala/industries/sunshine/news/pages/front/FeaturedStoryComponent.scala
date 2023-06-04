@@ -12,7 +12,7 @@ object FeaturedStoryComponent {
    * header (grid height 2) below on the left, description on the right
    *
    */
-  def render(featuredStorySignal: StoryCard): Element = {
+  def render(featuredStorySignal: StoryCard) = {
     div(
       className := "grid grid-cols-[minmax(var(--col-min-width),_1fr)]",
       className := "md:grid-cols-[repeat(2,_minmax(var(--col-min-width),_1fr))]",
