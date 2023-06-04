@@ -19,19 +19,18 @@ object PageHeader {
     lazy val desktopMenu = renderDesktopControls()
 
     div(
-      className := "flex flex-row items-center h-14",
+      className := "flex flex-row items-center py-8 h-14",
       div(
         className := "flex-1",
         img(
           src := "/images/logo.svg",
           alt := "Company logo - letter 'W'",
-          className := "w-12",
-        ),
+          className := "w-12"
+        )
       ),
       div(
-        child <-- isMobileSignal.map( if (_) mobileMenu else desktopMenu)
+        child <-- isMobileSignal.map(if (_) mobileMenu else desktopMenu)
       )
-
     )
   }
 
@@ -42,11 +41,12 @@ object PageHeader {
     )
   )
 
-  private def renderDesktopControls() = div("""
-  Home
-  New
-  Popular
-  Trending
-  Categories
-""")
+  private def renderDesktopControls() = div(
+    className := "grid grid-flow-col space-x-10 text-lg text-dark-grayish-blue",
+    a(href := "", "Home"),
+    a(href := "", "New"),
+    a(href := "", "Popular"),
+    a(href := "", "Trending"),
+    a(href := "", "Categories")
+  )
 }

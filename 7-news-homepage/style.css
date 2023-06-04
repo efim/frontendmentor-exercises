@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 :root {
-    --col-min-width: 350px;
+    --col-min-width: 300px;
 }
 
 html {
@@ -30,3 +30,7 @@ html {
   font-weight: 800; /* ExtraBold */
   font-style: normal;
 }
+
+/* div { */
+/*     outline: 1px solid red; */
+/* } */

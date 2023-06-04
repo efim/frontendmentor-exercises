@@ -447,3 +447,4 @@ export default {
       " Home "
     )
 #+end_src
+* ok, i found out that I can just add hsl colors into Tailwind config =)

@@ -30,9 +30,9 @@ object Main {
       // this doesn't prefer decreasing empty space as much as i want.
       // className := "md:grid md:pt-40 md:grid-cols-[minmax(0,_20%)_1fr_minmax(0,_20%)]",
       // let's try to get left and right empty space with flex-box
-      className := "flex flex-row justify-center",
+      className := "flex flex-col items-center",
       div(
-        className := "max-w-screen-xl width-full",
+        className := "space-y-4 max-w-[1100px] width-full",
         PageHeader.render(),
         renderContent(appStateSignal),
       )
