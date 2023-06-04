@@ -33,20 +33,15 @@ object Main {
       className := "flex flex-row justify-center",
       div(
         className := "max-w-screen-xl width-full",
-        PageHeader.render()
-          .amend(className := "col-start-2"),
-        renderContent(appStateSignal)
-          .amend(
-            className := "col-start-2 row-start-2"
-          )
+        PageHeader.render(),
+        renderContent(appStateSignal),
       )
     )
   }
 
   private def renderContent(appStateSignal: FrontPageState) = {
     div(
-      div(
-        className := "inline-grid gap-8",
+        className := "grid gap-8",
         // could have been repeate(auto-fit but then sometimes > 3 columns
         // could have been good to get automatically moved new items on middle devices
         className := "md:grid-cols-content",
@@ -68,7 +63,7 @@ object Main {
             card
           ))
       )
-    )
+
   }
 
   def renderAttribution(): Element = {

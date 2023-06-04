@@ -389,9 +389,9 @@ i could have named areas, but i guess just direct order is good enough?
 big elements seem to always be 3 rowh in height
 and small stories can just be directly in the grid with 1fr height and 1fr width
 *** TODO i'll need separate components for:
-**** TODO main story & picture, can be Grid
-**** TODO small story & picture, can be Gric
-**** TODO the New column, can just be in same file as 'new story' component
+**** DONE main story & picture, can be Grid
+**** DONE small story & picture, can be Gric
+**** DONE the New column, can just be in same file as 'new story' component
 **** TODO header
 ***** TODO mobile menu
 **** TODO overall page grid
