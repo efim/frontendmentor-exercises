@@ -17,18 +17,18 @@ def App(): Unit =
 
 object Main {
   def appElement(): Element =
-    val appState = Var(Models.hardcoded)
+    val appState = Models.hardcoded
     div(
       className := "relative w-screen h-screen bg-off-white",
-      page(appState.signal),
+      page(appState),
       renderAttribution()
     )
 
-  def page(appStateSignal: Signal[FrontPageState]): Element = {
+  def page(appStateSignal: FrontPageState): Element = {
     div(
       className := "p-4 font-inter",
-      NewStoriesComponent.render(appStateSignal.map(_.newArticles))
-      // FeaturedStoryComponent.render(appStateSignal.map(_.headliner))
+      NewStoriesComponent.render(appStateSignal.newArticles),
+      // FeaturedStoryComponent.render(appStateSignal.headliner),
     )
   }
 

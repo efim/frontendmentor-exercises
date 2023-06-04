@@ -4,7 +4,7 @@ import com.raquo.laminar.api.L.{*, given}
 import industries.sunshine.news.pages.front.Models.StoryCard
 
 object NewStoriesComponent {
-  def render(newStories: Signal[List[StoryCard]]): Element = {
+  def render(newStories: List[StoryCard]): Element = {
     div(
       className := "p-5 bg-very-dark-blue",
       h1(
@@ -20,11 +20,11 @@ object NewStoriesComponent {
     )
   }
 
-  private def renderStoryHeadline(storySignal: Signal[StoryCard]): Element = {
+  private def renderStoryHeadline(storySignal: StoryCard): Element = {
         div(
           className := "grid",
-          h1(child.text <-- storySignal.map(_.title)),
-          p(child.text <-- storySignal.map(_.description)),
+          h1( storySignal.title),
+          p( storySignal.description),
         )
   }
 }

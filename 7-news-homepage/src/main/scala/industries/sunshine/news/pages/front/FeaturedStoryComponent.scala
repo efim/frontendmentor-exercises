@@ -12,7 +12,7 @@ object FeaturedStoryComponent {
    * header (grid height 2) below on the left, description on the right
    *
    */
-  def render(featuredStorySignal: Signal[StoryCard]): Element = {
+  def render(featuredStorySignal: StoryCard): Element = {
     div(
       className := "grid grid-cols-[minmax(var(--col-min-width),_1fr)]",
       className := "md:grid-cols-[repeat(2,_minmax(var(--col-min-width),_1fr))]",
@@ -20,18 +20,18 @@ object FeaturedStoryComponent {
         className := "w-full h-[300px]",
         className := "md:col-span-2",
         img(
-          src <-- featuredStorySignal.map(_.illustrationUrl),
+          src := featuredStorySignal.illustrationUrl,
           alt := "",
           className := "object-cover w-full h-full",
         ),
       ),
         h1(
-          child.text <-- featuredStorySignal.map(_.title),
+          featuredStorySignal.title,
           className := "py-5 font-extrabold text-[2.8rem] leading-[2.8rem]",
           className := "md:row-span-2 md:py-8",
         ),
       p(
-        child.text <-- featuredStorySignal.map(_.description),
+        featuredStorySignal.description,
         className := "pb-6 leading-relaxed text-dark-grayish-blue",
         className := "md:py-6",
       ),
