@@ -375,15 +375,48 @@ i guess this is more about html and css
 ** well, i guess i can use StoryCard class
 with title, description, and image link.
 and in the New use that same, model, just don't reference image
+** for design, i'd need some planning.
+there's almost zero coding logic, but layout needs to be thought out.
+*** mobile has button that opens menu, sliding from the right, could be modal?
+still ok to implement as separate div component with links, and then wrap in modal
+*** header -
+on moble with menu button,
+on desktop directly with links.
+i guess could have 2 components, and then wrapped into logic of showing one or another
+*** the sections seem easy after 70% of Wes Bos course:
+from 3 columns, goes to 1 column on mobile.
+i could have named areas, but i guess just direct order is good enough?
+big elements seem to always be 3 rowh in height
+and small stories can just be directly in the grid with 1fr height and 1fr width
+*** TODO i'll need separate components for:
+**** TODO main story & picture, can be Grid
+**** TODO small story & picture, can be Gric
+**** TODO the New column, can just be in same file as 'new story' component
+**** TODO header
+***** TODO mobile menu
+**** TODO overall page grid
+
 * adding downloaded fonts to TailwindCSS
 ** import them in =style.css=
 #+begin_src css
 @font-face {
   font-family: 'Inter';
-  src: url('/assets/fonts/static/Inter-Regular.ttf') format('truetype'),
-       url('/assets/fonts/static/Inter-Bold.ttf') format('truetype'),
-       url('/assets/fonts/static/Inter-ExtraBold.ttf') format('truetype');
-  font-weight: normal;
+  src: url('/assets/fonts/static/Inter-Regular.ttf') format('truetype');
+  font-weight: 400; /* Regular */
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('/assets/fonts/static/Inter-Bold.ttf') format('truetype');
+  font-weight: 700; /* Bold */
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('/assets/fonts/static/Inter-ExtraBold.ttf') format('truetype');
+  font-weight: 800; /* ExtraBold */
   font-style: normal;
 }
 #+end_src

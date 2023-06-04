@@ -4,7 +4,7 @@ object Models {
   final case class StoryCard(
       title: String,
       description: String,
-      image: String
+      illustrationUrl: String
   )
 
   final case class FrontPageState(
@@ -18,7 +18,7 @@ object Models {
       "The Bright Future of Web 3.0?",
       """  We dive into the next evolution of the web that claims to put the power of the platforms back into the hands of the people.
   But is it really fulfilling its promise? """,
-      "url"
+      "/images/image-web-3-desktop.jpg"
     ),
     newArticles = List(
       StoryCard(

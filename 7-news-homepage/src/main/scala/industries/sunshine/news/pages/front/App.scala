@@ -6,9 +6,10 @@ import scala.scalajs.js.annotation.*
 import org.scalajs.dom
 
 import com.raquo.laminar.api.L.{*, given}
+import industries.sunshine.news.pages.front.Models.FrontPageState
 
 @main
-def FrontPage(): Unit =
+def App(): Unit =
   renderOnDomContentLoaded(
     dom.document.getElementById("app"),
     Main.appElement()
@@ -16,25 +17,27 @@ def FrontPage(): Unit =
 
 object Main {
   def appElement(): Element =
+    val appState = Var(Models.hardcoded)
     div(
-      className := "relative w-screen h-screen bg-green-200",
-      page(),
+      className := "relative w-screen h-screen bg-off-white",
+      page(appState.signal),
       renderAttribution()
     )
 
-  def page(): Element = {
+  def page(appStateSignal: Signal[FrontPageState]): Element = {
     div(
-      className := "font-inter",
-      div("""
+      className := "p-4 font-inter",
+      FeaturedStoryComponent.render(appStateSignal.map(_.headliner))
+    )
+  }
+
+  def renderHeader() = div("""
   Home
   New
   Popular
   Trending
   Categories
-"""),
-      Models.hardcoded.toString()
-    )
-  }
+""")
 
   def renderAttribution(): Element = {
     footerTag(
