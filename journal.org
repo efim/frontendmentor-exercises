@@ -372,3 +372,43 @@ Things done:
 https://www.frontendmentor.io/challenges/news-homepage-H6SWTa1MFl/hub
 and I'm downgrading to Junior
 i guess this is more about html and css
+** well, i guess i can use StoryCard class
+with title, description, and image link.
+and in the New use that same, model, just don't reference image
+* adding downloaded fonts to TailwindCSS
+** import them in =style.css=
+#+begin_src css
+@font-face {
+  font-family: 'Inter';
+  src: url('/assets/fonts/static/Inter-Regular.ttf') format('truetype'),
+       url('/assets/fonts/static/Inter-Bold.ttf') format('truetype'),
+       url('/assets/fonts/static/Inter-ExtraBold.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+#+end_src
+** register in tailwind theme:
+#+begin_src js
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: [
+    "./index.html",
+    "./src/**/*.scala",
+  ],
+  theme: {
+    extend: {
+      fontFamily: {
+        'inter': ['Inter', 'sans-serif'],
+      },
+    },
+  },
+  plugins: [],
+}
+#+end_src
+** now it should be available to set:
+#+begin_src scala
+    div(
+      className := "font-inter",
+      " Home "
+    )
+#+end_src
