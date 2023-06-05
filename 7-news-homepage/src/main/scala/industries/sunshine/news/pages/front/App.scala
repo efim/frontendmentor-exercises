@@ -42,7 +42,7 @@ object Main {
 
   private def renderContent(appStateSignal: FrontPageState) = {
     div(
-        className := "grid gap-8 pb-12",
+        className := "grid gap-8 gap-y-16 pb-12",
         // could have been repeate(auto-fit but then sometimes > 3 columns
         // could have been good to get automatically moved new items on middle devices
         className := "md:grid-cols-content",

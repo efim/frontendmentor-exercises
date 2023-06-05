@@ -38,8 +38,7 @@ object FeaturedStoryComponent {
       button(
         "Read More",
         className := "w-48 h-12 bg-soft-red",
-        className := "font-bold uppercase tracking-[0.25rem] text-off-white",
-        className := "",
+        className := "font-bold uppercase border tracking-[0.25rem] text-off-white border-soft-orange",
       ),
     )
   }
