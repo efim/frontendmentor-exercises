@@ -392,8 +392,8 @@ and small stories can just be directly in the grid with 1fr height and 1fr width
 **** DONE main story & picture, can be Grid
 **** DONE small story & picture, can be Gric
 **** DONE the New column, can just be in same file as 'new story' component
-**** TODO header
-***** TODO mobile menu
+**** DONE header
+***** DONE mobile menu
 **** TODO overall page grid
 *** vertical
 maybe 170 per row and 60 gap?
@@ -451,3 +451,5 @@ export default {
 * with modal mobile menu, lot's of help from chat gpt, so there are lots of code? articles about laminar?
 or maybe it reads articles about doing this with js and translates this logic into laminar?
 * found out about "fixed" positioning - other content scrolls intependently. wowy
+* time to ask chatgpt to improve my tailwind classes sorting
+[[*using rustywind for my scala files:][current]] way.

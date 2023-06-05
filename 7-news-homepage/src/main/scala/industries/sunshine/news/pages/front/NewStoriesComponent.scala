@@ -8,7 +8,7 @@ object NewStoriesComponent {
     div(
       className := "px-5 bg-very-dark-blue",
       h1(
-        className := "pt-5 text-3xl font-bold text-soft-orange",
+        className := "pt-7 text-3xl font-bold text-soft-orange",
         "New"
       ),
       div(
@@ -20,7 +20,7 @@ object NewStoriesComponent {
 
   private def renderStoryHeadline(story: StoryCard) = {
     div(
-      className := "grid py-6",
+      className := "grid py-8",
       h1(
         className := "pb-2 text-xl font-extrabold",
         story.title),
