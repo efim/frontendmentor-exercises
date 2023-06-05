@@ -21,7 +21,7 @@ object PageHeader {
 
     div(
       className := "flex flex-row items-center py-8 h-14",
-      className := "md:pt-28 md:pb-16",
+      className := "md:pt-20 md:pb-16",
       // className := "relative",
       div(
         className := "flex-1",
