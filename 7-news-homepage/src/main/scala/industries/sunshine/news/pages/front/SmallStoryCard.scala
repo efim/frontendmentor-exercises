@@ -5,8 +5,9 @@ import industries.sunshine.news.pages.front.Models.StoryCard
 
 object SmallStoryCard {
   def renderList(stories: List[StoryCard]): List[Element] = {
-        stories.zipWithIndex
-          .map((story, index) => story -> (index + 1)).map(render)
+    stories.zipWithIndex
+      .map((story, index) => story -> (index + 1))
+      .map(render)
   }
 
   def render(storyInfo: (StoryCard, Int)) = {
@@ -22,9 +23,12 @@ object SmallStoryCard {
           className := "text-3xl font-bold text-grayish-blue",
           "%02d".format(index)
         ),
-        h1(
-          className := "py-2 text-xl font-bold",
-          story.title
+        a(
+          href := "",
+          h1(
+            className := "py-2 text-xl font-bold hover:text-soft-red",
+            story.title
+          )
         ),
         p(
           className := "leading-relaxed text-dark-grayish-blue",

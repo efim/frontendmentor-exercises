@@ -107,10 +107,10 @@ object PageHeader {
   }
   private def renderDesktopControls() = div(
     className := "grid grid-flow-col space-x-10 text-lg text-dark-grayish-blue",
-    a(href := "", "Home"),
-    a(href := "", "New"),
-    a(href := "", "Popular"),
-    a(href := "", "Trending"),
-    a(href := "", "Categories")
+    a(href := "", "Home", className := "hover:text-soft-red"),
+    a(href := "", "New", className := "hover:text-soft-red"),
+    a(href := "", "Popular", className := "hover:text-soft-red"),
+    a(href := "", "Trending", className := "hover:text-soft-red"),
+    a(href := "", "Categories", className := "hover:text-soft-red"),
   )
 }
