@@ -1,0 +1,150 @@
+* Frontend Mentor - News homepage solution
+:PROPERTIES:
+:CUSTOM_ID: frontend-mentor---news-homepage-solution
+:END:
+This is a solution to the
+[[https://www.frontendmentor.io/challenges/news-homepage-H6SWTa1MFl][News
+homepage challenge on Frontend Mentor]]. Frontend Mentor challenges help
+you improve your coding skills by building realistic projects.
+
+** Overview
+:PROPERTIES:
+:CUSTOM_ID: overview
+:END:
+*** The challenge
+:PROPERTIES:
+:CUSTOM_ID: the-challenge
+:END:
+Users should be able to:
+
+- View the optimal layout for the interface depending on their device's
+  screen size
+- See hover and focus states for all interactive elements on the page
+
+*** Screenshot
+:PROPERTIES:
+:CUSTOM_ID: screenshot
+:END:
+[[screenshot.png]]
+
+*** Links
+:PROPERTIES:
+:CUSTOM_ID: links
+:END:
+- [[https://www.frontendmentor.io/solutions/grid-tailwind-in-scalajs-and-laminar-with-vite-i53ukWXiJ6][Solution URL]]
+- [[https://efim-frontendmentor-news-homepage.pages.dev/][Live Site URL]]
+
+** My process
+:PROPERTIES:
+:CUSTOM_ID: my-process
+:END:
+*** Built with
+:PROPERTIES:
+:CUSTOM_ID: built-with
+:END:
+- Semantic HTML5 markup
+- TailwindCSS
+- CSS Grid layout
+- Mobile-first workflow
+- ScalaJS
+- Laminar
+- Vite
+
+*** What I learned
+:PROPERTIES:
+:CUSTOM_ID: what-i-learned
+:END:
+**** grid layout
+watched 70% of wes bos course
+
+very interesting and usefl: repeate(auto-fit, size)
+having max size to not have more than 3 columsn, but have 3 on lesser - automatic middle 2 column presentation
+
+another cool thing is centering content with side white space, if I want white space to go to 0 before the middle content starts diminishing:
+#+begin_src scala
+    div(
+      className := "font-inter",
+      // this doesn't prefer decreasing empty space as much as i want.
+      // className := "md:grid md:pt-40 md:grid-cols-[minmax(0,_20%)_1fr_minmax(0,_20%)]",
+      // let's try to get left and right empty space with flex-box
+      className := "flex flex-col items-center",
+      div(
+        className := "  max-w-[1150px] width-full",
+        PageHeader.render(),
+        renderContent(appStateSignal),
+      )
+    )
+#+end_src
+
+previous attempt with grid and =minmax(0, 20%)= empty columns decreased all columns in some part
+
+**** positioning "fixed"
+Instead of "relative" and "absolute", used to locate element in relation to the "overall screen", regardless of parents.
+With that placing, mobile menu and overlay are not constrained by scrolling content.
+**** using already downloaded fonts in tailwind
+***** import them in =style.css=
+#+begin_src css
+@font-face {
+  font-family: 'Inter';
+  src: url('/assets/fonts/static/Inter-Regular.ttf') format('truetype');
+  font-weight: 400; /* Regular */
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('/assets/fonts/static/Inter-Bold.ttf') format('truetype');
+  font-weight: 700; /* Bold */
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('/assets/fonts/static/Inter-ExtraBold.ttf') format('truetype');
+  font-weight: 800; /* ExtraBold */
+  font-style: normal;
+}
+#+end_src
+***** register in tailwind theme:
+#+begin_src js
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: [
+    "./index.html",
+    "./src/**/*.scala",
+  ],
+  theme: {
+    extend: {
+      fontFamily: {
+        'inter': ['Inter', 'sans-serif'],
+      },
+    },
+  },
+  plugins: [],
+}
+#+end_src
+***** now it should be available to set:
+#+begin_src scala
+    div(
+      className := "font-inter",
+      " Home "
+    )
+#+end_src
+**** i can use 'hsl' colors from style-guide.md directly in tailwind config!
+
+*** Continued development
+:PROPERTIES:
+:CUSTOM_ID: continued-development
+:END:
+For next couple of tasks I'd want something with more logic coding,
+and also something with webcomponents integration.
+
+I'd want to remember to use dev tools to troubleshoot sources of padding\margin,
+and would be cool to practice a more complicated Grid layout.
+
+*** Useful resources
+:PROPERTIES:
+:CUSTOM_ID: useful-resources
+:END:
+- Grid course by Wes Bos - https://cssgrid.io/friend/FRONTENDMENTOR
+  also listed in "resources" on frontendmentor: https://cssgrid.io/friend/FRONTENDMENTOR
