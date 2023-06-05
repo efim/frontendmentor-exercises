@@ -21,13 +21,14 @@ object PageHeader {
 
     div(
       className := "flex flex-row items-center py-8 h-14",
+      className := "md:pt-28 md:pb-16",
       // className := "relative",
       div(
         className := "flex-1",
         img(
           src := "/images/logo.svg",
           alt := "Company logo - letter 'W'",
-          className := "w-12"
+          className := "w-12 md:w-16"
         )
       ),
       div(

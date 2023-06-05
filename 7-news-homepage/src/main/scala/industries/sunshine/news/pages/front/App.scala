@@ -33,7 +33,7 @@ object Main {
       className := "flex flex-col items-center",
       // className := "relative", // for the mobile menu "overlay"
       div(
-        className := "p-4 space-y-4 max-w-[1100px] width-full",
+        className := "p-4 space-y-4 max-w-[1150px] width-full",
         PageHeader.render(),
         renderContent(appStateSignal),
       )
