@@ -448,3 +448,6 @@ export default {
     )
 #+end_src
 * ok, i found out that I can just add hsl colors into Tailwind config =)
+* with modal mobile menu, lot's of help from chat gpt, so there are lots of code? articles about laminar?
+or maybe it reads articles about doing this with js and translates this logic into laminar?
+* found out about "fixed" positioning - other content scrolls intependently. wowy
