@@ -12,9 +12,9 @@ object PageHeader {
     val screenSizesStream =
       resizeEventBus.events.map(_ => dom.window.innerWidth.toInt)
     val isMobileSignal = screenSizesStream
-      .map(_ < 1024)
+      .map(_ < 640)
       .distinct
-      .startWith(dom.window.innerWidth < 1024)
+      .startWith(dom.window.innerWidth < 640)
 
     lazy val mobileMenu = renderMobileControl()
     lazy val desktopMenu = renderDesktopControls()
