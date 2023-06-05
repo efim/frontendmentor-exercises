@@ -82,15 +82,18 @@ object PageHeader {
         div( // these are control links
           className := "grid space-y-6 text-xl text-very-dark-blue",
           className := "row-start-3",
-          a(href := "", "Home"),
-          a(href := "", "New"),
-          a(href := "", "Popular"),
-          a(href := "", "Trending"),
-          a(href := "", "Categories")
+          menuLink("Home"),
+          menuLink("New"),
+          menuLink("Popular"),
+          menuLink("Trending"),
+          menuLink("Categories")
         )
       )
     )
   }
+
+  private def menuLink(text: String, hrefValue: String = "") =
+    a(href := hrefValue, text, className := "hover:text-soft-red")
 
   private def renderMobileControl() = {
     val modalMenu = defineMobileModalMenu()
@@ -107,10 +110,10 @@ object PageHeader {
   }
   private def renderDesktopControls() = div(
     className := "grid grid-flow-col space-x-10 text-lg text-dark-grayish-blue",
-    a(href := "", "Home", className := "hover:text-soft-red"),
-    a(href := "", "New", className := "hover:text-soft-red"),
-    a(href := "", "Popular", className := "hover:text-soft-red"),
-    a(href := "", "Trending", className := "hover:text-soft-red"),
-    a(href := "", "Categories", className := "hover:text-soft-red"),
+    menuLink("Home"),
+    menuLink("New"),
+    menuLink("Popular"),
+    menuLink("Trending"),
+    menuLink("Categories")
   )
 }
