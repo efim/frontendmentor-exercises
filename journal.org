@@ -456,3 +456,31 @@ or maybe it reads articles about doing this with js and translates this logic in
 * found out about "fixed" positioning - other content scrolls intependently. wowy
 * time to ask chatgpt to improve my tailwind classes sorting
 [[*using rustywind for my scala files:][current]] way.
+* attempting to give feedback to a fellow student:
+https://www.frontendmentor.io/solutions/solution-using-html-and-css-with-flex-and-grid-HaxK3b5tEb
+** reply
+Hi! I'm not a senior in frontend dev, but wanted to try to figure out your question:
+"In the mobile view, the text has moved together a bit, what could be the reason or how can this be fixed?"
+
+What I did is opened your website in Firefox, entered mobile view with "Ctrl + Shift + M" (or Menu -> More Tools -> Mobile Design Mode) and then opened dev tools with F12.
+
+The "context menu" (right click) on the text and then "inspect element" highlight that element in the dom in the menu, and also allow us to see sized of "body \ padding \ margin"
+
+I'm putting the screenshots in my repo and will paste links:
+1. this is me inspecting the element in question:
+   https://github.com/efim/frontendmentor-exercises/blob/master/feedback/1/looking-for-padding-reason-2023-06-06_18-59.png
+   you can see that putting cursor at the blue inner rectangle (1) - the body gets highlighted at the page (2),
+   but no padding or margin is detected
+2. then I check elements higher in the hierarchy, and finding this one
+   https://github.com/efim/frontendmentor-exercises/blob/master/feedback/1/found-padding-2023-06-06_18-58.png
+   setting cursor to (1) purple "padding" place - highlights the area of your webpage that padding takes (2)
+   so, this is the element that results in text getting smushed
+3. then i can also temporarily change the style right in the browser dev tools:
+   https://github.com/efim/frontendmentor-exercises/blob/master/feedback/1/changing-manually-2023-06-06_19-00.png
+   setting left and right to 1rem removes this smushing
+
+You'll probably want to have media queries for mobile size that set different paddings for the element.
+and maybe even not using paddings to make blue background take whole width, but just make it's width 100% or something.
+Here unfortunately I can't give specific advice, because I've started almost immediately with TailwindCSS and it's a bit different from css
+
+Hope this helps!
