@@ -8,7 +8,7 @@ import org.scalajs.dom
 import com.raquo.laminar.api.L.{*, given}
 
 @main
-def ProductPreviewCardComponent(): Unit =
+def App(): Unit =
   renderOnDomContentLoaded(
     dom.document.getElementById("app"),
     Main.appElement()
