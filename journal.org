@@ -484,3 +484,23 @@ and maybe even not using paddings to make blue background take whole width, but 
 Here unfortunately I can't give specific advice, because I've started almost immediately with TailwindCSS and it's a bit different from css
 
 Hope this helps!
+* reading about doing drag-and-drop sorting with webcomponents.
+** first into sap ui5
+https://sap.github.io/ui5-webcomponents/playground/components
+and their bindings for laminar: https://index.scala-lang.org/sherpal/laminarsapui5bindings
+examples : https://sherpal.github.io/laminar-ui5-demo/?componentName=
+** then into material ui
+https://github.com/uosis/laminar-web-components
+https://laminar.dev/examples/web-components
+** it seems that "draggable things" are not generally implemented on level of webcomponents.
+was recommended to look into "Dragula" or "SortableJS" libraries,
+which should be somehow used from ScalaJS
+
+there's also Drag and Drop api in HTML 5, but it seems low level,
+the elements could emit "dragstart", or "dragover", or "dragend" events,
+but i'd have to implement handlers for updating indices in the list (easy part),
+and showing element while it's dragged (should i? hard part)
+** maybe i'd need to revisit guide on integration with js libraries:
+https://www.scala-js.org/doc/tutorial/scalablytyped.html
+** i do want to pick up the exercise where i'd have to figure this part out:
+https://www.frontendmentor.io/challenges/todo-app-Su1_KokOW
