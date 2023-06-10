@@ -17,29 +17,35 @@ def App(): Unit =
 object Main {
   def appElement(): Element =
     div(
-      className := "w-screen h-screen bg-green-200",
-      a(
-        href := "https://vitejs.dev",
-        target := "_blank",
-        img(src := "/vite.svg", className := "logo", alt := "Vite logo")
+      className := "w-screen h-screen bg-neutral-dark-blue",
+      className := "font-bold text-5xl uppercase font-inter",
+      div(
+        className := "text-neutral-white",
+        """
+  We're launching soon
+
+  Days
+  Hours
+  Minutes
+  Seconds
+"""
       ),
-      a(
-        href := "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
-        target := "_blank",
-        "link to JS logo"
-      ),
-      h1("Hello Laminar!"),
-      counterButton(),
-      p(className := "read-the-docs", "Click on the Vite logo to learn more")
+      renderAttribution()
     )
 
-  def counterButton(): Element = {
-    val counter = Var(0)
-    button(
-      tpe := "button",
-      "count is ",
-      child.text <-- counter,
-      onClick --> { event => counter.update(c => c + 1) }
+  def renderAttribution(): Element = {
+    footerTag(
+      role := "contentinfo",
+      className := "fixed inset-x-0 bottom-2 attribution",
+      "Challenge by ",
+      a(
+        href := "https://www.frontendmentor.io?ref=challenge",
+        target := "_blank",
+        "Frontend Mentor"
+      ),
+      " Coded by ",
+      a(href := "#", "Your Name Here")
     )
   }
+
 }

@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+    font-size: 14px;
+}
 
 /* div { */
 /*     outline: 1px solid red; */
