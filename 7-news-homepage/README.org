@@ -69,7 +69,7 @@ another cool thing is centering content with side white space, if I want white s
       // let's try to get left and right empty space with flex-box
       className := "flex flex-col items-center",
       div(
-        className := "  max-w-[1150px] width-full",
+        className := "max-w-[1150px] width-full",
         PageHeader.render(),
         renderContent(appStateSignal),
       )

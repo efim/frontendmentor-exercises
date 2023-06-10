@@ -9,6 +9,10 @@ export default {
       fontFamily: {
         'inter': ['Red Hat Text', 'sans-serif'],
       },
+      backgroundImage: {
+        'pattern-hills': "url('/images/pattern-hills.svg')",
+        'pattern-stars': "url('/images/bg-stars.svg')",
+      },
     },
     colors: {
       primary: {

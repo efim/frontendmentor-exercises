@@ -399,7 +399,7 @@ and small stories can just be directly in the grid with 1fr height and 1fr width
 maybe 170 per row and 60 gap?
 *** deployed
 https://efim-frontendmentor-news-homepage.pages.dev/
-*** TODO readme and submit, yay
+*** DONE readme and submit, yay
 
 * adding downloaded fonts to TailwindCSS
 ** import them in =style.css=
