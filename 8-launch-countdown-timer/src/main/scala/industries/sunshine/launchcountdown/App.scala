@@ -18,21 +18,51 @@ object Main {
   def appElement(): Element =
     div(
       className := "w-screen h-screen",
-      className := "text-2xl font-bold uppercase font-inter",
+      className := "font-inter",
+      // className := "text-2xl font-bold uppercase font-inter",
       renderBackground(),
-      div(
-        className := "text-neutral-white",
-        """
-  We're launching soon
-
-  Days
-  Hours
-  Minutes
-  Seconds
-"""
-      ),
+      renderContent(),
       renderAttribution()
     )
+
+  def renderContent() = {
+    div(
+      className := "flex flex-col items-center h-full",
+      className := "uppercase",
+      div(
+        className := "h-[130px]"
+      ),
+      h1(className := "w-4/5 text-2xl text-center",
+         className := "tracking-widest text-neutral-white",
+         "We're launching soon "),
+      div(
+        className := "text-neutral-desaturated-blue",
+        className := "grid grid-cols-4",
+        p("Days"),
+        p("Hours"),
+        p("Minutes"),
+        p("Seconds")
+      ),
+      div(
+        className := "grow",
+      ),
+      div(
+        className := "w-32 h-24",
+        div(
+          className := "flex justify-between",
+          img(
+            src := "../../../../../../images/icon-facebook.svg",
+          ),
+          img(
+            src := "../../../../../../images/icon-pinterest.svg",
+          ),
+          img(
+            src := "../../../../../../images/icon-instagram.svg",
+          ),
+        )
+      )
+    )
+  }
 
   def renderBackground() = {
     div(
