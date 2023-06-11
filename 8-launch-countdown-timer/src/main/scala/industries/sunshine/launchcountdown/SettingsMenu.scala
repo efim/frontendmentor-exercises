@@ -2,10 +2,11 @@ package industries.sunshine.launchcountdown
 
 import com.raquo.laminar.api.L.{*, given}
 import java.util.UUID
+import java.time.Instant
 
 object SettingsMenu {
-  def render() = {
-    val settingsDialog = renderModalMenu()
+  def render(setNewDate: String => Unit) = {
+    val settingsDialog = renderModalMenu(setNewDate)
 
     div(
       button(
@@ -15,42 +16,46 @@ object SettingsMenu {
           alt := "menu"
         ),
         className := "fixed top-5 right-5 text-2xl text-primary-red",
-        onClick --> Observer(_ => settingsDialog.ref.showModal()),
+        onClick --> Observer(_ => settingsDialog.ref.showModal())
       ),
-      settingsDialog,
+      settingsDialog
     )
   }
 
-  private def renderModalMenu() = {
+  private def renderModalMenu(setNewDate: String => Unit) = {
     val formUid = UUID.randomUUID().toString()
     val targetInputId = s"${formUid}-target"
-    val targetDateStr = Var("2023-01-07")
+    val targetDateStr = Var("2023-01-07T15:22")
 
     dialogTag(
-      form(
-        method := "dialog",
-        label("Countdown target:", forId := targetInputId),
-        input(
-          typ := "date",
-          idAttr := targetInputId,
-          controlled(
-            value <-- targetDateStr,
-            onInput.mapToValue --> targetDateStr,
+      onMountInsert(dialogCtx => {
+        form(
+          method := "dialog",
+          label("Countdown target:", forId := targetInputId),
+          input(
+            typ := "datetime-local",
+            idAttr := targetInputId,
+            controlled(
+              value <-- targetDateStr,
+              onInput.mapToValue --> targetDateStr
+            )
+          ),
+          button(
+            typ := "submit",
+            onClick --> Observer(value => {
+              println(targetDateStr.now())
+              setNewDate(targetDateStr.now())
+            }),
+            "save"
+          ),
+          button(
+            "cancel",
+            onClick.preventDefault --> Observer(_ =>
+              dialogCtx.thisNode.ref.close()
+            )
           )
-        ),
-        button(
-          typ := "submit",
-          onClick --> Observer(value => {
-                                 println(targetDateStr.now())
-                               }),
-          "save",
-        ),
-        button(
-          typ := "submit",
-          "cancel",
-        ),
-
-      )
+        )
+      })
     )
   }
 
