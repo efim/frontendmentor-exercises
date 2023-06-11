@@ -529,3 +529,11 @@ it's opening, but for some reason not closing.
 why would that be?
 
 **** that was becasue i was "preventDefault" on the submit button. cool
+** Submitting 8
+Well, the TailwindCSS styling took me much longer than I anticipated.
+I was expecting a very quick task, instead the background was not trivial, the round cutouts in the clock element - much more complicated that i thought,
+not to say anything about the animation.
+
+I was successful though in displaying countdown, and very happy with the speed of changing display - with milliseconds in the optional settings menu.
+
+Have a few things to try out in ScalaJS, and then potentially get a pause in use of that nice technology, which still feels a big clunky when I try to reuse existing JS libraries, whithout which there's too much to be created anew.

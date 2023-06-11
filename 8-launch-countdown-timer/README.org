@@ -1,0 +1,116 @@
+* Frontend Mentor - Launch countdown timer solution
+:PROPERTIES:
+:CUSTOM_ID: frontend-mentor---launch-countdown-timer-solution
+:END:
+This is a solution to the
+[[https://www.frontendmentor.io/challenges/launch-countdown-timer-N0XkGfyz-][Launch
+countdown timer challenge on Frontend Mentor]]. Frontend Mentor
+challenges help you improve your coding skills by building realistic
+projects.
+
+** Overview
+:PROPERTIES:
+:CUSTOM_ID: overview
+:END:
+*** The challenge
+:PROPERTIES:
+:CUSTOM_ID: the-challenge
+:END:
+Users should be able to:
+
+- See hover states for all interactive elements on the page
+- See a live countdown timer that ticks down every second (start the
+  count at 14 days)
+- *Bonus*: When a number changes, make the card flip from the middle
+
+*** Screenshot
+:PROPERTIES:
+:CUSTOM_ID: screenshot
+:END:
+[[./screenshot-mobile.png]]
+[[./screenshot-desktop.png]]
+
+*** Links
+:PROPERTIES:
+:CUSTOM_ID: links
+:END:
+- [[https://www.frontendmentor.io/solutions/responsive-by-tailwindcss-on-vite-with-scalajs-and-laminar-zcB9LatPJE][Solution URL]]
+- [[https://efim-frontendmentor-countdown.pages.dev][Live Site URL]]
+
+** My process
+:PROPERTIES:
+:CUSTOM_ID: my-process
+:END:
+*** Built with
+:PROPERTIES:
+:CUSTOM_ID: built-with
+:END:
+- TailwindCSS
+- CSS Grid layout
+- Mobile-first workflow
+- ScalaJS
+- Laminar
+- Vite
+
+*** What I learned
+:PROPERTIES:
+:CUSTOM_ID: what-i-learned
+:END:
+**** Reused the logic for creating durations-to-target
+To be used both in Clock and in menu Preview.
+Very easy with functional code - in file Utils:
+#+begin_src scala
+  def diffNowToTarget(countDownTo: LocalDateTime): Signal[Duration] =
+    EventStream
+      .periodic(11)
+      .map(_ => {
+        val now = LocalDateTime.now()
+        Duration.between(now, countDownTo)
+      })
+      .map(dur => if (dur.isNegative()) Duration.ZERO else dur)
+      .toSignal(Duration.ZERO)
+#+end_src
+**** Used java.time to make use of customer time zone
+There's a bit of excessive code, but overall things are nice:
+1. Target instant is in UTC zone, just seconds from the epoch
+2. Time-To is java.time.Period between Locally Zoned now, and instant + local time zone.
+   So people in different time zones would have correct countdowns (if the target time were set on the server, common for everyone - and not set as default "14 days from now")
+**** Setting several backgrounds was more complicated than i thought.
+Aligning mountains as 'right-top' to always have peaks, and not have them clipped.
+**** Actively using "fixed" to draw menu.
+and also dynamically showing \ hiding it with tailwind classes of visibility
+**** Learned that if I have <dialog> I have to not "preventDefault" on (Save) button
+Save button then would run html validation, and close dialog due to form method "dialog".
+
+Button that cancels - has to prevent default on the other hand, to not run validation. And should get reference to dialog, to call =.close()= method.
+This ref can be found by id with js methods, or extracted [[file:src/main/scala/industries/sunshine/launchcountdown/SettingsMenu.scala::dialogTag(][from 'onMountInsert' context]] in Laminar for "internal" elements of some element.
+**** Very _not_ proud of Grid layout to get Clock
+for some reason heights were not stacking and "unit" was being drown in or under the number, current code is *ugly*.
+**** Absolutely additional "modal menu" to set 'target date' to any value
+Mostly did this to have a place with "preview" where I could display milliseconds, as I wanted to see speed of updates.
+
+*** Continued development
+:PROPERTIES:
+:CUSTOM_ID: continued-development
+:END:
+Well, I wanted to see with my eyes quickness of the updates - in the Settings preview the ms numbers.
+
+Didn't done yet:
+- the svg color change - would need to import in a different way
+- saving target instance to local storage, or using scala libraries for config file reading
+- the circular cutouts in the clock elements are not done (i thought i would do it)
+- and the hardest part - flipping animation is totally not done (i initially knew i wouldn't try to do it)
+
+Next - I'd really like to try integrating with some libraries, maybe drag-and-drop, maybe maps, so learn how to do that.
+Would also like to get more usage of webcomponents, and rest api's changing app state.
+Maybe routing for a more complicated applications.
+
+*** Useful resources
+:PROPERTIES:
+:CUSTOM_ID: useful-resources
+:END:
+- [[https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/datetime-local][Mozilla dev docs]] - helped with input for "localdate-time"
+- [[https://laminar.dev/documentation#controlled-inputs][Laminar docs]] - helped to remember again how to get data from inputs and other stuff
+- [[https://github.com/raquo/Airstream#eventstreamperiodic][Airstream docs]] - docs of streaming library under Laminar - example of creating custom stream
+  which triggers by timer to get updates to the countdown
+- [[https://tailwindcss.com/docs/background-position][Tailwind docs]] - for all the reminders of classes and stuff: Grid, letter spacing, etc
