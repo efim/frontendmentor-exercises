@@ -1,10 +1,18 @@
 package industries.sunshine.launchcountdown
 
 import com.raquo.laminar.api.L.{*, given}
+import java.time.Instant
 
 object Clock {
-  def render() = {
+  def render(countDownTo: Instant) = {
     val tempMockTime = Var(15).signal
+    val yo = EventStream.periodic(11).map(_ => {
+                                            val now = Instant.now()
+                                            val diff = java.time.Duration.between(countDownTo, now)
+                                            // i guess i want a local date time, to count down to.
+
+                                            ???
+                                          })
     div(
       className := "px-8 w-full text-neutral-desaturated-blue",
       className := "grid grid-cols-4 justify-between",

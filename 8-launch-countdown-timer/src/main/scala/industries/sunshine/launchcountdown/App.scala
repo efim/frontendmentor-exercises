@@ -6,6 +6,9 @@ import scala.scalajs.js.annotation.*
 import org.scalajs.dom
 
 import com.raquo.laminar.api.L.{*, given}
+import java.time.Instant
+import java.time.LocalDateTime
+import java.time.ZoneId
 
 @main
 def App(): Unit =
@@ -15,7 +18,7 @@ def App(): Unit =
   )
 
 object Main {
-  def appElement(): Element =
+  def appElement(): Element = {
     div(
       className := "w-screen h-screen",
       className := "font-inter",
@@ -24,35 +27,53 @@ object Main {
       renderContent(),
       renderAttribution()
     )
+  }
 
   def renderContent() = {
+
+    val browserTZ = js.Dynamic.global.Intl
+      .DateTimeFormat()
+      .resolvedOptions()
+      .timeZone
+      .asInstanceOf[String]
+    val countDownTo = Instant.parse("2023-09-01T12:00:00Z")
+    // to get zone info, a separate package?
+    // val zoneId = ZoneId.of(browserTZ)
+    // val countDownToInLocal = LocalDateTime.ofInstant(countDownTo, zoneId)
+    // println(s"> $zoneId ; $countDownToInLocal")
+    // OK, how do i get browser locale though.
+    // println(countDownTo)
     div(
       className := "flex flex-col items-center h-full",
       div(
         className := "h-[130px]"
       ),
-      h1(className := "w-4/5 text-2xl text-center",
-         className := "uppercase tracking-[0.3rem] text-neutral-white",
-         "We're launching soon "),
-      Clock.render().amend(
-        className := "pt-16",
+      h1(
+        className := "w-4/5 text-2xl text-center",
+        className := "uppercase tracking-[0.3rem] text-neutral-white",
+        "We're launching soon "
       ),
+      Clock
+        .render(countDownTo)
+        .amend(
+          className := "pt-16"
+        ),
       div(
-        className := "grow",
+        className := "grow"
       ),
       div(
         className := "w-36 h-24",
         div(
           className := "flex justify-between",
           img(
-            src := "../../../../../../images/icon-facebook.svg",
+            src := "../../../../../../images/icon-facebook.svg"
           ),
           img(
-            src := "../../../../../../images/icon-pinterest.svg",
+            src := "../../../../../../images/icon-pinterest.svg"
           ),
           img(
-            src := "../../../../../../images/icon-instagram.svg",
-          ),
+            src := "../../../../../../images/icon-instagram.svg"
+          )
         )
       )
     )

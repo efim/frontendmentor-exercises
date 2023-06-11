@@ -30,4 +30,5 @@ lazy val launchCountdown = project.in(file("."))
     // check out extras in laminext : fetch \ ws \ sources & signals
     // https://laminext.dev/v/0.15.x/
     libraryDependencies += "io.laminext" %%% "fetch" % "0.15.0",
+    libraryDependencies += "io.github.cquiroz" %%% "scala-java-time" % "2.5.0",
   )
