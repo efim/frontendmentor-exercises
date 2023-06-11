@@ -13,6 +13,7 @@ object Clock {
         val now = LocalDateTime.now()
         Duration.between(now, countDownTo)
       })
+      .map(dur => if (dur.isNegative()) Duration.ZERO else dur)
       .toSignal(Duration.ZERO)
 
     div(
@@ -29,11 +30,11 @@ object Clock {
   private def renderFlipper(timePart: Signal[Int], unit: String) = {
     div(
       className := "grid justify-items-center grid-rows-[repeat(2,_60px)]",
-        className := "md:grid-cols-1 md:grid-rows-[150px_auto]",
+      className := "md:grid-cols-1 md:grid-rows-[150px_auto]",
       // className := "grid grid-rows-2 items-center",
       div(
         className := "grid relative w-[60px] grid-rows-[repeat(2,_30px)]",
-          // 140 x 145 and 20 in between
+        // 140 x 145 and 20 in between
         className := "md:w-[140px] md:grid-rows-[repeat(2,_75px)]",
         div(
           className := "rounded-md md:rounded-xl bg-clock-top"
