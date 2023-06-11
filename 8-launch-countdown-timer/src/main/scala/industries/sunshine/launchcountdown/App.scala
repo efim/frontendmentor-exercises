@@ -97,7 +97,7 @@ object Main {
       className := "-z-20",
       // className := "bg-gradient-to-b from-neutral-black-blue to-neutral-dark-blue",
       div(
-        className := "fixed bottom-0 left-0 w-full h-1/3 bg-right bg-no-repeat bg-cover bg-pattern-hills",
+        className := "fixed bottom-0 left-0 w-full h-1/3 bg-right-top bg-no-repeat bg-cover bg-pattern-hills",
         className := "md:h-1/4"
       )
     )
