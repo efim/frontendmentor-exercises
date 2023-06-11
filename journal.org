@@ -510,3 +510,6 @@ but let's skip this part for now
 http://cquiroz.github.io/scala-java-time/
 
 libraryDependencies += "io.github.cquiroz" %%% "scala-java-time-tzdb" % "2.0.0-RC3_2019a"
+* now let's add settings?
+ability to set the target date.
+and also in that menu let's show also updating millis, just to get proof that thing is fast at this

@@ -64,14 +64,23 @@ object Main {
         className := "w-36 h-24",
         div(
           className := "flex justify-between",
-          img(
-            src := "../../../../../../images/icon-facebook.svg"
+          a(
+            href := "",
+            img(
+              src := "../../../../../../images/icon-facebook.svg"
+            )
           ),
-          img(
-            src := "../../../../../../images/icon-pinterest.svg"
+          a(
+            href := "",
+            img(
+              src := "../../../../../../images/icon-pinterest.svg"
+            )
           ),
-          img(
-            src := "../../../../../../images/icon-instagram.svg"
+          a(
+            href := "",
+            img(
+              src := "../../../../../../images/icon-instagram.svg"
+            )
           )
         )
       )

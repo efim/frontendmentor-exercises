@@ -46,7 +46,7 @@ object Clock {
         )
       ),
       p(
-        className := "pt-4 text-xs tracking-widest uppercase text-clock-text",
+        className := "pt-4 uppercase tracking-[0.15rem] text-[0.5rem] text-clock-text",
         unit
       )
     )
