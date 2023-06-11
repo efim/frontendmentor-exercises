@@ -45,17 +45,17 @@ object Main {
     div(
       className := "flex flex-col items-center h-full",
       div(
-        className := "h-[130px]"
+        className := "md:h-1/6 h-[130px]"
       ),
       h1(
         className := "w-4/5 text-2xl text-center",
-        className := "uppercase tracking-[0.3rem] text-neutral-white",
+        className := "uppercase tracking-[0.3rem] text-neutral-white md:tracking-[0.6rem]",
         "We're launching soon "
       ),
       Clock
         .render(countDownToInLocal)
         .amend(
-          className := "pt-16"
+          className := "pt-16 md:pt-32",
         ),
       div(
         className := "grow"
@@ -93,7 +93,8 @@ object Main {
       className := "-z-20",
       // className := "bg-gradient-to-b from-neutral-black-blue to-neutral-dark-blue",
       div(
-        className := "fixed bottom-0 left-0 w-full h-1/3 bg-right bg-no-repeat bg-cover bg-pattern-hills"
+        className := "fixed bottom-0 left-0 w-full h-1/3 bg-right bg-no-repeat bg-cover bg-pattern-hills",
+        className := "md:h-1/4",
       )
     )
   }

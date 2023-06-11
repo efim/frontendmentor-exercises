@@ -504,12 +504,16 @@ and showing element while it's dragged (should i? hard part)
 https://www.scala-js.org/doc/tutorial/scalablytyped.html
 ** i do want to pick up the exercise where i'd have to figure this part out:
 https://www.frontendmentor.io/challenges/todo-app-Su1_KokOW
-* styling clock, the cutout between the flippers is a half circle, not just rounded corners,
+* task 8 - countdown clock
+** styling clock, the cutout between the flippers is a half circle, not just rounded corners,
 but let's skip this part for now
-* adding timezones to java.time in ScalaJS:
+** adding timezones to java.time in ScalaJS:
 http://cquiroz.github.io/scala-java-time/
 
 libraryDependencies += "io.github.cquiroz" %%% "scala-java-time-tzdb" % "2.0.0-RC3_2019a"
-* now let's add settings?
+** now let's add settings?
 ability to set the target date.
 and also in that menu let's show also updating millis, just to get proof that thing is fast at this
+** ok. yeah. ugh.
+** well, i did the desktop design. now i want to settings menu.
+do i want to allow to change "local" time zone?
