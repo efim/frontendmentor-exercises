@@ -28,26 +28,20 @@ object Main {
   def renderContent() = {
     div(
       className := "flex flex-col items-center h-full",
-      className := "uppercase",
       div(
         className := "h-[130px]"
       ),
       h1(className := "w-4/5 text-2xl text-center",
-         className := "tracking-widest text-neutral-white",
+         className := "uppercase tracking-[0.3rem] text-neutral-white",
          "We're launching soon "),
-      div(
-        className := "text-neutral-desaturated-blue",
-        className := "grid grid-cols-4",
-        p("Days"),
-        p("Hours"),
-        p("Minutes"),
-        p("Seconds")
+      Clock.render().amend(
+        className := "pt-16",
       ),
       div(
         className := "grow",
       ),
       div(
-        className := "w-32 h-24",
+        className := "w-36 h-24",
         div(
           className := "flex justify-between",
           img(

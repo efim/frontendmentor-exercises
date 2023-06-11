@@ -25,6 +25,11 @@ export default {
         'dark-blue': 'hsl(235, 16%, 14%)',
         'black-blue': 'hsl(234, 17%, 12%)',
       },
+      clock: {
+        top: '#2C2C44',
+        bottom: '#32374E',
+        text: '#8B889E',
+      },
     },
   },
   plugins: [],

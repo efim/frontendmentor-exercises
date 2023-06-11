@@ -504,3 +504,5 @@ and showing element while it's dragged (should i? hard part)
 https://www.scala-js.org/doc/tutorial/scalablytyped.html
 ** i do want to pick up the exercise where i'd have to figure this part out:
 https://www.frontendmentor.io/challenges/todo-app-Su1_KokOW
+* styling clock, the cutout between the flippers is a half circle, not just rounded corners,
+but let's skip this part for now
