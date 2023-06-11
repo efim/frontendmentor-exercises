@@ -9,6 +9,7 @@ import com.raquo.laminar.api.L.{*, given}
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 
 @main
 def App(): Unit =
@@ -103,7 +104,13 @@ object Main {
     )
   }
 
-  val defaultDatetimeStr = "2023-06-29T12:00"
+  val defaultDatetimeStr = {
+    val dateTime = LocalDateTime.now().plusDays(14)
+    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm")
+    val result = dateTime.format(formatter)
+    println(s"the initial date is $result")
+    result
+  }
 
   def initState(): Var[LocalDateTime] = {
     val countDownTo = Utils
