@@ -32,4 +32,5 @@ lazy val launchCountdown = project.in(file("."))
     libraryDependencies += "io.laminext" %%% "fetch" % "0.15.0",
     libraryDependencies += "io.github.cquiroz" %%% "scala-java-time" % "2.5.0",
     libraryDependencies += "io.github.cquiroz" %%% "scala-java-time-tzdb" % "2.5.0",
+    libraryDependencies += ("org.scala-js" %%% "scalajs-java-securerandom" % "1.0.0").cross(CrossVersion.for3Use2_13)
   )

@@ -507,13 +507,25 @@ https://www.frontendmentor.io/challenges/todo-app-Su1_KokOW
 * task 8 - countdown clock
 ** styling clock, the cutout between the flippers is a half circle, not just rounded corners,
 but let's skip this part for now
+** acquiring time zone:
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat
+
 ** adding timezones to java.time in ScalaJS:
 http://cquiroz.github.io/scala-java-time/
 
 libraryDependencies += "io.github.cquiroz" %%% "scala-java-time-tzdb" % "2.0.0-RC3_2019a"
+
 ** now let's add settings?
 ability to set the target date.
 and also in that menu let's show also updating millis, just to get proof that thing is fast at this
 ** ok. yeah. ugh.
 ** well, i did the desktop design. now i want to settings menu.
 do i want to allow to change "local" time zone?
+*** searching for free icons:
+https://www.svgrepo.com/svg/509956/gear?edit=true
+*** attempting to add modal,
+it's opening, but for some reason not closing.
+[[id:32792a5b-abd8-457c-b11f-72cf71fb1bfc][dialog and modal in Laminar ScalaJS]]
+why would that be?
+
+**** that was becasue i was "preventDefault" on the submit button. cool

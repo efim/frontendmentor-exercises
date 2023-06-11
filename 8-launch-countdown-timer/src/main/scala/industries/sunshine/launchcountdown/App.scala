@@ -25,7 +25,10 @@ object Main {
       // className := "text-2xl font-bold uppercase font-inter",
       renderBackground(),
       renderContent(),
-      renderAttribution()
+      renderAttribution(),
+      SettingsMenu.render().amend(
+        className := "md:visible collapse",
+      ),
     )
   }
 
