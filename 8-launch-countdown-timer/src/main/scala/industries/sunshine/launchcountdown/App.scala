@@ -37,12 +37,11 @@ object Main {
       .timeZone
       .asInstanceOf[String]
     val countDownTo = Instant.parse("2023-09-01T12:00:00Z")
-    // to get zone info, a separate package?
-    // val zoneId = ZoneId.of(browserTZ)
-    // val countDownToInLocal = LocalDateTime.ofInstant(countDownTo, zoneId)
+
+    val zoneId = ZoneId.of(browserTZ)
+    val countDownToInLocal = LocalDateTime.ofInstant(countDownTo, zoneId)
     // println(s"> $zoneId ; $countDownToInLocal")
-    // OK, how do i get browser locale though.
-    // println(countDownTo)
+
     div(
       className := "flex flex-col items-center h-full",
       div(
@@ -54,7 +53,7 @@ object Main {
         "We're launching soon "
       ),
       Clock
-        .render(countDownTo)
+        .render(countDownToInLocal)
         .amend(
           className := "pt-16"
         ),

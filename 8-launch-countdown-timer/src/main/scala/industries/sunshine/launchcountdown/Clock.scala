@@ -1,25 +1,27 @@
 package industries.sunshine.launchcountdown
 
 import com.raquo.laminar.api.L.{*, given}
-import java.time.Instant
+import java.time.{Instant, LocalDateTime, Period}
+import java.time.Duration
+import java.time.temporal.TemporalUnit
 
 object Clock {
-  def render(countDownTo: Instant) = {
-    val tempMockTime = Var(15).signal
-    val yo = EventStream.periodic(11).map(_ => {
-                                            val now = Instant.now()
-                                            val diff = java.time.Duration.between(countDownTo, now)
-                                            // i guess i want a local date time, to count down to.
+  def render(countDownTo: LocalDateTime) = {
+    val diffNowToTarget = EventStream
+      .periodic(11)
+      .map(_ => {
+        val now = LocalDateTime.now()
+        Duration.between(now, countDownTo)
+      })
+      .toSignal(Duration.ZERO)
 
-                                            ???
-                                          })
     div(
       className := "px-8 w-full text-neutral-desaturated-blue",
       className := "grid grid-cols-4 justify-between",
-      renderFlipper(tempMockTime, "Days"),
-      renderFlipper(tempMockTime, "Hours"),
-      renderFlipper(tempMockTime, "Minutes"),
-      renderFlipper(tempMockTime, "Seconds")
+      renderFlipper(diffNowToTarget.map(_.toDays().toInt), "Days"),
+      renderFlipper(diffNowToTarget.map(_.toHoursPart().toInt), "Hours"),
+      renderFlipper(diffNowToTarget.map(_.toMinutesPart().toInt), "Minutes"),
+      renderFlipper(diffNowToTarget.map(_.toSecondsPart().toInt), "Seconds")
     )
   }
 
@@ -45,7 +47,8 @@ object Clock {
       ),
       p(
         className := "pt-4 text-xs tracking-widest uppercase text-clock-text",
-        unit)
+        unit
+      )
     )
   }
 

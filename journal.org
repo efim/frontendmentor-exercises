@@ -506,3 +506,7 @@ https://www.scala-js.org/doc/tutorial/scalablytyped.html
 https://www.frontendmentor.io/challenges/todo-app-Su1_KokOW
 * styling clock, the cutout between the flippers is a half circle, not just rounded corners,
 but let's skip this part for now
+* adding timezones to java.time in ScalaJS:
+http://cquiroz.github.io/scala-java-time/
+
+libraryDependencies += "io.github.cquiroz" %%% "scala-java-time-tzdb" % "2.0.0-RC3_2019a"
