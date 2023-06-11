@@ -3,17 +3,19 @@ package industries.sunshine.launchcountdown
 import java.time.LocalDateTime
 import com.raquo.airstream.core.EventStream
 import java.time.Duration
+import com.raquo.airstream.core.Signal
 
 object Utils {
 
-  def diffNowToTarget(countDownTo: LocalDateTime) = EventStream
-    .periodic(11)
-    .map(_ => {
-      val now = LocalDateTime.now()
-      Duration.between(now, countDownTo)
-    })
-    .map(dur => if (dur.isNegative()) Duration.ZERO else dur)
-    .toSignal(Duration.ZERO)
+  def diffNowToTarget(countDownTo: LocalDateTime): Signal[Duration] =
+    EventStream
+      .periodic(11)
+      .map(_ => {
+        val now = LocalDateTime.now()
+        Duration.between(now, countDownTo)
+      })
+      .map(dur => if (dur.isNegative()) Duration.ZERO else dur)
+      .toSignal(Duration.ZERO)
 
   def isoStringToInstant(dateString: String): Option[LocalDateTime] = {
     import java.time.LocalDateTime

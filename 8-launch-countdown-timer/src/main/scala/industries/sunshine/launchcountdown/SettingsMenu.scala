@@ -3,6 +3,7 @@ package industries.sunshine.launchcountdown
 import com.raquo.laminar.api.L.{*, given}
 import java.util.UUID
 import java.time.Instant
+import java.time.Duration
 
 object SettingsMenu {
   def render(setNewDate: String => Unit) = {
@@ -26,6 +27,19 @@ object SettingsMenu {
     val formUid = UUID.randomUUID().toString()
     val targetInputId = s"${formUid}-target"
     val targetDateStr = Var(Main.defaultDatetimeStr)
+
+    val ticksUntilTarget = targetDateStr.signal.map(Utils.isoStringToInstant(_)).flatMap {
+      case None => Signal.fromValue(Duration.ZERO)
+      case Some(targetInstant) => Utils.diffNowToTarget(targetInstant)
+    }.map(dur => {
+            val days = dur.toDays()
+            val hours = dur.toHoursPart()
+            val mins = dur.toMinutesPart()
+            val secs = dur.toSecondsPart()
+            val milli = dur.toMillisPart()
+
+            s"$days days; ${hours}:${mins}:${secs} - $milli"
+          })
 
     dialogTag(
       onMountInsert(dialogCtx => {
@@ -56,6 +70,7 @@ object SettingsMenu {
           ),
           p(
             "preview: ",
+            child.text <-- ticksUntilTarget
           )
         )
       })
