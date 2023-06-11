@@ -25,7 +25,7 @@ object SettingsMenu {
   private def renderModalMenu(setNewDate: String => Unit) = {
     val formUid = UUID.randomUUID().toString()
     val targetInputId = s"${formUid}-target"
-    val targetDateStr = Var("2023-01-07T15:22")
+    val targetDateStr = Var(Main.defaultDatetimeStr)
 
     dialogTag(
       onMountInsert(dialogCtx => {
@@ -53,6 +53,9 @@ object SettingsMenu {
             onClick.preventDefault --> Observer(_ =>
               dialogCtx.thisNode.ref.close()
             )
+          ),
+          p(
+            "preview: ",
           )
         )
       })

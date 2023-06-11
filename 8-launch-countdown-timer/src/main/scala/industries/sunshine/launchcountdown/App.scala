@@ -19,17 +19,10 @@ def App(): Unit =
 
 object Main {
   def appElement(): Element = {
-    val countDownToInLocal = getState()
+    val countDownToInLocal = initState()
 
     def setNewDate(dateString: String): Unit = {
-      import java.time.LocalDateTime
-      import java.time.format.DateTimeFormatter
-      import scala.util.Try
-
-      val formatter: DateTimeFormatter =
-        DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm")
-      val localDateTime: Option[LocalDateTime] =
-        Try(LocalDateTime.parse(dateString, formatter)).toOption
+      val localDateTime = Utils.isoStringToInstant(dateString)
 
       println(s"setting new $localDateTime")
       localDateTime.foreach(countDownToInLocal.writer.onNext(_))
@@ -110,8 +103,14 @@ object Main {
     )
   }
 
-  def getState(): Var[LocalDateTime] = {
-    val countDownTo = Instant.parse("2023-06-29T12:00:00Z")
+  val defaultDatetimeStr = "2023-06-29T12:00"
+
+  def initState(): Var[LocalDateTime] = {
+    val countDownTo = Utils
+      .isoStringToInstant(defaultDatetimeStr)
+      .get
+      .atZone(ZoneId.systemDefault())
+      .toInstant()
 
     val browserTZ = js.Dynamic.global.Intl
       .DateTimeFormat()

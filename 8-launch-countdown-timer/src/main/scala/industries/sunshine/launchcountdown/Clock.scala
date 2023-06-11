@@ -7,14 +7,7 @@ import java.time.temporal.TemporalUnit
 
 object Clock {
   def render(countDownTo: LocalDateTime) = {
-    val diffNowToTarget = EventStream
-      .periodic(11)
-      .map(_ => {
-        val now = LocalDateTime.now()
-        Duration.between(now, countDownTo)
-      })
-      .map(dur => if (dur.isNegative()) Duration.ZERO else dur)
-      .toSignal(Duration.ZERO)
+    val diffNowToTarget = Utils.diffNowToTarget(countDownTo)
 
     div(
       className := "px-8 w-full text-neutral-desaturated-blue",
