@@ -28,7 +28,9 @@ object Main {
         target := "_blank",
         "link to JS logo"
       ),
-      h1("Hello Laminar!"),
+      h1(
+        className := "font-semibold text-dark-gray",
+        "Hello Laminar!"),
       counterButton(),
       p(className := "read-the-docs", "Click on the Vite logo to learn more")
     )

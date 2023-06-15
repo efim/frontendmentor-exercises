@@ -537,3 +537,61 @@ not to say anything about the animation.
 I was successful though in displaying countdown, and very happy with the speed of changing display - with milliseconds in the optional settings menu.
 
 Have a few things to try out in ScalaJS, and then potentially get a pause in use of that nice technology, which still feels a big clunky when I try to reuse existing JS libraries, whithout which there's too much to be created anew.
+* ok, starting 9. the ip addr tracker.
+will do first map?
+** and only then api calls? because there would be only 500 total for account? not per month?
+https://geo.ipify.org/docs
+*** example request:
+https://geo.ipify.org/api/v2/country,city?apiKey=YOUR_API_KEY&ipAddress=8.8.8.8
+GET
+
+- ipAddress :: Optional. IPv4 or IPv6 to search location by.
+   If the parameter is not specified, then it defaults to client request's public IP address.
+- domain :: Optional. Domain name to search location by.
+  If the parameter is not specified, then 'ipAddress' will be used.
+*** example response:
+#+begin_src js
+{
+    "ip": "8.8.8.8",
+    "location": {
+        "country": "US",
+        "region": "California",
+        "city": "Mountain View",
+        "lat": 37.40599,
+        "lng": -122.078514,
+        "postalCode": "94043",
+        "timezone": "-07:00",
+        "geonameId": 5375481
+    },
+    "domains": [
+        "0d2.net",
+        "003725.com",
+        "0f6.b0094c.cn",
+        "007515.com",
+        "0guhi.jocose.cn"
+    ],
+    "as": {
+        "asn": 15169,
+        "name": "Google LLC",
+        "route": "8.8.8.0/24",
+        "domain": "https://about.google/intl/en/",
+        "type": "Content"
+    },
+    "isp": "Google LLC"
+}
+#+end_src
+** and what are requirements for the map?
+ok, i guess.
+
+input would be populated with own ip.
+** well. first opening - i guess have empty state, and a loader on top of all
+and then what?
+i guess app can have a state with case class of all info.
+and when it's None - show loader.
+and start some kind of action when first visiting, tied to setter of state.
+and same logic could be used on a button.
+
+and i guess i'd want the input would be form, and ip address validation. okok.
+** then i'll have the sample json response, would want decoder into state.
+could write a funtion that takes hardcode and puts into state.
+** and only as last step - register for api and do an actual call.
