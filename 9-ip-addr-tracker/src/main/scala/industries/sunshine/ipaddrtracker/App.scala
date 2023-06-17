@@ -17,25 +17,34 @@ def App(): Unit =
 object Main {
   def appElement(): Element = {
     // here will be app state
-    div(
-      className := "w-screen h-screen flex flex-col items-center",
+    mainTag(
+      className := "flex flex-col items-center w-screen h-screen",
       BackgroundMap.render(),
       h1(
         "IP Address Tracker",
-        className := "text-2xl text-white font-semibold py-4"
+        className := "py-4 text-2xl font-semibold text-white"
       ),
-      renderInputs(),
-      renderUI(),
-      renderAttribution()
+      div(
+        className := "px-6",
+        renderInputs(),
+        renderUI(),
+        renderAttribution()
+      )
     )
   }
 
   def renderInputs() = {
     val placeholderText = "Search for any IP address or domain"
+    val placeholderTextSmall =
+      "Search for IP address"
     val ipInput = Var("")
     form(
+      className := "flex flex-row",
       input(
-        placeholder := placeholderText,
+        className := "px-5 rounded-l-xl grow",
+        placeholder <-- Utils.isMobileWidthStream.map(
+          if (_) placeholderTextSmall else placeholderText
+        ),
         typ := "text",
         required := true,
         pattern := """^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$""",
@@ -47,6 +56,7 @@ object Main {
       ),
       onMountInsert(ctx =>
         button(
+          className := "grid place-content-center w-12 h-12 bg-black rounded-r-xl",
           typ := "submit",
           img(
             src := "/images/icon-arrow.svg",
@@ -57,7 +67,6 @@ object Main {
             if (!validity) ctx.thisNode.ref.reportValidity()
             validity
           ) --> Observer(isFormValid => {
-            // if (!isFormValid) println("hello")
             println(s"submitted ${ipInput.now()} for form instate $isFormValid")
           })
         )
