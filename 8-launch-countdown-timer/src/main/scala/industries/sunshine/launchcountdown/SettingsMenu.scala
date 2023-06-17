@@ -13,7 +13,7 @@ object SettingsMenu {
       button(
         img(
           src := "/images/grey-gear-svgrepo-com.svg",
-          className := "w-10 ",
+          className := "w-10",
           alt := "menu"
         ),
         className := "fixed top-5 right-5 text-2xl text-primary-red",
