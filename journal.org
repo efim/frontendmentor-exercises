@@ -595,3 +595,20 @@ and i guess i'd want the input would be form, and ip address validation. okok.
 ** then i'll have the sample json response, would want decoder into state.
 could write a funtion that takes hardcode and puts into state.
 ** and only as last step - register for api and do an actual call.
+** quesion: how do i put map on a lover level?
+do i create a component with position 'fixed' and set it up from the parent component?
+so that what? function to set map coords could be exposed?
+** DONE so low level component with bg, which is dynamicly selected from window size.
+and map div, let's keep it green of specific size
+get stream of coords.
+and what would it show on empty coords? whatever. would be nice to have animation
+
+so, is that just single component? seems simple enought to be one file.
+** TODO component with form : input and submit button
+gets setter for the state
+** TODO component that draws the table for data, when empty shows the loading thingy and overlay i guess
+connected to state, which is on top level
+gets stream of state.
+** TODO adding map to lover component, returning function to set map center and point with coords.
+** where do i first launch state initialization?
+i suppose at the level that defines state.
