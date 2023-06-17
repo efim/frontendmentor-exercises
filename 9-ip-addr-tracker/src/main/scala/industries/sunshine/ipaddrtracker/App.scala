@@ -17,6 +17,7 @@ def App(): Unit =
 object Main {
   def appElement(): Element = {
     // here will be app state
+    // Var(state)
     mainTag(
       className := "flex flex-col items-center w-screen h-screen",
       BackgroundMap.render(),
@@ -27,23 +28,9 @@ object Main {
       div(
         className := "px-6",
         Inputs.render(),
-        renderUI(),
+        InfoPanel.render(),
         renderAttribution()
       )
-    )
-  }
-
-
-  def renderUI() = {
-    div(
-      """
-  IP Address
-  Location
-  Timezone
-    UTC <!-- add offset value dynamically using the API -->
-  ISP
-
-"""
     )
   }
 
