@@ -12,7 +12,7 @@ object Inputs {
     form(
       className := "flex flex-row md:h-14 md:w-[550px]",
       input(
-        className := "px-5 rounded-l-xl grow",
+        className := "px-5 rounded-l-xl cursor-pointer outline-none grow",
         placeholder <-- Utils.isMobileWidthStream.map(
           if (_) placeholderTextSmall else placeholderText
         ),
@@ -28,6 +28,7 @@ object Inputs {
       onMountInsert(ctx =>
         button(
           className := "grid place-content-center w-12 bg-black rounded-r-xl md:w-14",
+          className := "duration-200 hover:bg-dark-gray",
           typ := "submit",
           img(
             src := "/images/icon-arrow.svg",
