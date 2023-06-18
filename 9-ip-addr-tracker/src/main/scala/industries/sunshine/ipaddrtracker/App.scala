@@ -4,8 +4,10 @@ import scala.scalajs.js
 import scala.scalajs.js.annotation.*
 
 import org.scalajs.dom
+import upickle.default._
 
 import com.raquo.laminar.api.L.{*, given}
+import industries.sunshine.ipaddrtracker.BackgroundMap.Coords
 
 @main
 def App(): Unit =
@@ -16,22 +18,30 @@ def App(): Unit =
 
 object Main {
   def appElement(): Element = {
-    // here will be app state
-    // Var(state)
+    val state = initState()
+    // state.signal.map(_.location.)
+
     mainTag(
       className := "flex flex-col items-center w-screen h-screen",
-      BackgroundMap.render(),
+      BackgroundMap.render(
+        state.signal.map(st => Coords(st.location.lat, st.location.lng))
+      ),
       h1(
         "IP Address Tracker",
         className := "py-4 text-2xl font-semibold text-white"
       ),
       div(
         className := "px-6",
-        Inputs.render(),
-        InfoPanel.render(),
+        Inputs.render(state.writer),
+        InfoPanel.render(state.signal),
         renderAttribution()
       )
     )
+  }
+
+  def initState(): Var[StateModel.AddressInfo] = {
+    val hardcoded = read[StateModel.AddressInfo](StateModel.sampleJson)
+    Var(hardcoded)
   }
 
   def renderAttribution(): Element = {

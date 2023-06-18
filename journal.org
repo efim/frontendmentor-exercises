@@ -604,11 +604,82 @@ get stream of coords.
 and what would it show on empty coords? whatever. would be nice to have animation
 
 so, is that just single component? seems simple enought to be one file.
-** TODO component with form : input and submit button
+** DONE component with form : input and submit button
 gets setter for the state
-** TODO component that draws the table for data, when empty shows the loading thingy and overlay i guess
+** DONE component that draws the table for data, when empty shows the loading thingy and overlay i guess
 connected to state, which is on top level
 gets stream of state.
+** TODO now create state class, Var in top level
+well, i'll want to tailor class to the sample json?
+would that be easy to do with upickle?
+let's just use deriving and cover full json?
 ** TODO adding map to lover component, returning function to set map center and point with coords.
 ** where do i first launch state initialization?
 i suppose at the level that defines state.
+** using HTML5 input validation
+#+begin_src html
+<input
+  type="text"
+  required <!-- don't allow empty field -->
+  pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$"
+  <!-- check value against regex on submission -->
+  title := "IPv4 address, like 192.168.0.1"
+  <!-- this is added to validation error message after 'Please match the expected format:' -->
+  >
+</input>
+
+this is already really cool!
+can't do validation against the database, or from a combination of fields,
+but seems good enough for many use cases. also there are many custom types, like email and whatnot.
+#+end_src
+*** with Laminar
+with laminar small complication: html5 checks are done on default behavior,
+so if i'm disabling it (to prevent page reload), i need to call the logic on the elements:
+#+begin_src scala
+    form(
+      className := "flex flex-row",
+      input(
+        className := "px-5 rounded-l-xl grow",
+        placeholder <-- Utils.isMobileWidthStream.map(
+          if (_) placeholderTextSmall else placeholderText
+        ),
+        typ := "text",
+        required := true,
+        pattern := """^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$""",
+        title := "IPv4 address, like 192.168.0.1",
+        controlled(
+          value <-- ipInput,
+          onInput.mapToValue --> ipInput
+        )
+      ),
+      onMountInsert(ctx =>
+        button(
+          className := "grid place-content-center w-12 h-12 bg-black rounded-r-xl",
+          typ := "submit",
+          img(
+            src := "/images/icon-arrow.svg",
+            alt := "Start search"
+          ),
+          onClick.preventDefault.map(_ =>
+            val validity = ctx.thisNode.ref.checkValidity()
+            if (!validity) ctx.thisNode.ref.reportValidity()
+            validity
+          ) --> Observer(isFormValid => {
+            println(s"submitted ${ipInput.now()} for form instate $isFormValid")
+          })
+        )
+      )
+    )
+#+end_src
+
+So, "submitButton" is being created with access to form's context, to allow easy usage of form's ref and it's functions:
+1. =checkValidity= :: boolean value if fields have passed validation
+2. =reportValidity=  :: funciton that triggers invalid state and messages in invalid fields
+
+I'm not sure programmatic validation of fields is easily integrated with this html5, if i only want it for some fields.
+for posteriority, here's link to one way of validating forms in Laminar, with logic to change field states -
+https://laminar.dev/examples/form-state
+** so. what needs the state -
+*** the inputs need setter
+*** the info needs signal
+*** the map needs coords signal

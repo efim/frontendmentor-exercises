@@ -27,6 +27,7 @@ lazy val ipAddrTracker = project.in(file("."))
     libraryDependencies += "org.scala-js" %%% "scalajs-dom" % "2.4.0",
     // https://laminar.dev/documentation
     libraryDependencies += "com.raquo" %%% "laminar" % "15.0.1",
+    libraryDependencies += "com.lihaoyi" %%% "upickle" % "3.1.0",
     // check out extras in laminext : fetch \ ws \ sources & signals
     // https://laminext.dev/v/0.15.x/
     libraryDependencies += "io.laminext" %%% "fetch" % "0.15.0",

@@ -1,9 +1,10 @@
 package industries.sunshine.ipaddrtracker
 
 import com.raquo.laminar.api.L.{*, given}
+import industries.sunshine.ipaddrtracker.StateModel.AddressInfo
 
 object Inputs {
-  def render() = {
+  def render(stateWriter: Observer[AddressInfo]) = {
     val placeholderText = "Search for any IP address or domain"
     val placeholderTextSmall =
       "Search for IP address"

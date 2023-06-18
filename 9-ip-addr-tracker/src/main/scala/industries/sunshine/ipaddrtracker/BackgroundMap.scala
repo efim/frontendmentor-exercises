@@ -5,7 +5,12 @@ import com.raquo.laminar.api.L.{*, given}
 
 object BackgroundMap {
 
-  def render() = {
+  final case class Coords(
+    lat: Double,
+    lgn: Double
+  )
+
+  def render(coods: Signal[Coords]) = {
     div(
       className := "fixed h-full -z-10",
       topPicture(),
