@@ -36,7 +36,7 @@ object BackgroundMap {
   private def topPicture() = {
     div(
       img(
-        className := "md:w-full md:h-64",
+        className := "w-full md:h-64",
         src <-- Utils.isMobileWidthStream.map(
           if (_) "/images/pattern-bg-mobile.png"
           else "/images/pattern-bg-desktop.png"

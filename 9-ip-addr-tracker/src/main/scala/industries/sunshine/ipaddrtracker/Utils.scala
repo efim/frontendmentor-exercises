@@ -10,7 +10,7 @@ object Utils {
     def windowSize = dom.window.innerWidth.toInt
     val windowWidthStream =
       resizeBus.events.map(_ => windowSize).startWith(windowSize)
-    val isMobileWidth = windowWidthStream.map(_ <= 375)
+    val isMobileWidth = windowWidthStream.map(_ <= 640)
     isMobileWidth
   }
 
