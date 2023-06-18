@@ -609,11 +609,12 @@ gets setter for the state
 ** DONE component that draws the table for data, when empty shows the loading thingy and overlay i guess
 connected to state, which is on top level
 gets stream of state.
-** TODO now create state class, Var in top level
+** DONE now create state class, Var in top level
 well, i'll want to tailor class to the sample json?
 would that be easy to do with upickle?
 let's just use deriving and cover full json?
 ** TODO adding map to lover component, returning function to set map center and point with coords.
+yeah. ok, not exactly, but let's go on with this.
 ** where do i first launch state initialization?
 i suppose at the level that defines state.
 ** using HTML5 input validation
@@ -683,3 +684,21 @@ https://laminar.dev/examples/form-state
 *** the inputs need setter
 *** the info needs signal
 *** the map needs coords signal
+** what's next - let's do map, i guess
+** setting up ScalaJS facade and installing leaflet
+this is giude for setting up ScalablyTyped with externally managed npm:
+https://www.scala-js.org/doc/tutorial/scalablytyped.html
+
+searching for verisons at https://www.npmjs.com/ ?
+
+#+begin_src
+npm install leaflet
+npm insall -D @types/leaflet typescript
+#+end_src
+
+here i got news about fresher version:
+https://scalablytyped.org/docs/plugin
+*** and versions are same as in my previous experiment, so scala code is already generated, cool
+** now to set things up - the start guide from leaflet:
+https://leafletjs.com/examples/quick-start/
+*** how can i set css styles "after" loading of the library? if i'm bundling code? whelp, let's add to index.html

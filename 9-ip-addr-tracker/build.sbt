@@ -2,6 +2,7 @@ import org.scalajs.linker.interface.ModuleSplitStyle
 
 lazy val ipAddrTracker = project.in(file("."))
   .enablePlugins(ScalaJSPlugin) // Enable the Scala.js plugin in this project
+  .enablePlugins(ScalablyTypedConverterExternalNpmPlugin)
   .settings(
     scalaVersion := "3.3.0",
 
@@ -20,6 +21,8 @@ lazy val ipAddrTracker = project.in(file("."))
         .withModuleSplitStyle(
           ModuleSplitStyle.SmallModulesFor(List("livechart")))
     },
+
+    externalNpm := baseDirectory.value,
 
     /* Depend on the scalajs-dom library.
      * It provides static types for the browser DOM APIs.

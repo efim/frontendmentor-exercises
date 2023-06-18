@@ -31,7 +31,7 @@ object Main {
         className := "py-4 text-2xl font-semibold text-white"
       ),
       div(
-        className := "px-6",
+        // className := "px-6",
         Inputs.render(state.writer),
         InfoPanel.render(state.signal),
         renderAttribution()
