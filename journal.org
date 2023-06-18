@@ -613,7 +613,7 @@ gets stream of state.
 well, i'll want to tailor class to the sample json?
 would that be easy to do with upickle?
 let's just use deriving and cover full json?
-** TODO adding map to lover component, returning function to set map center and point with coords.
+** DONE adding map to lover component, returning function to set map center and point with coords.
 yeah. ok, not exactly, but let's go on with this.
 ** where do i first launch state initialization?
 i suppose at the level that defines state.
@@ -702,3 +702,9 @@ https://scalablytyped.org/docs/plugin
 ** now to set things up - the start guide from leaflet:
 https://leafletjs.com/examples/quick-start/
 *** how can i set css styles "after" loading of the library? if i'm bundling code? whelp, let's add to index.html
+** TODO now i need methods that would call api,
+first hardcoding return,
+shared between initial setup, and form submittion
+and i could still keep the hardcoded initail star
+
+https://laminext.dev/v/0.15.x/t

@@ -28,7 +28,7 @@ object Main {
       ),
       h1(
         "IP Address Tracker",
-        className := "py-4 text-2xl font-semibold text-white"
+        className := "z-20 py-4 text-2xl font-semibold text-white"
       ),
       div(
         // className := "px-6",
@@ -42,7 +42,11 @@ object Main {
 
   def initState(): Var[StateModel.AddressInfo] = {
     val hardcoded = read[StateModel.AddressInfo](StateModel.sampleJson)
-    Var(hardcoded)
+
+    val stateVar = Var(hardcoded)
+    val gettingInitial = Apis.getSelfIp().map(data => stateVar.writer.onNext(data))
+
+    stateVar
   }
 
   def renderAttribution(): Element = {

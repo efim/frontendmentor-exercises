@@ -33,13 +33,23 @@ object Inputs {
             src := "/images/icon-arrow.svg",
             alt := "Start search"
           ),
-          onClick.preventDefault.map(_ =>
-            val validity = ctx.thisNode.ref.checkValidity()
-            if (!validity) ctx.thisNode.ref.reportValidity()
-            validity
-          ) --> Observer(isFormValid => {
-            println(s"submitted ${ipInput.now()} for form instate $isFormValid")
-          })
+          onClick.preventDefault
+            .map(_ =>
+              val validity = ctx.thisNode.ref.checkValidity()
+              if (!validity) ctx.thisNode.ref.reportValidity()
+              validity
+            )
+            .flatMap(_ => Apis.getIp(ipInput.now())) --> Observer(
+            (result: AddressInfo) => {
+              println("in the press")
+              stateWriter.onNext(result)
+              // Apis
+              //   .getIp(ipInput.now())
+              //   .map(newData =>
+              //     println(s"calling on next... ${newData.location}")
+              //     stateWriter.onNext(newData))
+            }
+          )
         )
       )
     )
