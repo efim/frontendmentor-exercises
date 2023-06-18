@@ -708,3 +708,17 @@ shared between initial setup, and form submittion
 and i could still keep the hardcoded initail star
 
 https://laminext.dev/v/0.15.x/t
+** well, i get errors from ipify, complaints about my app key
+*** there's better, seemingly free, at certainly gratis
+https://seeip.org/
+but it's backend only, because of CORS
+*** and this one seems to work from front end:
+https://ip-api.com/docs/api:json
+*** huh, ipify worked,
+but! for Tbilisi it didn't have lat lng:
+#+begin_quote
+got FetchResponse(true,200,OK,[object Headers],cors,{"ip":"176.221.162.56","location":{"country":"GE","region":"K'alak'i T'bilisi","timezone":"+04:00"},"as":{"asn":35805,"name":"SILKNET-AS","route":"176.221.128.0\/17","domain":"http:\/\/www.silknet.com","type":"Cable\/DSL\/ISP"},"isp":"JSC \"Silknet\""},https://geo.ipify.org/api/v2/country?apiKey=at_kxjQ1RWEj6dIsnWJwpOxHzuVlrPyT)
+#+end_quote
+** had to think about how to start initial Stream,
+just put it on the left side of modifiers of 'main'
+cool.

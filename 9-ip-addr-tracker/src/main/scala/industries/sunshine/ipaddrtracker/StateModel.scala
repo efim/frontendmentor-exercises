@@ -7,7 +7,6 @@ object StateModel {
   final case class AddressInfo(
       ip: String,
       location: Location,
-      domains: List[String],
       `as`: ProviderInfo,
       isp: String
   ) derives ReadWriter
