@@ -722,5 +722,5 @@ got FetchResponse(true,200,OK,[object Headers],cors,{"ip":"176.221.162.56","loca
 ** had to think about how to start initial Stream,
 just put it on the left side of modifiers of 'main'
 cool.
-** TODO desktop styling
-** TODO remove default styling of the input field
+** DONE desktop styling
+** DONE remove default styling of the input field

@@ -9,7 +9,7 @@ object InfoPanel {
     ul(
       className := "my-5", // temporary, set in parent
       className := "flex flex-col gap-y-5 p-5 bg-white rounded-xl",
-      className := "md:flex-row md:gap-x-10 md:justify-around md:items-start md:py-8 md:mt-10 md:w-4/5 md:h-36 md:divide-x-2 md:divide-solid",
+      className := "md:flex-row md:gap-x-10 md:justify-around md:items-start md:py-8 md:mt-10 md:w-4/5 md:divide-x-2 md:divide-solid md:min-h-36",
       renderItem("IP address", state.map(_.ip)),
       renderItem(
         "Location",
@@ -35,7 +35,7 @@ object InfoPanel {
         header
       ),
       p(
-        className := "text-lg font-semibold",
+        className := "overflow-hidden text-lg font-semibold text-ellipsis",
         className := "md:text-2xl md:leading-none",
         child.text <-- value
       )

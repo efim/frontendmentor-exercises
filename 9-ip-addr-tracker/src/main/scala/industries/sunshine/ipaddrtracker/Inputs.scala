@@ -10,7 +10,7 @@ object Inputs {
       "Search for IP address"
     val ipInput = Var("")
     form(
-      className := "flex flex-row md:h-14 md:w-[550px]",
+      className := "flex flex-row h-12 md:h-14 md:w-[550px]",
       input(
         className := "px-5 rounded-l-xl cursor-pointer outline-none grow",
         placeholder <-- Utils.isMobileWidthStream.map(
