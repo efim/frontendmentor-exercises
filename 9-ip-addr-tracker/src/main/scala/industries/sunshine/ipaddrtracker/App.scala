@@ -32,6 +32,7 @@ object Main {
       ),
       div(
         // className := "px-6",
+        className := "z-20",
         Inputs.render(state.writer),
         InfoPanel.render(state.signal),
         renderAttribution()

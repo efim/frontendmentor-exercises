@@ -7,6 +7,12 @@ import typings.leaflet.mod.TileLayerOptions
 import typings.leaflet.mod.LatLngLiteral
 import typings.leaflet.mod.Map_
 import typings.leaflet.mod.Marker_
+import typings.leaflet.global.L.DivIcon_
+import typings.leaflet.mod.MarkerOptions
+import typings.leaflet.mod.Icon_
+import typings.leaflet.mod.IconOptions
+import typings.leaflet.mod.MapOptions
+import typings.leaflet.mod.ZoomPanOptions
 
 object BackgroundMap {
 
@@ -21,7 +27,7 @@ object BackgroundMap {
 
   def render(coords: Signal[Coords]) = {
     div(
-      className := "fixed h-full -z-10",
+      className := "flex fixed flex-col h-full",
       topPicture(),
       map(coords)
     )
@@ -43,11 +49,11 @@ object BackgroundMap {
     var markerVar: Option[Marker_[Any]] = None
     div(
       idAttr := "map",
-      className := "w-screen h-screen bg-gray-300", // i don't know why max doens't work, let it be screen
+      className := "w-screen bg-gray-300 grow", // i don't know why max doens't work, let it be screen
       onMountCallback(ctx => {
         val defalutCoords = LatLngLiteral(51.505, -0.09)
         val mapInstance = typings.leaflet.mod
-          .map("map")
+          .map("map", MapOptions().setZoomControl(false))
           .setView(defalutCoords, 13)
         val layer = tileLayer(
           "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
@@ -58,14 +64,22 @@ object BackgroundMap {
             )
         ).addTo(mapInstance)
         val marker =
-          typings.leaflet.mod.marker(defalutCoords).addTo(mapInstance)
+          typings.leaflet.mod
+            .marker(
+              defalutCoords,
+              MarkerOptions().setIcon(
+                Icon_(IconOptions(iconUrl = "/images/icon-location.svg"))
+              )
+            )
+            .addTo(mapInstance)
         markerVar = Some(marker)
 
         mapVar = Some(mapInstance)
       }),
       coods.map(_.toLeaflet()) --> Observer((newCoords: LatLngLiteral) =>
-        mapVar.foreach(_.setView(newCoords))
         markerVar.foreach(_.setLatLng(newCoords))
+        mapVar.foreach(_.flyTo(newCoords, 13))
+        // mapVar.foreach(_.setView(newCoords, (), ZoomPanOptions().setAnimate(true).setDuration(2).setEaseLinearity(2)))
       )
     )
   }
