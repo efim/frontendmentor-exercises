@@ -22,17 +22,17 @@ object Apis {
     //   })
 
     // paid limited
-    // Fetch
-    //   .get(s"https://geo.ipify.org/api/v2/country,city?apiKey=${ipifyKey}")
-    //   .text
-    //   .map(resp => {
-    //     println(s"got $resp")
-    //     read[AddressInfo](resp.data)
-    //   })
+    Fetch
+      .get(s"https://geo.ipify.org/api/v2/country,city?apiKey=${ipifyKey}")
+      .text
+      .map(resp => {
+        println(s"got $resp")
+        read[AddressInfo](resp.data)
+      })
 
-    val hardcoded = read[AddressInfo](StateModel.sampleJson)
-    val modified = hardcoded.copy(location = hardcoded.location.copy(lat = 48.8647, lng = 2.349), ip = "3.3.3.3")
-    EventStream.fromValue(modified)
+    // val hardcoded = read[AddressInfo](StateModel.sampleJson)
+    // val modified = hardcoded.copy(location = hardcoded.location.copy(lat = 48.8647, lng = 2.349), ip = "3.3.3.3")
+    // EventStream.fromValue(modified)
   }
 
   def getIp(ip: String): EventStream[AddressInfo] = {
@@ -48,19 +48,19 @@ object Apis {
     //   })
 
     // paid limited
-    // Fetch
-    //   .get(
-    //     s"https://geo.ipify.org/api/v2/country,city?apiKey=${ipifyKey}&ipAddress=${ip}"
-    //   )
-    //   .text
-    //   .map(resp => {
-    //     read[AddressInfo](resp.data)
-    //   })
+    Fetch
+      .get(
+        s"https://geo.ipify.org/api/v2/country,city?apiKey=${ipifyKey}&ipAddress=${ip}"
+      )
+      .text
+      .map(resp => {
+        read[AddressInfo](resp.data)
+      })
 
-    val hardcoded = read[AddressInfo](StateModel.sampleJson)
-    val modified = hardcoded.copy(location = hardcoded.location.copy(lat = 41.69411, lng = 44.83368), ip = "1.1.1.1")
-    println(s"to return $modified")
-    EventStream.fromValue(modified, false)
+    // val hardcoded = read[AddressInfo](StateModel.sampleJson)
+    // val modified = hardcoded.copy(location = hardcoded.location.copy(lat = 41.69411, lng = 44.83368), ip = "1.1.1.1")
+    // println(s"to return $modified")
+    // EventStream.fromValue(modified, false)
   }
 
 }

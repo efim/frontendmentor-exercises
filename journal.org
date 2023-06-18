@@ -724,3 +724,15 @@ just put it on the left side of modifiers of 'main'
 cool.
 ** DONE desktop styling
 ** DONE remove default styling of the input field
+** yay, i've deployed
+https://efim-frontendmentor-ip-tracker.pages.dev/
+** now let's submit to frontendmentor:
+Yes, I've not completed things fully:
+1) want to try free api - https://ip-api.com/docs/api:json
+   it shouldn't have "500 requests" limit, and my sample site would be available for longer
+2) use grid in the info panel
+3) write good readme
+
+And add cool notes to this submittion.
+But! It works and I really want to cross it off my mind for a moment.
+ScalaJS, Laminar and integration with Leaflet maps through automatically binding that were automatically generated from Typescript interface by ScalablyTyped project, yay!
