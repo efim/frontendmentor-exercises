@@ -10,7 +10,7 @@ object Inputs {
       "Search for IP address"
     val ipInput = Var("")
     form(
-      className := "flex flex-row",
+      className := "flex flex-row md:h-14 md:w-[550px]",
       input(
         className := "px-5 rounded-l-xl grow",
         placeholder <-- Utils.isMobileWidthStream.map(
@@ -27,7 +27,7 @@ object Inputs {
       ),
       onMountInsert(ctx =>
         button(
-          className := "grid place-content-center w-12 h-12 bg-black rounded-r-xl",
+          className := "grid place-content-center w-12 bg-black rounded-r-xl md:w-14",
           typ := "submit",
           img(
             src := "/images/icon-arrow.svg",

@@ -33,11 +33,13 @@ object Main {
       ),
       h1(
         "IP Address Tracker",
-        className := "z-20 py-4 text-2xl font-semibold text-white"
+        className := "z-20 py-4 text-2xl font-semibold text-white",
+        className := "md:py-6 md:text-3xl",
       ),
       div(
         // className := "px-6",
         className := "z-20",
+        className := "md:flex md:flex-col md:items-center md:w-full",
         Inputs.render(state.writer),
         InfoPanel.render(state.signal),
         renderAttribution()

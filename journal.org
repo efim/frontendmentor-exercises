@@ -702,7 +702,7 @@ https://scalablytyped.org/docs/plugin
 ** now to set things up - the start guide from leaflet:
 https://leafletjs.com/examples/quick-start/
 *** how can i set css styles "after" loading of the library? if i'm bundling code? whelp, let's add to index.html
-** TODO now i need methods that would call api,
+** DONE now i need methods that would call api,
 first hardcoding return,
 shared between initial setup, and form submittion
 and i could still keep the hardcoded initail star
@@ -722,3 +722,5 @@ got FetchResponse(true,200,OK,[object Headers],cors,{"ip":"176.221.162.56","loca
 ** had to think about how to start initial Stream,
 just put it on the left side of modifiers of 'main'
 cool.
+** TODO desktop styling
+** TODO remove default styling of the input field
