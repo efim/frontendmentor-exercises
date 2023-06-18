@@ -40,17 +40,13 @@ object Inputs {
               if (!validity) ctx.thisNode.ref.reportValidity()
               validity
             )
-            .flatMap(_ => Apis.getIp(ipInput.now())) --> Observer(
-            (result: AddressInfo) => {
-              println("in the press")
-              stateWriter.onNext(result)
-              // Apis
-              //   .getIp(ipInput.now())
-              //   .map(newData =>
-              //     println(s"calling on next... ${newData.location}")
-              //     stateWriter.onNext(newData))
-            }
-          )
+            .flatMap(isValid =>
+              if (isValid) Apis.getIp(ipInput.now())
+              else EventStream.empty
+            ) --> Observer((result: AddressInfo) => {
+            println("in the press")
+            stateWriter.onNext(result)
+          })
         )
       )
     )
