@@ -8,6 +8,8 @@ import upickle.default._
 
 import com.raquo.laminar.api.L.{*, given}
 import industries.sunshine.ipaddrtracker.BackgroundMap.Coords
+import com.raquo.airstream.core.Observer
+import industries.sunshine.ipaddrtracker.StateModel.AddressInfo
 
 @main
 def App(): Unit =
@@ -19,10 +21,13 @@ def App(): Unit =
 object Main {
   def appElement(): Element = {
     val state = initState()
-    // state.signal.map(_.location.)
 
     mainTag(
       className := "flex flex-col items-center w-screen h-screen",
+      Apis.getSelfIp() --> Observer((initial: AddressInfo) => {
+        println(s"got response $initial")
+        state.writer.onNext(initial)
+      }), // directly bind initial Stream to load self ip info
       BackgroundMap.render(
         state.signal.map(st => Coords(st.location.lat, st.location.lng))
       ),
@@ -44,7 +49,6 @@ object Main {
     val hardcoded = read[StateModel.AddressInfo](StateModel.sampleJson)
 
     val stateVar = Var(hardcoded)
-    val gettingInitial = Apis.getSelfIp().map(data => stateVar.writer.onNext(data))
 
     stateVar
   }

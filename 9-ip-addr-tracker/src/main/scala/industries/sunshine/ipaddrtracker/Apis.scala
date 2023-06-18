@@ -9,25 +9,31 @@ import com.raquo.airstream.core.EventStream
 object Apis {
   val ipifyKey = ""
   def getSelfIp(): EventStream[AddressInfo] = {
+    println("in getting self ip")
     // Fetch
     //   .get(s"https://geo.ipify.org/api/v2/country?apiKey=${ipifyKey}")
     //   .text
     //   .map(resp => {
+    //     println(s"got $resp")
     //     read[AddressInfo](resp.data)
     //   })
 
-    EventStream.fromValue(read[AddressInfo](StateModel.sampleJson))
+    val hardcoded = read[AddressInfo](StateModel.sampleJson)
+    val modified = hardcoded.copy(location = hardcoded.location.copy(lat = 48.8647, lng = 2.349), ip = "3.3.3.3")
+    EventStream.fromValue(modified)
   }
 
   def getIp(ip: String): EventStream[AddressInfo] = {
+    println(s"in get ip for $ip")
     // Fetch
-    //   .get(s"https://geo.ipify.org/api/v2/country?apiKey=${ipifyKey}&ipAddress=${ip}")
+    //   .get(
+    //     s"https://geo.ipify.org/api/v2/country?apiKey=${ipifyKey}&ipAddress=${ip}"
+    //   )
     //   .text
     //   .map(resp => {
     //     read[AddressInfo](resp.data)
     //   })
 
-    println(s"in get ip for $ip")
     val hardcoded = read[AddressInfo](StateModel.sampleJson)
     println("what")
     val modified = hardcoded.copy(location = hardcoded.location.copy(lat = 41.69411, lng = 44.83368), ip = "1.1.1.1")
