@@ -736,3 +736,21 @@ Yes, I've not completed things fully:
 And add cool notes to this submittion.
 But! It works and I really want to cross it off my mind for a moment.
 ScalaJS, Laminar and integration with Leaflet maps through automatically binding that were automatically generated from Typescript interface by ScalablyTyped project, yay!
+* wow, cool example - exercise with lots of comments
+https://github.com/Thewatcher13/product-card-perfume/tree/main
+
+i found out about
+** picture tag, which can have different sources based on media query
+** s tag - to show inaccurate information
+* 10. and now it's time to do exercise with sorting.
+https://www.frontendmentor.io/challenges/todo-app-Su1_KokOW/hub
+
+i've kind of successfully set up sorting in example project.
+my guess is that facade is not generated correctly.
+
+maybe would be cool to wrap unavailable things on my own.
+but OKOKOK, this is not quite good, but "good enough".
+
+is good enough actually a good thing here?
+i suppose that in actual production website it could be good enough,
+if ScalaJS had advantages in other areas.
