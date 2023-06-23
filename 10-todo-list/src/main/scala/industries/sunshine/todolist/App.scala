@@ -18,8 +18,10 @@ object Main {
   def appElement(): Element =
     div(
       Background.render(),
-      """
-  Todo
+      div(
+        className := "grid px-5",
+        Header.render(),
+        """
 
   <!-- Add dynamic number --> items left
 
@@ -31,7 +33,8 @@ object Main {
 
   Drag and drop to reorder list
 """,
-      renderAttribution()
+      ),
+        renderAttribution()
     )
 
   def renderAttribution(): Element = {

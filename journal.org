@@ -755,21 +755,21 @@ is good enough actually a good thing here?
 i suppose that in actual production website it could be good enough,
 if ScalaJS had advantages in other areas.
 ** let's think about what's needed:
-*** again the background image and color,
+*** DONE again the background image and color,
 i guess could be done as as in previous, with negative z level, here's no map for interaction.
-*** header with theme change button
-*** image is changing with the theme change,
+*** DONE header with theme change button
+*** TODO image is changing with the theme change,
 and icon on the change theme button
 and also tailwind classes, but i'll read about that later
-*** overall state with task model:
+*** TODO overall state with task model:
 1. list
 2. text
 3. isComplete
-*** task creation needs update function
-*** tasks list component with some group functions (and reordering things)
+*** TODO task creation needs update function
+*** TODO tasks list component with some group functions (and reordering things)
 and counter of how many are left
 and "filter" buttons
-*** single task display
+*** TODO single task display
 with complete and delete buttons
 * trying to learn more about reactive images:
 https://blog.webdevsimplified.com/2023-05/responsive-images/
