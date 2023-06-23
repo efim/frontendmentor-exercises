@@ -754,3 +754,40 @@ but OKOKOK, this is not quite good, but "good enough".
 is good enough actually a good thing here?
 i suppose that in actual production website it could be good enough,
 if ScalaJS had advantages in other areas.
+** let's think about what's needed:
+*** again the background image and color,
+i guess could be done as as in previous, with negative z level, here's no map for interaction.
+*** header with theme change button
+*** image is changing with the theme change,
+and icon on the change theme button
+and also tailwind classes, but i'll read about that later
+*** overall state with task model:
+1. list
+2. text
+3. isComplete
+*** task creation needs update function
+*** tasks list component with some group functions (and reordering things)
+and counter of how many are left
+and "filter" buttons
+*** single task display
+with complete and delete buttons
+* trying to learn more about reactive images:
+https://blog.webdevsimplified.com/2023-05/responsive-images/
+
+picture tag would allow to have different sources
+* Responsive Images ! first time finding out about online resource with placeholder images:
+https://placehold.co/
+
+this seems maybe interesting.
+oh, for when i'm designing a gallery for example!
+
+wow, thank you web dev simplified:
+https://blog.webdevsimplified.com/2023-05/responsive-images/
+and it turns out there's big article from Mozilla:
+https://developer.mozilla.org/en-US/docs/Learn/HTML/Multimedia_and_embedding/Responsive_images
+cool.
+
+difference between <src> size set - it doesn't downgrade image, it's purpose is bandwidth optimization
+<picture> would change images in screen size increase and decrease - it's purpose is selecting image for the media query size
+
+very cool.
