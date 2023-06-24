@@ -791,3 +791,7 @@ difference between <src> size set - it doesn't downgrade image, it's purpose is 
 <picture> would change images in screen size increase and decrease - it's purpose is selecting image for the media query size
 
 very cool.
+* new things about "pointer events" - putting svg on top of input "checkbox"
+https://tailwindcss.com/docs/pointer-events
+
+exactly for putting icons on top of inputs, right?

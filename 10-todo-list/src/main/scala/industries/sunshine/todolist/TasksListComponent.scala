@@ -45,7 +45,7 @@ object TasksListComponent {
           onInput.mapToChecked --> Observer(setTaskCompletion(_))
         ),
         img(
-          className := "absolute top-1/3 left-1/3 w-2",
+          className := "absolute top-1/3 left-1/3 w-2 pointer-events-none",
           src := "/images/icon-check.svg",
           alt := "task is done"
         )
