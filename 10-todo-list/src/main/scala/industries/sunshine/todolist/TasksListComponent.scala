@@ -76,24 +76,31 @@ object TasksListComponent {
   private def renderListFooter() = {
     def renderCount() = {
       val a = 1
-      p(className := "p-3 bg-white rounded-bl", "items left")
+      p(
+        className := "p-3 px-5 text-xs bg-white rounded-bl text-dark-grayish-blue",
+        "items left"
+      )
     }
 
     def renderClearCompleted() = {
       val a = 1
-      p(className := "p-3 bg-white rounded-br", "clear completed")
+      p(
+        className := "p-3 px-5 text-xs bg-white rounded-br text-dark-grayish-blue",
+        "Clear Completed"
+      )
     }
 
     def renderFilters() = {
       val a = 1
       div(
         className := "grid",
-        className := "text-sm bg-white",
+        className := "text-sm font-bold bg-white",
         div(
           className := "inline-grid place-content-center grid-cols-[repeat(3,_auto)]",
-          p("all"),
-          p("active"),
-          p("completed")
+          className := "text-xs text-dark-grayish-blue",
+          button(className := "px-2", "All"),
+          button(className := "px-2", "Active"),
+          button(className := "px-2", "Completed")
         )
       )
 
