@@ -784,7 +784,7 @@ with complete and delete buttons
 *** DONE now delete completed button
 *** DONE number of items left
 *** DONE desktop styling
-*** TODO drag and drop sorting
+*** DONE drag and drop sorting
 *** TODO dark theme
 * trying to learn more about reactive images:
 https://blog.webdevsimplified.com/2023-05/responsive-images/

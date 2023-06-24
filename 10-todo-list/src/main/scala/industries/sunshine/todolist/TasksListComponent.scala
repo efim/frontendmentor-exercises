@@ -51,11 +51,23 @@ object TasksListComponent {
             sortable.destroy()
           }
         ),
-        eventProp(name = "end") --> Observer[dom.Event](event => {
-          val dynamix = event.asInstanceOf[js.Dynamic]
-          val fromIndex = dynamix.oldIndex.asInstanceOf[Int]
-          val newIndex = dynamix.newIndex.asInstanceOf[Int]
-          moveTask(fromIndex, newIndex)
+        onMountBind(ctx => {
+          eventProp(name = "end") --> Observer[dom.Event](event => {
+            val dynamix = event.asInstanceOf[js.Dynamic]
+            // these indices are potentially from the "filtered" list
+            val fromIndex = dynamix.oldIndex.asInstanceOf[Int]
+            val newIndex = dynamix.newIndex.asInstanceOf[Int]
+
+            val filteredList = filteredTastsList.observe(ctx.owner).now()
+            val fromItem = filteredList(fromIndex)
+            val toItem = filteredList(newIndex)
+
+            val fullList = tasks.observe(ctx.owner).now()
+            val fullFrom = fullList.indexOf(fromItem)
+            val fullTo = fullList.indexOf(toItem)
+
+            moveTask(fullFrom, fullTo)
+          })
         })
       ),
       renderListFooter(
