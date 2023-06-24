@@ -54,7 +54,7 @@ object Main {
     val raw = Option(dom.window.localStorage.getItem(stateStorageKey))
     val saved = raw.map(read[List[TaskDescription]](_))
     println(s"got unpickled state: $saved")
-    val state = saved.getOrElse(List.empty)
+    val state = saved.getOrElse(StateModel.default)
     Var[List[TaskDescription]](state)
   }
   def saveState(state: List[TaskDescription]): Unit = {
