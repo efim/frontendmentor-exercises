@@ -5,7 +5,7 @@ import com.raquo.laminar.api.L.{*, given}
 object Header {
   def render() = {
     headerTag(
-      className := "grid items-center mt-9 mb-7 grid-cols-[1fr_30px]",
+      className := "grid items-center mt-9 mb-2 grid-cols-[1fr_30px]",
       h1(
         className := "text-2xl font-bold text-white uppercase tracking-[0.35rem]",
         "todo"),

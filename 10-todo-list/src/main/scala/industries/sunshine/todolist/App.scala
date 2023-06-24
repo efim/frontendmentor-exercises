@@ -6,6 +6,7 @@ import scala.scalajs.js.annotation.*
 import org.scalajs.dom
 
 import com.raquo.laminar.api.L.{*, given}
+import industries.sunshine.todolist.StateModel.TaskDescription
 
 @main
 def App(): Unit =
@@ -15,12 +16,15 @@ def App(): Unit =
   )
 
 object Main {
-  def appElement(): Element =
+  def appElement(): Element = {
+    val state = Var[List[TaskDescription]](List.empty)
+
     div(
       Background.render(),
       div(
-        className := "grid px-5",
+        className := "grid gap-y-5 px-5",
         Header.render(),
+        InputUI.render(newTask => state.update(_.prepended(newTask))),
         """
 
   <!-- Add dynamic number --> items left
@@ -34,8 +38,9 @@ object Main {
   Drag and drop to reorder list
 """,
       ),
-        renderAttribution()
+      renderAttribution()
     )
+  }
 
   def renderAttribution(): Element = {
     footerTag(
