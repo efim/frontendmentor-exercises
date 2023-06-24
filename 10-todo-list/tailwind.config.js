@@ -17,7 +17,7 @@ export default {
         'bold': 700,
       },
       colors: {
-        'primay-bright-blue': 'hsl(220, 98%, 61%)',
+        'primary-bright-blue': 'hsl(220, 98%, 61%)',
         'primary-check-blue': 'hsl(192, 100%, 67%)',
         'primary-check-purple': 'hsl(280, 87%, 65%)',
         // light theme

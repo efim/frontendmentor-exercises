@@ -2,6 +2,7 @@ package industries.sunshine.todolist
 
 import com.raquo.laminar.api.L.{*, given}
 import industries.sunshine.todolist.StateModel.TaskDescription
+import java.util.Locale.FilteringMode
 
 object TasksListComponent {
   def render(
@@ -9,10 +10,15 @@ object TasksListComponent {
       setTaskCompletion: String => Boolean => Unit,
       removeTask: String => () => Unit
   ) = {
+    val filterState = Var[Filtering](Filtering.All)
+    val filteredTastsList = tasks.combineWith(filterState).map {
+      case (tasksList, currentFilter) => tasksList.filter(currentFilter.isVisible(_))
+    }
+
     div(
       div(
         className := "flex flex-col divide-y divide-very-light-grayish-blue",
-        children <-- tasks.split(_.uuid) {
+        children <-- filteredTastsList.split(_.uuid) {
           case (taskId, initial, taskSignal) => {
             renderSingleTask(
               taskSignal,
@@ -21,7 +27,7 @@ object TasksListComponent {
             )
           }
         },
-        renderListFooter()
+        renderListFooter(filterState)
       ),
       renderBottomInfo()
     )
@@ -77,7 +83,7 @@ object TasksListComponent {
     * manual corner rounding, so that white backround would be on elements, and
     * not on Gap
     */
-  private def renderListFooter() = {
+  private def renderListFooter(listFiltering: Var[Filtering]) = {
     def renderCount() = {
       val a = 1
       p(
@@ -94,17 +100,34 @@ object TasksListComponent {
       )
     }
 
-    def renderFilters() = {
-      val a = 1
+    // each filter control is a component that contains an instance of Filtering
+    def renderFilters(listFiltering: Var[Filtering]) = {
+      def filterControl(ownFilter: Filtering) = {
+        println(s"rendering for $ownFilter, active is ${listFiltering.now()}")
+        button(
+          className := "px-2",
+          ownFilter.toString(),
+          className <-- listFiltering.signal
+            .map(active => active == ownFilter)
+            .map(
+              if (_) "text-primary-bright-blue" else "text-dark-grayish-blue"
+            ),
+          onClick --> Observer(_ => {
+            listFiltering.set(ownFilter)
+            println(s"setting new filter $ownFilter")
+          })
+        )
+      }
+
       div(
         className := "grid",
         className := "text-sm font-bold bg-white",
         div(
           className := "inline-grid place-content-center grid-cols-[repeat(3,_auto)]",
-          className := "text-xs text-dark-grayish-blue",
-          button(className := "px-2", "All"),
-          button(className := "px-2", "Active"),
-          button(className := "px-2", "Completed")
+          className := "text-xs",
+          filterControl(Filtering.All),
+          filterControl(Filtering.Active),
+          filterControl(Filtering.Completed)
         )
       )
 
@@ -116,7 +139,7 @@ object TasksListComponent {
       renderCount(),
       div(className := "bg-white"), // empty space for mobile view
       renderClearCompleted(),
-      renderFilters().amend(
+      renderFilters(listFiltering).amend(
         className := "col-span-full",
         className := "p-3 rounded"
       )
@@ -128,4 +151,18 @@ object TasksListComponent {
     "Drag and drop to reorder list"
   )
 
+  sealed trait Filtering {
+    def isVisible(task: TaskDescription): Boolean
+  }
+  object Filtering {
+    case object All extends Filtering {
+      override def isVisible(task: TaskDescription): Boolean = true
+    }
+    case object Active extends Filtering {
+      override def isVisible(task: TaskDescription): Boolean = !task.isCompleted
+    }
+    case object Completed extends Filtering {
+      override def isVisible(task: TaskDescription): Boolean = task.isCompleted
+    }
+  }
 }
