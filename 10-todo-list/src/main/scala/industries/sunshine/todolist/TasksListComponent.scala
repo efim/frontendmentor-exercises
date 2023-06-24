@@ -10,19 +10,22 @@ object TasksListComponent {
       removeTask: String => () => Unit
   ) = {
     div(
-      className := "flex flex-col",
-      children <-- tasks.split(_.uuid) {
-        case (taskId, initial, taskSignal) => {
-          renderSingleTask(
-            taskSignal,
-            setTaskCompletion(taskId),
-            removeTask(taskId)
-          )
-        }
-      },
-      renderListFooter(),
+      div(
+        className := "flex flex-col divide-y divide-very-light-grayish-blue",
+        children <-- tasks.split(_.uuid) {
+          case (taskId, initial, taskSignal) => {
+            renderSingleTask(
+              taskSignal,
+              setTaskCompletion(taskId),
+              removeTask(taskId)
+            )
+          }
+        },
+        renderListFooter()
+      ),
       renderBottomInfo()
     )
+
   }
 
   private def renderSingleTask(
@@ -34,7 +37,7 @@ object TasksListComponent {
       className := "flex flex-row items-center p-3 px-4 bg-white",
       className := "first:rounded-t",
       div(
-        className := "relative mr-3 w-5 h-5",
+        className := "relative mr-2 w-5 h-5",
         input(
           typ := "checkbox",
           checked <-- task.map(_.isCompleted),
@@ -53,7 +56,8 @@ object TasksListComponent {
       p(
         className := "text-xs duration-200 grow",
         className <-- task.map(t =>
-          if (t.isCompleted) "line-through text-light-grayish-blue" else ""
+          if (t.isCompleted) "line-through text-light-grayish-blue"
+          else "text-very-dark-grayish-blue"
         ),
         child.text <-- task.map(_.description)
       ),

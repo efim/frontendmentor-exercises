@@ -40,7 +40,7 @@ object Main {
     div(
       Background.render(),
       div(
-        className := "grid gap-y-5 px-5",
+        className := "grid gap-y-4 px-5",
         Header.render(),
         InputUI.render(onTaskSubmit(_)),
         TasksListComponent.render(state.signal, setTaskCompletion, removeTask),

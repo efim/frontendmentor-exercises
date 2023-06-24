@@ -6,6 +6,9 @@ export default {
   ],
   theme: {
     extend: {
+      fontSize: {
+        xs: '0.7rem',
+      },
       fontFamily: {
         'sans': ['Josefin Sans', 'sans-serif'], // This will set Roboto as the default sans font
       },

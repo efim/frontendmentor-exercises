@@ -771,6 +771,11 @@ and counter of how many are left
 and "filter" buttons
 **** TODO one of the "filters" is active, by default "all"
 so, what we put a filter into state i guess?
+
+ok, how should i use filter.
+at the list level? it could be, yes.
+State at list level, with storing function in case classes
+yeah, and apply that to the incoming signal of list of element. yeah. ok.
 *** TODO single task display
 with complete and delete buttons
 * trying to learn more about reactive images:
