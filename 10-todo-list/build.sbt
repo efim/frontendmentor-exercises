@@ -31,4 +31,6 @@ lazy val todoList = project.in(file("."))
     // https://laminext.dev/v/0.15.x/
     libraryDependencies += "io.laminext" %%% "fetch" % "0.15.0",
     libraryDependencies += "com.lihaoyi" %%% "upickle" % "3.1.0",
+    libraryDependencies += ("org.scala-js" %%% "scalajs-java-securerandom" % "1.0.0").cross(CrossVersion.for3Use2_13),
+    libraryDependencies += "com.softwaremill.quicklens" %%% "quicklens" % "1.9.4"
   )

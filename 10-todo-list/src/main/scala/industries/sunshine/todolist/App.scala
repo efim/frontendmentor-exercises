@@ -7,6 +7,7 @@ import org.scalajs.dom
 
 import com.raquo.laminar.api.L.{*, given}
 import upickle.default._
+import com.softwaremill.quicklens._
 import industries.sunshine.todolist.StateModel.TaskDescription
 
 @main
@@ -23,6 +24,18 @@ object Main {
       state.update(_.prepended(task))
       saveState(state.now())
     }
+    def setTaskCompletion(taskId: String)(newIsCompleted: Boolean): Unit = {
+      println(s"about to set $newIsCompleted to $taskId")
+      state.update(
+        _.modify(_.eachWhere(_.uuid == taskId).isCompleted)
+          .setTo(newIsCompleted)
+      )
+      saveState(state.now())
+    }
+    def removeTask(taskId: String): () => Unit = () => {
+      state.update(_.filterNot(_.uuid == taskId))
+      saveState(state.now())
+    }
 
     div(
       Background.render(),
@@ -30,7 +43,7 @@ object Main {
         className := "grid gap-y-5 px-5",
         Header.render(),
         InputUI.render(onTaskSubmit(_)),
-        TasksListComponent.render(state.signal),
+        TasksListComponent.render(state.signal, setTaskCompletion, removeTask),
         """
 
   <!-- Add dynamic number --> items left
@@ -42,7 +55,7 @@ object Main {
   Clear Completed
 
   Drag and drop to reorder list
-""",
+"""
       ),
       renderAttribution()
     )
