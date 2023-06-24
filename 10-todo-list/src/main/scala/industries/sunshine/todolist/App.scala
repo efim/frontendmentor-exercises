@@ -6,6 +6,7 @@ import scala.scalajs.js.annotation.*
 import org.scalajs.dom
 
 import com.raquo.laminar.api.L.{*, given}
+import upickle.default._
 import industries.sunshine.todolist.StateModel.TaskDescription
 
 @main
@@ -17,14 +18,19 @@ def App(): Unit =
 
 object Main {
   def appElement(): Element = {
-    val state = Var[List[TaskDescription]](List.empty)
+    val state = getState()
+    def onTaskSubmit(task: TaskDescription): Unit = {
+      state.update(_.prepended(task))
+      saveState(state.now())
+    }
 
     div(
       Background.render(),
       div(
         className := "grid gap-y-5 px-5",
         Header.render(),
-        InputUI.render(newTask => state.update(_.prepended(newTask))),
+        InputUI.render(onTaskSubmit(_)),
+        TasksListComponent.render(state.signal),
         """
 
   <!-- Add dynamic number --> items left
@@ -40,6 +46,20 @@ object Main {
       ),
       renderAttribution()
     )
+  }
+
+  val stateStorageKey = "stateStorageKey"
+  def getState() = {
+    val raw = Option(dom.window.localStorage.getItem(stateStorageKey))
+    val saved = raw.map(read[List[TaskDescription]](_))
+    println(s"got unpickled state: $saved")
+    val state = saved.getOrElse(List.empty)
+    Var[List[TaskDescription]](state)
+  }
+  def saveState(state: List[TaskDescription]): Unit = {
+    val pickled = write(state)
+    dom.window.localStorage.setItem(stateStorageKey, pickled)
+    println(s"should save $pickled")
   }
 
   def renderAttribution(): Element = {

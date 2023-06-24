@@ -30,4 +30,5 @@ lazy val todoList = project.in(file("."))
     // check out extras in laminext : fetch \ ws \ sources & signals
     // https://laminext.dev/v/0.15.x/
     libraryDependencies += "io.laminext" %%% "fetch" % "0.15.0",
+    libraryDependencies += "com.lihaoyi" %%% "upickle" % "3.1.0",
   )
