@@ -44,18 +44,6 @@ object Main {
         Header.render(),
         InputUI.render(onTaskSubmit(_)),
         TasksListComponent.render(state.signal, setTaskCompletion, removeTask),
-        """
-
-  <!-- Add dynamic number --> items left
-
-  All
-  Active
-  Completed
-
-  Clear Completed
-
-  Drag and drop to reorder list
-"""
       ),
       renderAttribution()
     )

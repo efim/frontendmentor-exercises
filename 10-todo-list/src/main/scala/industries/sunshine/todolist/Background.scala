@@ -13,7 +13,7 @@ object Background {
     // and it turns out there's big article from Mozilla:
     // https://developer.mozilla.org/en-US/docs/Learn/HTML/Multimedia_and_embedding/Responsive_images
     div(
-      className := "fixed w-screen h-screen -z-10 bg-very-light-gray",
+      className := "fixed w-screen h-screen -z-10 bg-very-light-grayish-blue",
       pictureTag(
         sourceTag(
           media := "(max-width: 375px)",

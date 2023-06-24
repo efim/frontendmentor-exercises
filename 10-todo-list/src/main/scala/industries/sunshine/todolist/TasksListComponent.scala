@@ -10,6 +10,7 @@ object TasksListComponent {
       removeTask: String => () => Unit
   ) = {
     div(
+      className := "flex flex-col",
       children <-- tasks.split(_.uuid) {
         case (taskId, initial, taskSignal) => {
           renderSingleTask(
@@ -18,7 +19,9 @@ object TasksListComponent {
             removeTask(taskId)
           )
         }
-      }
+      },
+      renderListFooter(),
+      renderBottomInfo()
     )
   }
 
@@ -44,7 +47,7 @@ object TasksListComponent {
         img(
           className := "absolute top-1/3 left-1/3 w-2",
           src := "/images/icon-check.svg",
-          alt := "task is done",
+          alt := "task is done"
         )
       ),
       p(
@@ -64,4 +67,54 @@ object TasksListComponent {
       )
     )
   }
+
+  /** counter, controls to clear all, and apply filters on mobile - in two bars,
+    * on desktop - as single bar doing with very confusing grid layout and
+    * manual corner rounding, so that white backround would be on elements, and
+    * not on Gap
+    */
+  private def renderListFooter() = {
+    def renderCount() = {
+      val a = 1
+      p(className := "p-3 bg-white rounded-bl", "items left")
+    }
+
+    def renderClearCompleted() = {
+      val a = 1
+      p(className := "p-3 bg-white rounded-br", "clear completed")
+    }
+
+    def renderFilters() = {
+      val a = 1
+      div(
+        className := "grid",
+        className := "text-sm bg-white",
+        div(
+          className := "inline-grid place-content-center grid-cols-[repeat(3,_auto)]",
+          p("all"),
+          p("active"),
+          p("completed")
+        )
+      )
+
+    }
+
+    div(
+      className := "grid gap-y-4 grid-cols-[auto_1fr_auto]",
+      className := "text-sm",
+      renderCount(),
+      div(className := "bg-white"), // empty space for mobile view
+      renderClearCompleted(),
+      renderFilters().amend(
+        className := "col-span-full",
+        className := "p-3 rounded"
+      )
+    )
+  }
+
+  def renderBottomInfo() = p(
+    className := "mt-10 text-sm text-center text-very-dark-grayish-blue",
+    "Drag and drop to reorder list"
+  )
+
 }
