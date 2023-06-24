@@ -1,16 +1,23 @@
 package industries.sunshine.todolist
 
+import scala.scalajs.js
+import org.scalajs.dom
+
 import com.raquo.laminar.api.L.{*, given}
 import industries.sunshine.todolist.StateModel.TaskDescription
+import typings.sortablejs.sortablejsRequire
 import java.util.Locale.FilteringMode
+import typings.sortablejs.mod.Options
 
 object TasksListComponent {
   def render(
       tasks: Signal[List[TaskDescription]],
       setTaskCompletion: String => Boolean => Unit,
       removeTask: String => () => Unit,
-      removeAllCompleted: () => Unit
+      removeAllCompleted: () => Unit,
+      moveTask: (Int, Int) => Unit
   ) = {
+    val initSortable = sortablejsRequire
     val filterState = Var[Filtering](Filtering.All)
     val filteredTastsList =
       tasks.combineWith(filterState).map { case (tasksList, currentFilter) =>
@@ -29,11 +36,34 @@ object TasksListComponent {
             )
           }
         },
-        renderListFooter(
-          tasks.map(_.count(!_.isCompleted)),
-          filterState,
-          removeAllCompleted
-        )
+        onMountUnmountCallback(
+          ctx => {
+            val library = typings.sortablejs.mod.^.asInstanceOf[js.Dynamic]
+            val options = Options()
+            // typings.sortablejs.mod.create(ctx.thisNode.ref, options)
+            val sortable = library.Sortable.create(ctx.thisNode.ref, options)
+            println(s"ttempting to create sortable i guess $sortable")
+          },
+          el => {
+            val library = typings.sortablejs.mod.^.asInstanceOf[js.Dynamic]
+            // typings.sortablejs.mod.get(el.ref)
+            val sortable = library.Sortable.get(el.ref)
+            sortable.destroy()
+          }
+        ),
+        eventProp(name = "end") --> Observer[dom.Event](event => {
+          val dynamix = event.asInstanceOf[js.Dynamic]
+          val fromIndex = dynamix.oldIndex.asInstanceOf[Int]
+          val newIndex = dynamix.newIndex.asInstanceOf[Int]
+          moveTask(fromIndex, newIndex)
+        })
+      ),
+      renderListFooter(
+        tasks.map(_.count(!_.isCompleted)),
+        filterState,
+        removeAllCompleted
+      ).amend(
+        className := "border-t border-very-light-grayish-blue"
       ),
       renderBottomInfo()
     )

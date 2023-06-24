@@ -38,6 +38,16 @@ object Main {
     }
     def removeAllCompleted():  Unit = {
       state.update(_.filterNot(_.isCompleted))
+      saveState(state.now())
+    }
+    def moveTask(from: Int, to: Int): Unit = {
+      val snapshot = state.now()
+      val buffer = snapshot.toBuffer
+      val movedItem = buffer.remove(from)
+      buffer.insert(to, movedItem)
+      println(s"received  ${from} -> ${to}")
+      state.set(buffer.toList)
+      saveState(state.now())
     }
 
     div(
@@ -49,7 +59,7 @@ object Main {
         // for some reason w-1/2 doesn't work, even though parent div w-screen
         Header.render(),
         InputUI.render(onTaskSubmit(_)),
-        TasksListComponent.render(state.signal, setTaskCompletion, removeTask, removeAllCompleted),
+        TasksListComponent.render(state.signal, setTaskCompletion, removeTask, removeAllCompleted, moveTask),
       ),
       renderAttribution(),
     )

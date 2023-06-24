@@ -2,6 +2,7 @@ import org.scalajs.linker.interface.ModuleSplitStyle
 
 lazy val todoList = project.in(file("."))
   .enablePlugins(ScalaJSPlugin) // Enable the Scala.js plugin in this project
+  .enablePlugins(ScalablyTypedConverterExternalNpmPlugin)
   .settings(
     scalaVersion := "3.3.0",
 
@@ -20,6 +21,9 @@ lazy val todoList = project.in(file("."))
         .withModuleSplitStyle(
           ModuleSplitStyle.SmallModulesFor(List("livechart")))
     },
+
+    // Tell ScalablyTyped that we manage `npm install` ourselves
+    externalNpm := baseDirectory.value,
 
     /* Depend on the scalajs-dom library.
      * It provides static types for the browser DOM APIs.
