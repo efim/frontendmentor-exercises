@@ -29,7 +29,11 @@ object TasksListComponent {
             )
           }
         },
-        renderListFooter(filterState, removeAllCompleted)
+        renderListFooter(
+          tasks.map(_.count(!_.isCompleted)),
+          filterState,
+          removeAllCompleted
+        )
       ),
       renderBottomInfo()
     )
@@ -86,14 +90,15 @@ object TasksListComponent {
     * not on Gap
     */
   private def renderListFooter(
+      uncompletedCount: Signal[Int],
       listFiltering: Var[Filtering],
       removeAllCompleted: () => Unit
   ) = {
     def renderCount() = {
-      val a = 1
       p(
         className := "p-3 px-5 text-xs bg-white rounded-bl text-dark-grayish-blue",
-        "items left"
+        child.text <-- uncompletedCount.map(_.toString()),
+        " items left"
       )
     }
 

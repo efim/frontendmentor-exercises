@@ -782,7 +782,7 @@ and check of is active seems easy then, yay
 *** DONE single task display
 with complete and delete buttons
 *** DONE now delete completed button
-*** TODO number of items left
+*** DONE number of items left
 *** TODO desktop styling
 *** TODO drag and drop sorting
 *** TODO dark theme
