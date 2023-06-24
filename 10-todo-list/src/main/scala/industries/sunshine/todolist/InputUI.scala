@@ -26,6 +26,7 @@ object InputUI {
         onSubmit.preventDefault --> Observer(_ =>
           println(s"submitting form with ${inputState.now()}")
           onSubmitTask(TaskDescription(inputState.now(), false))
+          inputState.set("")
         )
       )
     )
