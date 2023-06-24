@@ -8,12 +8,14 @@ object InputUI {
     val inputState = Var("")
     div(
       className := "flex flex-row items-center p-3 px-4 bg-white rounded",
+      className := "md:p-4 md:px-5",
       div(
-        className := "mr-3 w-5 h-5 rounded-full border border-light-grayish-blue"
+        className := "mr-3 w-5 h-5 rounded-full border border-light-grayish-blue",
+          className := "md:mr-4",
       ),
       form(
         input(
-          className := "text-xs grow",
+          className := "text-xs md:text-base md:tracking-tighter grow",
           className := "border-none appearance-none outline-none",
           typ := "text",
           placeholder := "Create a new todo...",

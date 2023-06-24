@@ -47,9 +47,11 @@ object TasksListComponent {
   ) = {
     div(
       className := "flex flex-row items-center p-3 px-4 bg-white",
+      className := "md:p-4 md:px-5",
       className := "first:rounded-t",
       div(
         className := "relative mr-2 w-5 h-5",
+        className := "md:mr-4",
         input(
           typ := "checkbox",
           checked <-- task.map(_.isCompleted),
@@ -66,7 +68,7 @@ object TasksListComponent {
         )
       ),
       p(
-        className := "text-xs duration-200 grow",
+        className := "text-xs duration-200 md:text-base md:tracking-tighter grow",
         className <-- task.map(t =>
           if (t.isCompleted) "line-through text-light-grayish-blue"
           else "text-very-dark-grayish-blue"
@@ -74,6 +76,7 @@ object TasksListComponent {
         child.text <-- task.map(_.description)
       ),
       button(
+        className := "md:hidden",
         img(
           src := "/images/icon-cross.svg",
           alt := "delete the task",
@@ -96,7 +99,7 @@ object TasksListComponent {
   ) = {
     def renderCount() = {
       p(
-        className := "p-3 px-5 text-xs bg-white rounded-bl text-dark-grayish-blue",
+        className := "p-3 px-5 bg-white rounded-bl text-dark-grayish-blue",
         child.text <-- uncompletedCount.map(_.toString()),
         " items left"
       )
@@ -104,7 +107,7 @@ object TasksListComponent {
 
     def renderClearCompleted() = {
       button(
-        className := "p-3 px-5 text-xs bg-white rounded-br text-dark-grayish-blue",
+        className := "p-3 px-5 bg-white rounded-br text-dark-grayish-blue",
         "Clear Completed",
         onClick --> Observer(_ => removeAllCompleted())
       )
@@ -131,10 +134,9 @@ object TasksListComponent {
 
       div(
         className := "grid",
-        className := "text-sm font-bold bg-white",
+        className := "font-bold bg-white",
         div(
           className := "inline-grid place-content-center grid-cols-[repeat(3,_auto)]",
-          className := "text-xs",
           filterControl(Filtering.All),
           filterControl(Filtering.Active),
           filterControl(Filtering.Completed)
@@ -145,13 +147,15 @@ object TasksListComponent {
 
     div(
       className := "grid gap-y-4 grid-cols-[auto_1fr_auto]",
-      className := "text-sm",
+      className := "text-xs md:text-sm",
       renderCount(),
-      div(className := "bg-white"), // empty space for mobile view
+      div(className := "bg-white md:hidden"), // empty space for mobile view
       renderClearCompleted(),
       renderFilters(listFiltering).amend(
-        className := "col-span-full",
-        className := "p-3 rounded"
+        // at least grid classes are added via 'amend' close to grid composition
+        className := "col-span-full row-start-2", // mobile hardcode into row 2
+        className := "md:col-span-1 md:col-start-2 md:row-start-1", // hardcode desktop into middle of row 1
+        className := "p-3 rounded md:rounded-none"
       )
     )
   }

@@ -783,7 +783,7 @@ and check of is active seems easy then, yay
 with complete and delete buttons
 *** DONE now delete completed button
 *** DONE number of items left
-*** TODO desktop styling
+*** DONE desktop styling
 *** TODO drag and drop sorting
 *** TODO dark theme
 * trying to learn more about reactive images:

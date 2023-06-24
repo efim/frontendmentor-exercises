@@ -41,14 +41,17 @@ object Main {
     }
 
     div(
+      className := "md:grid md:place-content-center md:w-screen",
       Background.render(),
       div(
-        className := "grid gap-y-4 px-5",
+        className := "grid gap-y-4 px-5 md:gap-y-5",
+        className := "md:px-0 md:w-[540px]",
+        // for some reason w-1/2 doesn't work, even though parent div w-screen
         Header.render(),
         InputUI.render(onTaskSubmit(_)),
         TasksListComponent.render(state.signal, setTaskCompletion, removeTask, removeAllCompleted),
       ),
-      renderAttribution()
+      renderAttribution(),
     )
   }
 
