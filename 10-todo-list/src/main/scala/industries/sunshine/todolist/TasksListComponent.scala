@@ -8,12 +8,14 @@ object TasksListComponent {
   def render(
       tasks: Signal[List[TaskDescription]],
       setTaskCompletion: String => Boolean => Unit,
-      removeTask: String => () => Unit
+      removeTask: String => () => Unit,
+      removeAllCompleted: () => Unit
   ) = {
     val filterState = Var[Filtering](Filtering.All)
-    val filteredTastsList = tasks.combineWith(filterState).map {
-      case (tasksList, currentFilter) => tasksList.filter(currentFilter.isVisible(_))
-    }
+    val filteredTastsList =
+      tasks.combineWith(filterState).map { case (tasksList, currentFilter) =>
+        tasksList.filter(currentFilter.isVisible(_))
+      }
 
     div(
       div(
@@ -27,7 +29,7 @@ object TasksListComponent {
             )
           }
         },
-        renderListFooter(filterState)
+        renderListFooter(filterState, removeAllCompleted)
       ),
       renderBottomInfo()
     )
@@ -83,7 +85,10 @@ object TasksListComponent {
     * manual corner rounding, so that white backround would be on elements, and
     * not on Gap
     */
-  private def renderListFooter(listFiltering: Var[Filtering]) = {
+  private def renderListFooter(
+      listFiltering: Var[Filtering],
+      removeAllCompleted: () => Unit
+  ) = {
     def renderCount() = {
       val a = 1
       p(
@@ -93,10 +98,10 @@ object TasksListComponent {
     }
 
     def renderClearCompleted() = {
-      val a = 1
-      p(
+      button(
         className := "p-3 px-5 text-xs bg-white rounded-br text-dark-grayish-blue",
-        "Clear Completed"
+        "Clear Completed",
+        onClick --> Observer(_ => removeAllCompleted())
       )
     }
 

@@ -36,6 +36,9 @@ object Main {
       state.update(_.filterNot(_.uuid == taskId))
       saveState(state.now())
     }
+    def removeAllCompleted():  Unit = {
+      state.update(_.filterNot(_.isCompleted))
+    }
 
     div(
       Background.render(),
@@ -43,7 +46,7 @@ object Main {
         className := "grid gap-y-4 px-5",
         Header.render(),
         InputUI.render(onTaskSubmit(_)),
-        TasksListComponent.render(state.signal, setTaskCompletion, removeTask),
+        TasksListComponent.render(state.signal, setTaskCompletion, removeTask, removeAllCompleted),
       ),
       renderAttribution()
     )

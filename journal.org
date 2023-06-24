@@ -781,7 +781,7 @@ and also signal of current state, and function to update state with own filter,
 and check of is active seems easy then, yay
 *** DONE single task display
 with complete and delete buttons
-*** TODO now delete completed button
+*** DONE now delete completed button
 *** TODO number of items left
 *** TODO desktop styling
 *** TODO drag and drop sorting
