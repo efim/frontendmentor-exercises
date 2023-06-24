@@ -15,8 +15,8 @@ export default {
       },
       colors: {
         'primay-bright-blue': 'hsl(220, 98%, 61%)',
-        'primary-check-bg-from': 'hsl(192, 100%, 67%',
-        'primary-check-bg-to': 'hsl(280, 87%, 65%)',
+        'primary-check-blue': 'hsl(192, 100%, 67%)',
+        'primary-check-purple': 'hsl(280, 87%, 65%)',
         // light theme
         'very-light-gray': 'hsl(0, 0%, 98%)',
         'very-light-grayish-blue': 'hsl(236, 33%, 92%)',

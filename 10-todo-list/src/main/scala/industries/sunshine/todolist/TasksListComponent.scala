@@ -30,16 +30,28 @@ object TasksListComponent {
     div(
       className := "flex flex-row items-center p-3 px-4 bg-white",
       className := "first:rounded-t",
-      input(
-        typ := "checkbox",
-        checked <-- task.map(_.isCompleted),
-        className := "appearance-none cursor-pointer",
-        className := "mr-3 w-5 h-5 rounded-full border border-light-grayish-blue",
-        className := "checked:bg-yellow-300",
-        onInput.mapToChecked --> Observer(setTaskCompletion(_))
+      div(
+        className := "relative mr-3 w-5 h-5",
+        input(
+          typ := "checkbox",
+          checked <-- task.map(_.isCompleted),
+          className := "absolute appearance-none cursor-pointer",
+          className := "w-5 h-5 rounded-full border border-light-grayish-blue",
+          className := "checked:bg-gradient-to-br checked:to-primary-check-purple checked:from-primary-check-blue",
+          className := "overflow-hidden",
+          onInput.mapToChecked --> Observer(setTaskCompletion(_))
+        ),
+        img(
+          className := "absolute top-1/3 left-1/3 w-2",
+          src := "/images/icon-check.svg",
+          alt := "task is done",
+        )
       ),
       p(
-        className := "grow",
+        className := "text-xs duration-200 grow",
+        className <-- task.map(t =>
+          if (t.isCompleted) "line-through text-light-grayish-blue" else ""
+        ),
         child.text <-- task.map(_.description)
       ),
       button(
