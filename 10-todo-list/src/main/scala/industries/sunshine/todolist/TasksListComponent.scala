@@ -115,7 +115,7 @@ object TasksListComponent {
         )
       ),
       p(
-        className := "text-xs duration-200 md:text-base md:tracking-tighter grow",
+        className := "text-xs duration-200 cursor-pointer md:text-base md:tracking-tighter grow",
         className <-- task
           .combineWith(Theme.isDarkThemeSignal)
           .map((t, isDark) =>
@@ -129,7 +129,13 @@ object TasksListComponent {
                 else "text-very-dark-grayish-blue"
             }
           ),
-        child.text <-- task.map(_.description)
+        child.text <-- task.map(_.description),
+        onMountBind(ctx =>
+          onClick --> Observer(_ =>
+            val currentTaskStatus = task.observe(ctx.owner).now().isCompleted
+            setTaskCompletion(!currentTaskStatus)
+          )
+        )
       ),
       button(
         className := "md:hidden",
