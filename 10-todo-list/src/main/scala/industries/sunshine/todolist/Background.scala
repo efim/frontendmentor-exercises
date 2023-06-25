@@ -14,15 +14,21 @@ object Background {
     // https://developer.mozilla.org/en-US/docs/Learn/HTML/Multimedia_and_embedding/Responsive_images
     div(
       className := "fixed w-screen h-screen -z-10 bg-very-light-grayish-blue",
-      // className := "dark:bg-dt-very-dark-grayish-blue-2",
+      className := "dark:bg-dt-very-dark-blue",
       pictureTag(
         sourceTag(
           media := "(max-width: 375px)",
-          srcsetProp := "/images/bg-mobile-light.jpg",
+          srcsetProp <-- Theme.isDarkThemeSignal.map(
+            if (_) "/images/bg-mobile-dark.jpg"
+            else "/images/bg-mobile-light.jpg"
+          )
         ),
         img(
-            src := "/images/bg-desktop-light.jpg",
-            className := "w-full",
+          src <-- Theme.isDarkThemeSignal.map(
+            if (_) "/images/bg-desktop-dark.jpg"
+            else "/images/bg-desktop-light.jpg"
+          ),
+          className := "w-full"
         )
       )
     )

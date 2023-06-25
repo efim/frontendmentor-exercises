@@ -11,16 +11,17 @@ object Theme {
   def toggleDarkTheme(): Unit = {
     isDarkTheme.update(!_)
     saveState()
- }
+  }
   def renderToggler() = {
     button(
       img(
-        src := "/images/icon-moon.svg",
+        src <-- isDarkThemeSignal.map(
+          if (_) "/images/icon-sun.svg" else "/images/icon-moon.svg"
+        ),
         alt := "Toggle dark theme",
         className := "w-5 md:w-6"
       ),
-      onClick --> Observer(_ =>
-        toggleDarkTheme())
+      onClick --> Observer(_ => toggleDarkTheme())
     )
   }
 
@@ -31,6 +32,7 @@ object Theme {
   }
   private def saveState() = {
     println(s"writing dark theme ${isDarkTheme.now()}")
-    dom.window.localStorage.setItem(darkThemeLocalStorage, write[Boolean](isDarkTheme.now()))
+    dom.window.localStorage
+      .setItem(darkThemeLocalStorage, write[Boolean](isDarkTheme.now()))
   }
 }

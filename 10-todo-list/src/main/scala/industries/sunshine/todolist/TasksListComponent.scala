@@ -27,6 +27,7 @@ object TasksListComponent {
     div(
       div(
         className := "flex flex-col divide-y divide-very-light-grayish-blue",
+        className := "dark:divide-dt-very-dark-grayish-blue-2",
         children <-- filteredTastsList.split(_.uuid) {
           case (taskId, initial, taskSignal) => {
             renderSingleTask(
@@ -75,7 +76,8 @@ object TasksListComponent {
         filterState,
         removeAllCompleted
       ).amend(
-        className := "border-t border-very-light-grayish-blue"
+        className := "border-t border-very-light-grayish-blue",
+        className := "dark:border-dt-very-dark-grayish-blue-2"
       ),
       renderBottomInfo()
     )
@@ -89,6 +91,7 @@ object TasksListComponent {
   ) = {
     div(
       className := "flex flex-row items-center p-3 px-4 bg-white",
+      className := "dark:bg-dt-very-dark-desaturated-blue",
       className := "md:p-4 md:px-5",
       className := "first:rounded-t",
       div(
@@ -99,22 +102,33 @@ object TasksListComponent {
           checked <-- task.map(_.isCompleted),
           className := "absolute appearance-none cursor-pointer",
           className := "w-5 h-5 rounded-full border border-light-grayish-blue",
+          className := "dark:border-dt-very-dark-grayish-blue-2",
           className := "checked:bg-gradient-to-br checked:to-primary-check-purple checked:from-primary-check-blue",
           className := "overflow-hidden",
           onInput.mapToChecked --> Observer(setTaskCompletion(_))
         ),
         img(
           className := "absolute top-1/3 left-1/3 w-2 pointer-events-none",
+          className <-- task.map(_.isCompleted).map(if (_) "" else "hidden"),
           src := "/images/icon-check.svg",
           alt := "task is done"
         )
       ),
       p(
         className := "text-xs duration-200 md:text-base md:tracking-tighter grow",
-        className <-- task.map(t =>
-          if (t.isCompleted) "line-through text-light-grayish-blue"
-          else "text-very-dark-grayish-blue"
-        ),
+        className <-- task
+          .combineWith(Theme.isDarkThemeSignal)
+          .map((t, isDark) =>
+            // TODO join with isDarkTheme signal here
+            (isDark) match {
+              case true =>
+                if (t.isCompleted) "line-through text-dt-very-dark-grayish-blue"
+                else "text-dt-light-grayish-blue"
+              case false =>
+                if (t.isCompleted) "line-through text-light-grayish-blue"
+                else "text-very-dark-grayish-blue"
+            }
+          ),
         child.text <-- task.map(_.description)
       ),
       button(
@@ -142,6 +156,7 @@ object TasksListComponent {
     def renderCount() = {
       p(
         className := "p-3 px-5 bg-white rounded-bl text-dark-grayish-blue",
+        className := "dark:bg-dt-very-dark-desaturated-blue dark:text-dt-dark-grayish-blue",
         child.text <-- uncompletedCount.map(_.toString()),
         " items left"
       )
@@ -150,6 +165,7 @@ object TasksListComponent {
     def renderClearCompleted() = {
       button(
         className := "p-3 px-5 bg-white rounded-br text-dark-grayish-blue",
+        className := "dark:bg-dt-very-dark-desaturated-blue dark:text-dt-dark-grayish-blue",
         "Clear Completed",
         onClick --> Observer(_ => removeAllCompleted())
       )
@@ -165,6 +181,7 @@ object TasksListComponent {
           className <-- listFiltering.signal
             .map(active => active == ownFilter)
             .map(
+              // TODO join with isDarkTheme signal here
               if (_) "text-primary-bright-blue" else "text-dark-grayish-blue"
             ),
           onClick --> Observer(_ => {
@@ -177,6 +194,7 @@ object TasksListComponent {
       div(
         className := "grid",
         className := "font-bold bg-white",
+        className := "dark:bg-dt-very-dark-desaturated-blue",
         div(
           className := "inline-grid place-content-center grid-cols-[repeat(3,_auto)]",
           filterControl(Filtering.All),
@@ -191,7 +209,10 @@ object TasksListComponent {
       className := "grid gap-y-4 grid-cols-[auto_1fr_auto]",
       className := "text-xs md:text-sm",
       renderCount(),
-      div(className := "bg-white md:hidden"), // empty space for mobile view
+      div(
+        className := "bg-white md:hidden",
+        className := "dark:bg-dt-very-dark-desaturated-blue"
+      ), // empty space for mobile view
       renderClearCompleted(),
       renderFilters(listFiltering).amend(
         // at least grid classes are added via 'amend' close to grid composition
