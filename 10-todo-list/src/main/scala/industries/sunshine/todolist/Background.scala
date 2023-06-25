@@ -17,7 +17,7 @@ object Background {
       className := "dark:bg-dt-very-dark-blue",
       pictureTag(
         sourceTag(
-          media := "(max-width: 375px)",
+          media := "(max-width: 768px)",
           srcsetProp <-- Theme.isDarkThemeSignal.map(
             if (_) "/images/bg-mobile-dark.jpg"
             else "/images/bg-mobile-light.jpg"
