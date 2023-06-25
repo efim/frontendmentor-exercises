@@ -28,7 +28,7 @@ object Theme {
   private def getState() = {
     val raw = Option(dom.window.localStorage.getItem(darkThemeLocalStorage))
     val isDarkTheme = raw.map(read[Boolean](_))
-    Var(isDarkTheme.getOrElse(false))
+    Var(isDarkTheme.getOrElse(true))
   }
   private def saveState() = {
     println(s"writing dark theme ${isDarkTheme.now()}")
