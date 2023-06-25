@@ -792,6 +792,18 @@ by default follows system theme,
 can be done programmatically via js setting class "dark" to some parent tag
 or have both using "matchMedia" api: https://developer.mozilla.org/en-US/docs/Web/API/Window/matchMedia
 *** deployed : https://efim-frontendmentor-todo-list.pages.dev/
+and repo : https://github.com/efim/frontendmentor-exercises/tree/master/10-todo-list
+*** and beck to working on active states
+*** multiple attempts at making element visible on parent hover:
+#+begin_src scala
+// className := " md:group-hover:visible group-hover:bg-red-500",
+// className := "md:hidden md:group-hover:visible group-hover:bg-red-500",
+// className := "visible hover:invisible", // so this works
+className := "md:invisible md:group-hover:visible",
+#+end_src
+**** and let's just ugh the active states on hover of the 'clear all' and 'filters'
+let's just let it go for now.
+
 * trying to learn more about reactive images:
 https://blog.webdevsimplified.com/2023-05/responsive-images/
 
@@ -816,3 +828,5 @@ very cool.
 https://tailwindcss.com/docs/pointer-events
 
 exactly for putting icons on top of inputs, right?
+* TODO let's write readmes for tasks 9 and 10.
+map and sorting. cool.

@@ -90,7 +90,7 @@ object TasksListComponent {
       deleteTask: () => Unit
   ) = {
     div(
-      className := "flex flex-row items-center p-3 px-4 bg-white",
+      className := "flex flex-row group items-center p-3 px-4 bg-white",
       className := "dark:bg-dt-very-dark-desaturated-blue",
       className := "md:p-4 md:px-5",
       className := "first:rounded-t",
@@ -138,7 +138,7 @@ object TasksListComponent {
         )
       ),
       button(
-        className := "md:hidden",
+        className := "md:invisible md:group-hover:visible",
         img(
           src := "/images/icon-cross.svg",
           alt := "delete the task",
