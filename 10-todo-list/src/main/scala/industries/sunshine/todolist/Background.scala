@@ -28,6 +28,7 @@ object Background {
             if (_) "/images/bg-desktop-dark.jpg"
             else "/images/bg-desktop-light.jpg"
           ),
+          alt := "",
           className := "w-full"
         )
       )

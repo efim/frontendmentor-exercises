@@ -785,12 +785,13 @@ with complete and delete buttons
 *** DONE number of items left
 *** DONE desktop styling
 *** DONE drag and drop sorting
-*** TODO dark theme
+*** DONE dark theme
 https://tailwindcss.com/docs/dark-mode#toggling-dark-mode-manually
 
 by default follows system theme,
 can be done programmatically via js setting class "dark" to some parent tag
 or have both using "matchMedia" api: https://developer.mozilla.org/en-US/docs/Web/API/Window/matchMedia
+*** deployed : https://efim-frontendmentor-todo-list.pages.dev/
 * trying to learn more about reactive images:
 https://blog.webdevsimplified.com/2023-05/responsive-images/
 
