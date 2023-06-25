@@ -796,8 +796,8 @@ and repo : https://github.com/efim/frontendmentor-exercises/tree/master/10-todo-
 *** and beck to working on active states
 *** multiple attempts at making element visible on parent hover:
 #+begin_src scala
-// className := " md:group-hover:visible group-hover:bg-red-500",
-// className := "md:hidden md:group-hover:visible group-hover:bg-red-500",
+// className := "group-hover:bg-red-500 md:group-hover:visible",
+// className := "md:hidden group-hover:bg-red-500 md:group-hover:visible",
 // className := "visible hover:invisible", // so this works
 className := "md:invisible md:group-hover:visible",
 #+end_src

@@ -90,7 +90,7 @@ object TasksListComponent {
       deleteTask: () => Unit
   ) = {
     div(
-      className := "flex flex-row group items-center p-3 px-4 bg-white",
+      className := "flex flex-row items-center p-3 px-4 bg-white group",
       className := "dark:bg-dt-very-dark-desaturated-blue",
       className := "md:p-4 md:px-5",
       className := "first:rounded-t",
@@ -172,6 +172,7 @@ object TasksListComponent {
       button(
         className := "p-3 px-5 bg-white rounded-br text-dark-grayish-blue",
         className := "dark:bg-dt-very-dark-desaturated-blue dark:text-dt-dark-grayish-blue",
+        className := "dark:hover:text-dt-light-grayish-blue-hover hover:text-very-dark-grayish-blue",
         "Clear Completed",
         onClick --> Observer(_ => removeAllCompleted())
       )
@@ -190,6 +191,7 @@ object TasksListComponent {
               // TODO can use dark: classes for completed & not completed
               if (_) "text-primary-bright-blue" else "text-dark-grayish-blue"
             ),
+          className := "dark:hover:text-dt-light-grayish-blue-hover hover:text-very-dark-grayish-blue",
           onClick --> Observer(_ => {
             listFiltering.set(ownFilter)
             println(s"setting new filter $ownFilter")
