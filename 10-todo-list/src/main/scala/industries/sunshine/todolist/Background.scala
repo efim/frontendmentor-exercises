@@ -14,6 +14,7 @@ object Background {
     // https://developer.mozilla.org/en-US/docs/Learn/HTML/Multimedia_and_embedding/Responsive_images
     div(
       className := "fixed w-screen h-screen -z-10 bg-very-light-grayish-blue",
+      // className := "dark:bg-dt-very-dark-grayish-blue-2",
       pictureTag(
         sourceTag(
           media := "(max-width: 375px)",

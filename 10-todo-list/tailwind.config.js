@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 export default {
+  darkMode: 'class',
   content: [
     "./index.html",
     "./src/**/*.scala",
@@ -33,7 +34,7 @@ export default {
         'dt-light-grayish-blue-hover': 'hsl(236, 33%, 92%)',
         'dt-dark-grayish-blue': 'hsl(234, 11%, 52%)',
         'dt-very-dark-grayish-blue': 'hsl(233, 14%, 35%)',
-        'dt-very-dark-grayish-blue': 'hsl(237, 14%, 26%)',
+        'dt-very-dark-grayish-blue-2': 'hsl(237, 14%, 26%)',
       },
     },
   },

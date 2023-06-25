@@ -36,7 +36,7 @@ object Main {
       state.update(_.filterNot(_.uuid == taskId))
       saveState(state.now())
     }
-    def removeAllCompleted():  Unit = {
+    def removeAllCompleted(): Unit = {
       state.update(_.filterNot(_.isCompleted))
       saveState(state.now())
     }
@@ -52,6 +52,7 @@ object Main {
 
     div(
       className := "md:grid md:place-content-center md:w-screen",
+      className <-- Theme.isDarkThemeSignal.map(if (_) "dark" else ""),
       Background.render(),
       div(
         className := "grid gap-y-4 px-5 md:gap-y-5",
@@ -59,9 +60,15 @@ object Main {
         // for some reason w-1/2 doesn't work, even though parent div w-screen
         Header.render(),
         InputUI.render(onTaskSubmit(_)),
-        TasksListComponent.render(state.signal, setTaskCompletion, removeTask, removeAllCompleted, moveTask),
+        TasksListComponent.render(
+          state.signal,
+          setTaskCompletion,
+          removeTask,
+          removeAllCompleted,
+          moveTask
+        )
       ),
-      renderAttribution(),
+      renderAttribution()
     )
   }
 
