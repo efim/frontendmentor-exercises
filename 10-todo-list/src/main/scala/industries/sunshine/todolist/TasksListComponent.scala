@@ -119,7 +119,7 @@ object TasksListComponent {
         className <-- task
           .combineWith(Theme.isDarkThemeSignal)
           .map((t, isDark) =>
-            // TODO join with isDarkTheme signal here
+            // TODO can use dark: classes for completed & not completed
             (isDark) match {
               case true =>
                 if (t.isCompleted) "line-through text-dt-very-dark-grayish-blue"
@@ -181,7 +181,7 @@ object TasksListComponent {
           className <-- listFiltering.signal
             .map(active => active == ownFilter)
             .map(
-              // TODO join with isDarkTheme signal here
+              // TODO can use dark: classes for completed & not completed
               if (_) "text-primary-bright-blue" else "text-dark-grayish-blue"
             ),
           onClick --> Observer(_ => {

@@ -19,7 +19,7 @@ object InputUI {
         input(
           className := "text-xs md:text-base md:tracking-tighter grow",
           className := "border-none appearance-none outline-none",
-          className := "dark:bg-dt-very-dark-desaturated-blue dark:text-dt-light-grayish-blue",
+          className := "placeholder:text-dt-very-dark-grayish-blue dark:bg-dt-very-dark-desaturated-blue dark:text-dt-light-grayish-blue",
           typ := "text",
           placeholder := "Create a new todo...",
           required := true,
